@@ -1,0 +1,37 @@
+spring:
+  h2:
+    console:
+      enabled: true
+
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:test
+#    username: sa
+#    password:
+
+  #  datasource:
+  #    url: jdbc:mysql://some-mysql/layer
+  #    username: root
+  #    password: 1234
+
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
+
+jwt:
+  secret: javainuse
