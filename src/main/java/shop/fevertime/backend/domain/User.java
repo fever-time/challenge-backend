@@ -21,9 +21,6 @@ public class User extends BaseTimeEntity {
     private String username;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -33,14 +30,12 @@ public class User extends BaseTimeEntity {
     @Column(nullable = true)
     private Long kakaoId;
 
-    public User(String nickname, String encodedPassword, String email, UserRole role, Long kakaoId) {
+    // 생성자
+    public User(String nickname, String email, UserRole role, Long kakaoId) {
         this.setUsername(nickname);
-        this.setPassword(encodedPassword);
         this.setEmail(email);
         this.setRole(role);
         this.setKakaoId(kakaoId);
     }
-
-    // 생성자
 
 }

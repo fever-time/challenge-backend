@@ -14,9 +14,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import shop.fevertime.backend.security.jwt.JwtAuthenticationEntryPoint;
 import shop.fevertime.backend.security.jwt.JwtAuthenticationFilter;
 
-//@Configuration
-//@EnableWebSecurity // 스프링 Security 지원을 가능하게 함
-//@EnableGlobalMethodSecurity(securedEnabled = true) // 컨트롤러에서 인가가 필요한 API에 @Secured 사용가능
+@Configuration
+@EnableWebSecurity // 스프링 Security 지원을 가능하게 함
+@EnableGlobalMethodSecurity(securedEnabled = true) // 컨트롤러에서 인가가 필요한 API에 @Secured 사용가능
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -35,9 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/login").permitAll()
                 .antMatchers("/login/kakao").permitAll()
-                .antMatchers("/signup").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()

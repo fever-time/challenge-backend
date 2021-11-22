@@ -3,12 +3,11 @@ package shop.fevertime.backend.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-import shop.fevertime.backend.dto.reponse.JwtResponse;
-import shop.fevertime.backend.dto.request.SocialLoginDto;
+import shop.fevertime.backend.dto.response.JwtResponse;
+import shop.fevertime.backend.dto.request.SocialLoginRequestDto;
 import shop.fevertime.backend.service.UserService;
 import shop.fevertime.backend.util.JwtTokenUtil;
 
@@ -22,7 +21,7 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping(value = "/login/kakao")
-    public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginDto socialLoginDto) throws Exception {
+    public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginRequestDto socialLoginDto) throws Exception {
         String username = userService.kakaoLogin(socialLoginDto.getToken());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(userDetails);
