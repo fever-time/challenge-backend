@@ -3,18 +3,17 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
-@Setter(value = AccessLevel.PRIVATE)
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class User extends BaseTimeEntity {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(nullable = false)
@@ -27,15 +26,20 @@ public class User extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Long kakaoId;
 
-    // 생성자
-    public User(String nickname, String email, UserRole role, Long kakaoId) {
-        this.setUsername(nickname);
-        this.setEmail(email);
-        this.setRole(role);
-        this.setKakaoId(kakaoId);
-    }
+    @Column(nullable = false)
+    private int point;
 
+    /**
+     * 카카오 로그인 유저 생성자
+     */
+    public User(String username, String email, UserRole role, Long kakaoId) {
+        this.username = username;
+        this.email = email;
+        this.role = role;
+        this.kakaoId = kakaoId;
+        this.point = 0;
+    }
 }
