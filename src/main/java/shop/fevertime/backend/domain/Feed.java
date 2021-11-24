@@ -3,6 +3,8 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.fevertime.backend.dto.request.CommentRequestDto;
+import shop.fevertime.backend.dto.request.FeedRequestDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,5 +29,13 @@ public class Feed extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "feed", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+
+    public Feed(FeedRequestDto requestDto) {
+        this.contents = requestDto.getContents();
+    }
+
+    public void update(FeedRequestDto requestDto) {
+        this.contents = requestDto.getContents();
+    }
 
 }

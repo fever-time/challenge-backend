@@ -3,6 +3,7 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.fevertime.backend.dto.request.CommentRequestDto;
 
 import javax.persistence.*;
 
@@ -26,4 +27,15 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
     private Feed feed;
+
+    // 댓글 생성자
+    public Comment(CommentRequestDto requestDto) {
+        this.contents = requestDto.getContents();
+
+    }
+
+    // 댓글 수정
+    public void commentUpdate(CommentRequestDto requestDto) {
+        this.contents = requestDto.getContents();
+    }
 }
