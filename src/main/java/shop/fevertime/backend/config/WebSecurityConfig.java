@@ -1,8 +1,9 @@
-package shop.fevertime.backend.security;
+package shop.fevertime.backend.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,9 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         http.authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/login/kakao").permitAll()
-                .antMatchers("/").permitAll()
                 .antMatchers("/test").permitAll()
                 .antMatchers("/get").permitAll()
                 .anyRequest().authenticated()

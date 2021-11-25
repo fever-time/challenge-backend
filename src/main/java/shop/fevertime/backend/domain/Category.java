@@ -19,7 +19,12 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
-    public Category(String name) {
+    @Column(nullable = false)
+    private String htmlClassName;
+
+    public Category(String name, String htmlClassName) {
         this.name = name;
+        this.htmlClassName = htmlClassName;
     }
+
 }

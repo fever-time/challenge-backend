@@ -3,9 +3,14 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +31,7 @@ public class Challenge extends BaseTimeEntity {
     private String description;
 
     @Column(nullable = false)
-    private String img;
+    private String imgLink;
 
     @Column(nullable = false)
     private LocalDateTime startDate;
@@ -35,7 +40,7 @@ public class Challenge extends BaseTimeEntity {
     private LocalDateTime endDate;
 
     @Column(nullable = false)
-    private int people;
+    private int limitPerson;
 
     @Column(nullable = false)
     private boolean onOff;
@@ -47,20 +52,27 @@ public class Challenge extends BaseTimeEntity {
     @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
     private List<ChallengeCategory> challengeCategories = new ArrayList<>();
 
-    public Challenge(String title, String description, String img, LocalDateTime startDate, LocalDateTime endDate, int people, boolean onOff, User user, List<Category> categories) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.img = img;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.people = people;
-        this.onOff = onOff;
-        this.user = user;
+    /**
+     * 챌린지 생성 시 사용하는 생성자
+     */
+    public Challenge(ChallengeRequestDto requestDto, String uploadImageUrl, User user) {
+        this.title = requestDto.getTitle();
+        this.description = requestDto.getDescription();
+        this.imgLink = uploadImageUrl;
 
-        for (Category category : categories) {
-            ChallengeCategory challengeCategory = new ChallengeCategory(category, this);
-            challengeCategories.add(challengeCategory);
-        }
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.startDate = LocalDate.parse(requestDto.getStartDate(), dateTimeFormatter).atStartOfDay();
+        this.endDate = LocalDate.parse(requestDto.getEndDate(), dateTimeFormatter).atStartOfDay();
+
+        this.limitPerson = requestDto.getLimitPerson();
+        this.onOff = requestDto.isOnOff();
+
+        this.user = user;
     }
+
+    public void addChallengeCategory(Category category) {
+        ChallengeCategory challengeCategory = new ChallengeCategory(category, this);
+        challengeCategories.add(challengeCategory);
+    }
+
 }
