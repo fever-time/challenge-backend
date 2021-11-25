@@ -26,5 +26,11 @@ public class CertificationApiController {
         return "ok";
     }
 
+    @DeleteMapping("/certifications/{certificationId}")
+    public String deleteCertification(@PathVariable Long certificationId){
+        certificationService.deleteCertification(certificationId);
+        return "ok";
+    }
+
 
 }

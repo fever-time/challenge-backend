@@ -41,4 +41,8 @@ public class CertificationService {
         certificationRepository.save(certification);
     }
 
+    public void deleteCertification(Long certificationId){
+        certificationRepository.deleteById(certificationId);
+    }
+
 }

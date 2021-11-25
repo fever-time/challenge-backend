@@ -9,12 +9,14 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 public class CertificationResponseDto {
+    private Long certificationId;
     private String userId;
     private String img;
     private String contents;
     private String createdDate;
 
     public CertificationResponseDto(Certification certification){
+        this.certificationId = certification.getId();
         this.userId = certification.getUser().getUsername();
         this.img = certification.getImg();
         this.contents = certification.getContents();
