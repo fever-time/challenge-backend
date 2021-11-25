@@ -3,14 +3,9 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,18 +50,21 @@ public class Challenge extends BaseTimeEntity {
     /**
      * 챌린지 생성 시 사용하는 생성자
      */
-    public Challenge(ChallengeRequestDto requestDto, String uploadImageUrl, User user) {
-        this.title = requestDto.getTitle();
-        this.description = requestDto.getDescription();
-        this.imgLink = uploadImageUrl;
-
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.startDate = LocalDate.parse(requestDto.getStartDate(), dateTimeFormatter).atStartOfDay();
-        this.endDate = LocalDate.parse(requestDto.getEndDate(), dateTimeFormatter).atStartOfDay();
-
-        this.limitPerson = requestDto.getLimitPerson();
-        this.onOff = requestDto.isOnOff();
-
+    public Challenge(String title,
+                     String description,
+                     String imgLink,
+                     LocalDateTime startDate,
+                     LocalDateTime endDate,
+                     int limitPerson,
+                     boolean onOff,
+                     User user) {
+        this.title = title;
+        this.description = description;
+        this.imgLink = imgLink;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.limitPerson = limitPerson;
+        this.onOff = onOff;
         this.user = user;
     }
 

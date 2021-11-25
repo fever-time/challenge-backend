@@ -9,10 +9,12 @@ import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
+import shop.fevertime.backend.util.LocalDateTimeUtil;
 import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -35,19 +37,28 @@ public class ChallengeService {
     @Transactional
     public void createChallenge(ChallengeRequestDto requestDto, User user) throws IOException {
 
+        // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
 
-        Challenge challenge = new Challenge(requestDto, uploadImageUrl, user);
+        // 챌린지 생성
+        Challenge challenge = new Challenge(
+                requestDto.getTitle(),
+                requestDto.getDescription(),
+                uploadImageUrl,
+                LocalDateTimeUtil.getLocalDateTime(requestDto.getStartDate()),
+                LocalDateTimeUtil.getLocalDateTime(requestDto.getEndDate()),
+                requestDto.getLimitPerson(),
+                requestDto.isOnOff(),
+                user
+        );
 
-        String[] categories = requestDto.getCategories();
-        for (String htmlClassName : categories) {
-            Category category = categoryRepository
-                    .findByHtmlClassName(htmlClassName)
-                    .orElseThrow(
-                            () -> new NoSuchElementException("카테고리 정보 찾기 실패")
-                    );
-            challenge.addChallengeCategory(category);
-        }
+        // 챌린지 카테고리 넣기
+        Arrays.stream(requestDto.getCategories())
+                .map(htmlClassName -> categoryRepository
+                        .findByHtmlClassName(htmlClassName)
+                        .orElseThrow(
+                                () -> new NoSuchElementException("카테고리 정보 찾기 실패")
+                        )).forEach(challenge::addChallengeCategory);
 
         challengeRepository.save(challenge);
     }

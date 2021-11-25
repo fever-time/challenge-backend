@@ -1,11 +1,9 @@
 package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.domain.UserRole;
@@ -13,7 +11,6 @@ import shop.fevertime.backend.repository.UserRepository;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.security.kakao.KakaoOAuth2;
 import shop.fevertime.backend.security.kakao.KakaoUserInfo;
-
 
 @Service
 @RequiredArgsConstructor
