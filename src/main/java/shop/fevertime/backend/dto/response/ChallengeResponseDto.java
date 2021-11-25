@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class ChallengeResponseDto {
 
@@ -24,9 +25,8 @@ public class ChallengeResponseDto {
     private String endDate;
     private int limitPerson;
     private boolean onOff;
-    private String[] categories;
     private String image;
-
+    private List<CategoryResponseDto> categories = new ArrayList<>();
 
     public ChallengeResponseDto(Challenge challenge){
         this.challengeId = challenge.getId();
@@ -40,9 +40,10 @@ public class ChallengeResponseDto {
         List<ChallengeCategory> challengeCategories = challenge.getChallengeCategories();
         for (ChallengeCategory challengeCategory : challengeCategories) {
             Category category = challengeCategory.getCategory();
-            //카테고리 불러온거를 dto로 감싸서 넣어주기
+            CategoryResponseDto responseDto = new CategoryResponseDto(category);
+            this.categories.add(responseDto);
+
         }
-        this.categories = null;
     }
 
 
