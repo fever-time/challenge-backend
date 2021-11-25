@@ -36,4 +36,5 @@ public class ChallengeApiController {
         challengeService.deleteChallenge(challengeId);
         return "ok";
     }
+
 }
