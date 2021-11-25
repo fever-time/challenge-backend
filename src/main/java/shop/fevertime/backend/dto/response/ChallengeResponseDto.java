@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import shop.fevertime.backend.domain.Category;
+import shop.fevertime.backend.domain.Certification;
 import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.ChallengeCategory;
 
@@ -27,6 +28,7 @@ public class ChallengeResponseDto {
     private boolean onOff;
     private String image;
     private List<CategoryResponseDto> categories = new ArrayList<>();
+    private List<CertificationResponseDto> certifications = new ArrayList<>();
 
     public ChallengeResponseDto(Challenge challenge){
         this.challengeId = challenge.getId();
@@ -42,7 +44,11 @@ public class ChallengeResponseDto {
             Category category = challengeCategory.getCategory();
             CategoryResponseDto responseDto = new CategoryResponseDto(category);
             this.categories.add(responseDto);
-
+        }
+        List<Certification> certifications = challenge.getCertifications();
+        for (Certification certification : certifications) {
+            CertificationResponseDto responseDto = new CertificationResponseDto(certification);
+            this.certifications.add(responseDto);
         }
     }
 

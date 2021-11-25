@@ -47,6 +47,9 @@ public class Challenge extends BaseTimeEntity {
     @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
     private List<ChallengeCategory> challengeCategories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "challenge")
+    private List<Certification> certifications;
+
     /**
      * 챌린지 생성 시 사용하는 생성자
      */

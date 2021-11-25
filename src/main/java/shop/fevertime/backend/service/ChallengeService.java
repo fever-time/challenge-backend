@@ -34,6 +34,14 @@ public class ChallengeService {
                 .collect(Collectors.toList());
     }
 
+    public ChallengeResponseDto getChallenge(Long id){
+        return challengeRepository.findById(id)
+                .map(ChallengeResponseDto::new)
+                .orElseThrow(
+                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+        );
+    }
+
     @Transactional
     public void createChallenge(ChallengeRequestDto requestDto, User user) throws IOException {
 
