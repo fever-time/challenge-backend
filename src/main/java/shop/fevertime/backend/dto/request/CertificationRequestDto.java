@@ -10,5 +10,4 @@ public class CertificationRequestDto {
     private Long challengeId;
     private MultipartFile img;
     private String contents;
-
 }

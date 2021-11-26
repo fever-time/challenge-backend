@@ -1,6 +1,5 @@
 package shop.fevertime.backend;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

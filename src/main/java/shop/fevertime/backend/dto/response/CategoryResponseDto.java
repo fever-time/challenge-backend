@@ -11,7 +11,7 @@ public class CategoryResponseDto {
     private String name;
     private String htmlClassName;
 
-    public CategoryResponseDto(Category category){
+    public CategoryResponseDto(Category category) {
         this.name = category.getName();
         this.htmlClassName = category.getHtmlClassName();
     }

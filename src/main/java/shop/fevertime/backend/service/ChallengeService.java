@@ -2,7 +2,6 @@ package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shop.fevertime.backend.domain.Category;
 import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
@@ -34,12 +33,12 @@ public class ChallengeService {
                 .collect(Collectors.toList());
     }
 
-    public ChallengeResponseDto getChallenge(Long id){
+    public ChallengeResponseDto getChallenge(Long id) {
         return challengeRepository.findById(id)
                 .map(ChallengeResponseDto::new)
                 .orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
-        );
+                        () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+                );
     }
 
     @Transactional
