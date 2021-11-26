@@ -19,12 +19,12 @@ public class CommentApiController {
     public List<Comment> readComments(@PathVariable Long feedId) {
         return commentService.readcomments(feedId);
     }
+
     // 댓글 생성
     @PostMapping()
-//    @RequestMapping("/feeds/{feedId}/comments")
-
-    public Comment createComment(@RequestBody CommentRequestDto requestDto) {
-        return commentService.createComment(requestDto);
+    public String createComment(@PathVariable Long feedId, @RequestBody CommentRequestDto requestDto) {
+        commentService.createComment(feedId, requestDto);
+        return "success create Comment";
     }
 
     // 댓글 수정

@@ -15,6 +15,8 @@ public class FeedApiController {
 
     private final FeedService feedService;
 
+    // DTO로 감싸기 responseDto 생성해서 감싸기
+
     @GetMapping()
     public List<Feed> readFeeds() {
         return feedService.readFeeds();
