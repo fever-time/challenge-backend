@@ -9,6 +9,7 @@ import shop.fevertime.backend.domain.Category;
 import shop.fevertime.backend.domain.Certification;
 import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.ChallengeCategory;
+import shop.fevertime.backend.util.DeduplicationUtils;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class ChallengeResponseDto {
     private String image;
     private List<CategoryResponseDto> categories = new ArrayList<>();
     private List<CertificationResponseDto> certifications = new ArrayList<>();
+    private int participants;
 
     public ChallengeResponseDto(Challenge challenge){
         this.challengeId = challenge.getId();
@@ -50,6 +52,9 @@ public class ChallengeResponseDto {
             CertificationResponseDto responseDto = new CertificationResponseDto(certification);
             this.certifications.add(responseDto);
         }
+
+        List<CertificationResponseDto> distinct = DeduplicationUtils.deduplication(this.certifications,CertificationResponseDto::getUserId);
+        this.participants = distinct.size();
     }
 
 
