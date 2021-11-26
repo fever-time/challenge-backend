@@ -16,7 +16,7 @@ spring:
   #    password: 1234
 
   jpa:
-#    show-sql: true
+    #    show-sql: true
     properties:
       hibernate:
         format_sql: true
@@ -34,4 +34,16 @@ logging:
             sql: trace
 
 jwt:
-  secret: javainuse
+  secret: ${JWT_SECRET}
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_S3_ACCESS_KEY}
+      secretKey: ${AWS_S3_SECRET_KEY}
+    s3:
+      bucket: ${AWS_S3_BUCKET_NAME}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
