@@ -3,6 +3,7 @@ package shop.fevertime.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.Feed;
+import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
 import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.repository.FeedRepository;
@@ -27,8 +28,8 @@ public class FeedService {
 
     // 피드 생성
     @Transactional // return 값 Long으로 통일
-    public void createFeed(FeedRequestDto requestDto) {
-        feedRepository.save(new Feed(requestDto));
+    public void createFeed(FeedRequestDto requestDto, User user) {
+        feedRepository.save(new Feed(requestDto, user));
     }
 
     @Transactional
@@ -42,6 +43,7 @@ public class FeedService {
 
     @Transactional
     public void deleteFeed(Long id) {
+        // 피드 삭제전에 댓글테이블에 feedId으로 댓글 삭제 추가
         feedRepository.deleteById(id);
     }
 }

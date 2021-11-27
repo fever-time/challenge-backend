@@ -1,8 +1,5 @@
 package shop.fevertime.backend.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,9 +28,10 @@ public class Comment extends BaseTimeEntity {
     private Feed feed;
 
     // 댓글 생성자
-    public Comment(Feed feed,CommentRequestDto requestDto) {
+    public Comment(Feed feed, CommentRequestDto requestDto, User user) {
         this.contents = requestDto.getContents();
         this.feed = feed;
+        this.user = user;
     }
 
     // 댓글 수정

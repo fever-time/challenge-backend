@@ -1,10 +1,11 @@
 package shop.fevertime.backend.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import shop.fevertime.backend.domain.Comment;
 import shop.fevertime.backend.dto.request.CommentRequestDto;
 import shop.fevertime.backend.dto.response.CommentResponseDto;
+import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.service.CommentService;
 
 import java.util.List;
@@ -23,8 +24,10 @@ public class CommentApiController {
 
     // 댓글 생성
     @PostMapping()
-    public String createComment(@PathVariable Long feedId, @RequestBody CommentRequestDto requestDto) {
-        commentService.createComment(feedId, requestDto);
+    public String createComment(@PathVariable Long feedId,
+                                @RequestBody CommentRequestDto requestDto,
+                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        commentService.createComment(feedId, requestDto, userDetails.getUser());
         return "ok";
     }
 
@@ -41,8 +44,6 @@ public class CommentApiController {
         commentService.deleteComment(commentId);
         return "ok";
     }
-
-
 
 
 }

@@ -1,10 +1,11 @@
 package shop.fevertime.backend.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import shop.fevertime.backend.domain.Feed;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
 import shop.fevertime.backend.dto.response.FeedResponseDto;
+import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.service.FeedService;
 
 import java.util.List;
@@ -26,8 +27,9 @@ public class FeedApiController {
 
     // 피드 생성
     @PostMapping()
-    public String createFeed(@RequestBody FeedRequestDto requestDto) {
-        feedService.createFeed(requestDto);
+    public String createFeed(@RequestBody FeedRequestDto requestDto,
+                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        feedService.createFeed(requestDto, userDetails.getUser());
         return "ok";
     }
 
@@ -44,6 +46,4 @@ public class FeedApiController {
         feedService.deleteFeed(feedId);
         return "ok";
     }
-
-
 }

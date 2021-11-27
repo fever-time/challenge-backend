@@ -36,6 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/challenges/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/feeds/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/login/kakao").permitAll()
                 .anyRequest().authenticated()

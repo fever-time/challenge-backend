@@ -28,9 +28,10 @@ public class Feed extends BaseTimeEntity {
     @OneToMany(mappedBy = "feed", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
-    public Feed(FeedRequestDto requestDto) {
+    public Feed(FeedRequestDto requestDto, User user) {
         // validation 해야함
         this.contents = requestDto.getContents();
+        this.user = user;
     }
 
     public void update(FeedRequestDto requestDto) {

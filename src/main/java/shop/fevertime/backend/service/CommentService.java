@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.Comment;
 import shop.fevertime.backend.domain.Feed;
+import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.CommentRequestDto;
 import shop.fevertime.backend.dto.response.CommentResponseDto;
 import shop.fevertime.backend.repository.CommentRepository;
@@ -33,12 +34,12 @@ public class CommentService {
 
     // 댓글 생성
     @Transactional
-    public void createComment(Long feedId, CommentRequestDto requestDto) {
+    public void createComment(Long feedId, CommentRequestDto requestDto, User user) {
         // 댓글 생성 - > 해당 피드에 댓글 1 2 3 생성
         Feed feed = feedRepository.findById(feedId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 피드입니다.")
         );
-        Comment comment = new Comment(feed, requestDto);
+        Comment comment = new Comment(feed, requestDto, user);
         commentRepository.save(comment);
     }
 
