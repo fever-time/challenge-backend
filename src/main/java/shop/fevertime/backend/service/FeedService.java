@@ -4,25 +4,31 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.Feed;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
+import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.repository.FeedRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class FeedService {
 
     private final FeedRepository feedRepository;
-    public List<Feed> readFeeds() {
-        return feedRepository.findAll();
+
+    // 피드 조회
+    public List<FeedResponseDto> readFeeds() {
+        return feedRepository.findAll()
+                .stream()
+                .map(FeedResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     // 피드 생성
     @Transactional // return 값 Long으로 통일
-    public Feed createFeed(FeedRequestDto requestDto) {
-        Feed feed = new Feed(requestDto);
-        return feedRepository.save(feed);
+    public void createFeed(FeedRequestDto requestDto) {
+        feedRepository.save(new Feed(requestDto));
     }
 
     @Transactional
@@ -35,8 +41,7 @@ public class FeedService {
     }
 
     @Transactional
-    public Long deleteFeed(Long id) {
+    public void deleteFeed(Long id) {
         feedRepository.deleteById(id);
-        return id;
     }
 }
