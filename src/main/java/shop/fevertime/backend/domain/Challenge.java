@@ -44,8 +44,12 @@ public class Challenge extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "challenge", cascade = CascadeType.ALL)
-    private List<ChallengeCategory> challengeCategories = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "challenge")
+    private List<Certification> certifications;
 
     /**
      * 챌린지 생성 시 사용하는 생성자
@@ -57,7 +61,9 @@ public class Challenge extends BaseTimeEntity {
                      LocalDateTime endDate,
                      int limitPerson,
                      boolean onOff,
-                     User user) {
+                     User user,
+                     Category category
+    ) {
         this.title = title;
         this.description = description;
         this.imgLink = imgLink;
@@ -66,11 +72,6 @@ public class Challenge extends BaseTimeEntity {
         this.limitPerson = limitPerson;
         this.onOff = onOff;
         this.user = user;
+        this.category = category;
     }
-
-    public void addChallengeCategory(Category category) {
-        ChallengeCategory challengeCategory = new ChallengeCategory(category, this);
-        challengeCategories.add(challengeCategory);
-    }
-
 }

@@ -22,6 +22,11 @@ public class ChallengeApiController {
         return challengeService.getChallenges();
     }
 
+    @GetMapping("/challenges/{challengeId}")
+    public ChallengeResponseDto getChallenge(@PathVariable Long challengeId) {
+        return challengeService.getChallenge(challengeId);
+    }
+
     @PostMapping("/challenges")
     public String createChallenge(
             @ModelAttribute ChallengeRequestDto requestDto,
@@ -32,7 +37,7 @@ public class ChallengeApiController {
     }
 
     @DeleteMapping("/challenges/{challengeId}")
-    public String deleteChallenge(@PathVariable Long challengeId){
+    public String deleteChallenge(@PathVariable Long challengeId) {
         challengeService.deleteChallenge(challengeId);
         return "ok";
     }

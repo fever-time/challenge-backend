@@ -13,6 +13,6 @@ public class ChallengeRequestDto {
     private String endDate;
     private int limitPerson;
     private boolean onOff;
-    private String[] categories;
+    private String category;
     private MultipartFile image;
 }
