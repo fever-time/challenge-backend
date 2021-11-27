@@ -47,7 +47,7 @@ public class ChallengeService {
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
         // 카테고리 찾기
-        Category category = categoryRepository.findByHtmlClassName(requestDto.getCategory()).orElseThrow(
+        Category category = categoryRepository.findByName(requestDto.getCategory()).orElseThrow(
                 () -> new NoSuchElementException("카테고리 정보 찾기 실패")
         );
 
@@ -55,7 +55,7 @@ public class ChallengeService {
         Challenge challenge = new Challenge(
                 requestDto.getTitle(),
                 requestDto.getDescription(),
-                "uploadImageUrl",
+                uploadImageUrl,
                 LocalDateTimeUtil.getLocalDateTime(requestDto.getStartDate()),
                 LocalDateTimeUtil.getLocalDateTime(requestDto.getEndDate()),
                 requestDto.getLimitPerson(),
