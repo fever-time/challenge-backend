@@ -3,6 +3,7 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.fevertime.backend.dto.request.FeedRequestDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Feed extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "feed_id")
@@ -27,5 +27,14 @@ public class Feed extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "feed", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+
+    public Feed(FeedRequestDto requestDto) {
+        // validation 해야함
+        this.contents = requestDto.getContents();
+    }
+
+    public void update(FeedRequestDto requestDto) {
+        this.contents = requestDto.getContents();
+    }
 
 }
