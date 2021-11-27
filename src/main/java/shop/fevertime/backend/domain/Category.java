@@ -26,5 +26,4 @@ public class Category {
         this.name = name;
         this.htmlClassName = htmlClassName;
     }
-
 }
