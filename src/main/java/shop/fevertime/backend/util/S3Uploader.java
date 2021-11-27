@@ -1,5 +1,7 @@
 package shop.fevertime.backend.util;
 
+
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
+    private AmazonS3 s3Client;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
@@ -67,5 +70,10 @@ public class S3Uploader {
         }
 
         return Optional.empty();
+    }
+
+    //s3 이미지 삭제
+    public void delete(String fileName, String dirName) {
+        amazonS3Client.deleteObject(bucket, dirName + "/" + fileName);
     }
 }

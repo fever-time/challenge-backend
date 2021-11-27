@@ -6,9 +6,9 @@ import shop.fevertime.backend.domain.Certification;
 import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.CertificationRequestDto;
+import shop.fevertime.backend.dto.response.CertificationResponseDto;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
-import shop.fevertime.backend.util.LocalDateTimeUtil;
 import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
@@ -41,8 +41,15 @@ public class CertificationService {
         certificationRepository.save(certification);
     }
 
-    public void deleteCertification(Long certificationId){
+    public void deleteCertification(Long certificationId) {
+        //이미지 s3에서 삭제
+        CertificationResponseDto responseDto = certificationRepository.findById(certificationId)
+                .map(CertificationResponseDto::new)
+                .orElseThrow(
+                        () -> new NullPointerException("해당 아이디가 존재하지 않습니다."));
+        String[] ar = responseDto.getImg().split("/");
+        s3Uploader.delete(ar[ar.length - 1], "certification");
+
         certificationRepository.deleteById(certificationId);
     }
-
 }
