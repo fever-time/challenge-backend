@@ -9,6 +9,7 @@ import shop.fevertime.backend.dto.request.CertificationRequestDto;
 import shop.fevertime.backend.dto.response.CertificationResponseDto;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
+import shop.fevertime.backend.util.LocalDateTimeUtil;
 import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
@@ -52,4 +53,5 @@ public class CertificationService {
 
         certificationRepository.deleteById(certificationId);
     }
+
 }

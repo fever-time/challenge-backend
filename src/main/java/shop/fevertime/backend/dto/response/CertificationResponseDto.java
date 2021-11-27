@@ -15,12 +15,11 @@ public class CertificationResponseDto {
     private String contents;
     private String createdDate;
 
-    public CertificationResponseDto(Certification certification){
+    public CertificationResponseDto(Certification certification) {
         this.certificationId = certification.getId();
         this.userId = certification.getUser().getUsername();
         this.img = certification.getImg();
         this.contents = certification.getContents();
         this.createdDate = certification.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
-
 }

@@ -15,7 +15,6 @@ import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -50,6 +49,10 @@ public class ChallengeService {
 
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
+        // 카테고리 찾기
+        Category category = categoryRepository.findByName(requestDto.getCategory()).orElseThrow(
+                () -> new NoSuchElementException("카테고리 정보 찾기 실패")
+        );
 
         // 챌린지 생성
         Challenge challenge = new Challenge(
@@ -60,16 +63,9 @@ public class ChallengeService {
                 LocalDateTimeUtil.getLocalDateTime(requestDto.getEndDate()),
                 requestDto.getLimitPerson(),
                 requestDto.isOnOff(),
-                user
+                user,
+                category
         );
-
-        // 챌린지 카테고리 넣기
-        Arrays.stream(requestDto.getCategories())
-                .map(htmlClassName -> categoryRepository
-                        .findByHtmlClassName(htmlClassName)
-                        .orElseThrow(
-                                () -> new NoSuchElementException("카테고리 정보 찾기 실패")
-                        )).forEach(challenge::addChallengeCategory);
 
         challengeRepository.save(challenge);
     }

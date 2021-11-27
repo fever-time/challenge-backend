@@ -3,7 +3,6 @@ package shop.fevertime.backend.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 import shop.fevertime.backend.security.UserDetailsImpl;
@@ -24,7 +23,7 @@ public class ChallengeApiController {
     }
 
     @GetMapping("/challenges/{challengeId}")
-    public ChallengeResponseDto getChallenge(@PathVariable Long challengeId){
+    public ChallengeResponseDto getChallenge(@PathVariable Long challengeId) {
         return challengeService.getChallenge(challengeId);
     }
 
@@ -38,9 +37,8 @@ public class ChallengeApiController {
     }
 
     @DeleteMapping("/challenges/{challengeId}")
-    public String deleteChallenge(@PathVariable Long challengeId){
+    public String deleteChallenge(@PathVariable Long challengeId) {
         challengeService.deleteChallenge(challengeId);
         return "ok";
     }
-
 }

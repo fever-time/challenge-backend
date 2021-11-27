@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import shop.fevertime.backend.domain.Category;
 import shop.fevertime.backend.domain.Certification;
 import shop.fevertime.backend.domain.Challenge;
-import shop.fevertime.backend.domain.ChallengeCategory;
 import shop.fevertime.backend.util.DeduplicationUtils;
 
 import java.time.format.DateTimeFormatter;
@@ -28,11 +26,11 @@ public class ChallengeResponseDto {
     private int limitPerson;
     private boolean onOff;
     private String image;
-    private List<CategoryResponseDto> categories = new ArrayList<>();
+    private CategoryResponseDto category;
     private List<CertificationResponseDto> certifications = new ArrayList<>();
     private int participants;
 
-    public ChallengeResponseDto(Challenge challenge){
+    public ChallengeResponseDto(Challenge challenge) {
         this.challengeId = challenge.getId();
         this.title = challenge.getTitle();
         this.description = challenge.getDescription();
@@ -41,21 +39,15 @@ public class ChallengeResponseDto {
         this.endDate = challenge.getEndDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.limitPerson = challenge.getLimitPerson();
         this.onOff = challenge.isOnOff();
-        List<ChallengeCategory> challengeCategories = challenge.getChallengeCategories();
-        for (ChallengeCategory challengeCategory : challengeCategories) {
-            Category category = challengeCategory.getCategory();
-            CategoryResponseDto responseDto = new CategoryResponseDto(category);
-            this.categories.add(responseDto);
-        }
+        this.category = new CategoryResponseDto(challenge.getCategory());
+
         List<Certification> certifications = challenge.getCertifications();
         for (Certification certification : certifications) {
             CertificationResponseDto responseDto = new CertificationResponseDto(certification);
             this.certifications.add(responseDto);
         }
 
-        List<CertificationResponseDto> distinct = DeduplicationUtils.deduplication(this.certifications,CertificationResponseDto::getUserId);
+        List<CertificationResponseDto> distinct = DeduplicationUtils.deduplication(this.certifications, CertificationResponseDto::getUserId);
         this.participants = distinct.size();
     }
-
-
 }
