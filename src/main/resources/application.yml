@@ -1,19 +1,19 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
-      path: /h2-console
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-
+  #  h2:
+  #    console:
+  #      enabled: true
+  #      settings:
+  #        web-allow-others: true
+  #      path: /h2-console
   #  datasource:
-  #    url: jdbc:mysql://some-mysql/layer
-  #    username: root
-  #    password: 1234
+  #    driver-class-name: org.h2.Driver
+  #    url: jdbc:h2:mem:testdb
+  #    username: sa
+
+  datasource:
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PW}
 
   jpa:
     #    show-sql: true
@@ -21,7 +21,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     generate-ddl: true
 
 logging:
