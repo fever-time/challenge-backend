@@ -14,6 +14,7 @@ spring:
     url: ${MYSQL_URL}
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PW}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     #    show-sql: true
