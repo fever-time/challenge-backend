@@ -27,7 +27,7 @@ public class User extends BaseTimeEntity {
     private UserRole role;
 
     @Column(nullable = false)
-    private Long kakaoId;
+    private String kakaoId;
 
     @Column(nullable = false)
     private int point;
@@ -35,7 +35,7 @@ public class User extends BaseTimeEntity {
     /**
      * 카카오 로그인 유저 생성자
      */
-    public User(String username, String email, UserRole role, Long kakaoId) {
+    public User(String username, String email, UserRole role, String kakaoId) {
         this.username = username;
         this.email = email;
         this.role = role;

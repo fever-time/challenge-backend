@@ -15,9 +15,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + username));
+    public UserDetails loadUserByUsername(String kakaoId) throws UsernameNotFoundException {
+        User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + kakaoId));
 
         return new UserDetailsImpl(user);
     }

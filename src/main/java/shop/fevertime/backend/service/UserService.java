@@ -22,7 +22,7 @@ public class UserService {
     public String kakaoLogin(String token) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(token);
-        Long kakaoId = userInfo.getId();
+        String kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
         String email = userInfo.getEmail();
 
@@ -43,6 +43,6 @@ public class UserService {
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return nickname;
+        return kakaoId;
     }
 }

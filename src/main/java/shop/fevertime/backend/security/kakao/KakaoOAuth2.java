@@ -35,7 +35,7 @@ public class KakaoOAuth2 {
         );
 
         JSONObject body = new JSONObject(response.getBody());
-        Long id = body.getLong("id");
+        String id = String.valueOf(body.getLong("id"));
         String email = "";
         if (body.getJSONObject("kakao_account").has("email")) {
             email = body.getJSONObject("kakao_account").getString("email");
