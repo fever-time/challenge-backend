@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,8 +30,13 @@ public class ChallengeService {
     private final CertificationRepository certificationRepository;
     private final S3Uploader s3Uploader;
 
-    public List<ChallengeResponseDto> getChallenges() {
-        return challengeRepository.findAll()
+    public List<ChallengeResponseDto> getChallenges(String category) {
+        if (Objects.equals(category, "All")) {
+            return challengeRepository.findAll().stream()
+                    .map(ChallengeResponseDto::new)
+                    .collect(Collectors.toList());
+        }
+        return challengeRepository.findAllByCategoryNameEquals(category)
                 .stream()
                 .map(ChallengeResponseDto::new)
                 .collect(Collectors.toList());

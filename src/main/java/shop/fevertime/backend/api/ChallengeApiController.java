@@ -18,8 +18,8 @@ public class ChallengeApiController {
     private final ChallengeService challengeService;
 
     @GetMapping("/challenges")
-    public List<ChallengeResponseDto> getChallenges() {
-        return challengeService.getChallenges();
+    public List<ChallengeResponseDto> getChallenges(@RequestParam("kind") String category) {
+        return challengeService.getChallenges(category);
     }
 
     @GetMapping("/challenges/{challengeId}")
