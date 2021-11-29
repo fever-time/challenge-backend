@@ -41,4 +41,9 @@ public class ChallengeApiController {
         challengeService.deleteChallenge(challengeId);
         return "ok";
     }
+
+    @GetMapping("/search")
+    public List<ChallengeResponseDto> searchChallenges(@RequestParam("search") String search) {
+        return challengeService.searchChallenges(search);
+    }
 }

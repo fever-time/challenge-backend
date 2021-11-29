@@ -50,6 +50,13 @@ public class ChallengeService {
                 );
     }
 
+    public List<ChallengeResponseDto> searchChallenges(String search) {
+        return challengeRepository.findAllByTitleContaining(search)
+                .stream()
+                .map(ChallengeResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public void createChallenge(ChallengeRequestDto requestDto, User user) throws IOException {
 
