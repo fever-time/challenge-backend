@@ -1,15 +1,17 @@
 ## 스파르타 내일배움캠프 프로젝트 - 피버타임
 
 ### 🔗 라이브
-<!-- - 피버타임 링크 : <a href="https://fevertime.shop">https://fevertime.shop</a> -->
-- 1차, 2차 프로젝트 <a href="https://faint-clef-9ea.notion.site/5b174114b93b4eb0ad70c27fd0853910">개발문서</a> (API 설계, DB 설계, 화면 설계, Convention)
+- 피버타임 사이트 링크 : <a href="https://fevertime.shop">https://fevertime.shop</a>
+- 3차 프로젝트 <a href="https://faint-clef-9ea.notion.site/3-Spring-8a33a098b255452894f6a67ca74f4381">개발문서</a> (API 설계, DB 설계, 화면 설계, Convention)
+- 3차 프로젝트 <a href="https://faint-clef-9ea.notion.site/3-5f1f7b129e794822a8f237299f042188">회의록</a> (회고, Project History)
+- 1차, 2차 프로젝트 with Python/Flask <a href="https://github.com/fever-time/challenge-with-flask">Github Repo</a>
 
 ### 🏠 소개
 - 챌린지를 설정하고 달성하기 위해 다른 참여자들과 함께 도전하고 인증하는 서비스입니다.
 
 ### ⏲️ 개발기간
-- [1차 프로젝트 with Python/Flask] 2021-09-23 ~ 2021-09-30 (<a href="https://github.com/Fever-Time/challenge/wiki/4.-1%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">1차 프로젝트 KPT - WIKI</a>)
-- [2차 프로젝트 with Python/Flask] 2021-10-05 ~ 2021-10-19 (<a href="https://github.com/Fever-Time/challenge/wiki/5.-2%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">2차 프로젝트 KPT - WIKI</a>)
+- [1차 프로젝트 with Python/Flask] 2021-09-23 ~ 2021-09-30 (<a href="https://github.com/fever-time/challenge-with-flask/wiki/4.-1%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">1차 프로젝트 KPT - WIKI</a>)
+- [2차 프로젝트 with Python/Flask] 2021-10-05 ~ 2021-10-19 (<a href="https://github.com/fever-time/challenge-with-flask/wiki/5.-2%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">2차 프로젝트 KPT - WIKI</a>)
 - [3차 프로젝트 with Java/Spring] 2021-11-19 ~ 2021-12-09
 
 ### 🧙 맴버구성
