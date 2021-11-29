@@ -1,7 +1,7 @@
 ## 스파르타 내일배움캠프 프로젝트 - 피버타임
 
 ### 🔗 라이브
-- 피버타임 사이트 링크 : <a href="https://fevertime.shop">https://fevertime.shop</a>
+- 피버타임 사이트 링크 : <a href="https://www.fevertime.shop">https://www.fevertime.shop</a>
 - 3차 프로젝트 <a href="https://faint-clef-9ea.notion.site/3-Spring-8a33a098b255452894f6a67ca74f4381">개발문서</a> (API 설계, DB 설계, 화면 설계, Convention)
 - 3차 프로젝트 <a href="https://faint-clef-9ea.notion.site/3-5f1f7b129e794822a8f237299f042188">회의록</a> (회고, Project History)
 - 1차, 2차 프로젝트 with Python/Flask <a href="https://github.com/fever-time/challenge-with-flask">Github Repo</a>
