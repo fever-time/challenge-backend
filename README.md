@@ -4,8 +4,8 @@
 - 피버타임 사이트 링크 : <a href="https://www.fevertime.shop">https://www.fevertime.shop</a>
 - 3차 프로젝트 with Java/Spring - <a href="https://faint-clef-9ea.notion.site/3-Spring-8a33a098b255452894f6a67ca74f4381">개발문서</a> (API 설계, DB 설계, 화면 설계, Convention)
 - 3차 프로젝트 with Java/Spring - <a href="https://faint-clef-9ea.notion.site/3-5f1f7b129e794822a8f237299f042188">회의록</a> (회고, Project History)
-- 3차 프로젝트 with Java/Spring - <a href="https://faint-clef-9ea.notion.site/3-5f1f7b129e794822a8f237299f042188">Frontend Github Repo</a>
-- 3차 프로젝트 with Java/Spring - <a href="https://faint-clef-9ea.notion.site/3-5f1f7b129e794822a8f237299f042188">Backend Github Repo</a>
+- 3차 프로젝트 with Java/Spring - <a href="https://github.com/fever-time/challenge-frontend">Frontend Github Repo</a>
+- 3차 프로젝트 with Java/Spring - <a href="https://github.com/fever-time/challenge-backend">Backend Github Repo</a>
 - 1차, 2차 프로젝트 with Python/Flask - <a href="https://github.com/fever-time/challenge-with-flask">Project Github Repo</a>
 - 1차, 2차 프로젝트 with Python/Flask - <a href="https://faint-clef-9ea.notion.site/5b174114b93b4eb0ad70c27fd0853910">개발문서</a> (API 설계, DB 설계, 화면 설계, Convention)
 
@@ -24,8 +24,10 @@
 
 ### 📌 3차 프로젝트 기술 스택&선택 이유 - <a href="https://github.com/fever-time/challenge-backend/wiki/1.-%EA%B8%B0%EC%88%A0-%EC%84%A0%ED%83%9D-%EC%9D%B4%EC%9C%A0!">WIKI 이동</a>
 - IntelliJ - IDE
-- Spring - 웹 프레임워크
+- Spring boot - 웹 프레임워크
+- Spring Security - 인증&인가 프레임워크
 - Java - 개발 언어
+- JPA - 자바 ORM 기술 표준
 - MySQL(AWS RDS) - 데이터베이스
 - Git - 형상관리
 - Github Actions - CI/CD
