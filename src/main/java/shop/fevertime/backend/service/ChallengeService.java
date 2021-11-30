@@ -110,7 +110,7 @@ public class ChallengeService {
         // 삭제하는 챌린지에 해당하는 인증 이미지 s3 삭제
         List<Certification> certifications = certificationRepository.findAllByChallengeId(challengeId);
         for (Certification certification : certifications) {
-            String[] arr = certification.getImg().split("/");
+            String[] arr = certification.getImgLink().split("/");
             s3Uploader.delete(arr[arr.length - 1], "certification");
         }
 

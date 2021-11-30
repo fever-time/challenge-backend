@@ -11,14 +11,14 @@ import java.time.format.DateTimeFormatter;
 public class CertificationResponseDto {
     private Long certificationId;
     private String userId;
-    private String img;
+    private String imgLink;
     private String contents;
     private String createdDate;
 
     public CertificationResponseDto(Certification certification) {
         this.certificationId = certification.getId();
         this.userId = certification.getUser().getUsername();
-        this.img = certification.getImg();
+        this.imgLink = certification.getImgLink();
         this.contents = certification.getContents();
         this.createdDate = certification.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }

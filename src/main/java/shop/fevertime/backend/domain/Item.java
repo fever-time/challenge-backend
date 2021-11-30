@@ -26,5 +26,5 @@ public class Item extends BaseTimeEntity {
     private int stock;
 
     @Column(nullable = false)
-    private String img;
+    private String imgLink;
 }
