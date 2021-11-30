@@ -17,7 +17,7 @@ public class FeedResponseDto {
     private String username;
     private List<CommentResponseDto> comments = new ArrayList<>();
     private LocalDateTime lastModifiedDate;
-    private Long kakaoId;
+    private String kakaoId;
 
     public FeedResponseDto(Feed feed) {
         this.feedId = feed.getId();
