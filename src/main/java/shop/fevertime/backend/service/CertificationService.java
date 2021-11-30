@@ -23,6 +23,7 @@ public class CertificationService {
     private final S3Uploader s3Uploader;
     private final ChallengeRepository challengeRepository;
 
+    //새로운 인증 생성
     @Transactional
     public void setCertification(CertificationRequestDto requestDto, User user) throws IOException {
 
@@ -42,6 +43,7 @@ public class CertificationService {
         certificationRepository.save(certification);
     }
 
+    //특정 인증 삭제
     public void deleteCertification(Long certificationId) {
         //이미지 s3에서 삭제
         CertificationResponseDto responseDto = certificationRepository.findById(certificationId)

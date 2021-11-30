@@ -17,6 +17,7 @@ public class ChallengeApiController {
 
     private final ChallengeService challengeService;
 
+    //카테고리에 해당하는 챌린지 리스트 가져오기
     @GetMapping("/challenges")
     public List<ChallengeResponseDto> getChallenges(@RequestParam("kind") String category) {
         return challengeService.getChallenges(category);
@@ -27,6 +28,7 @@ public class ChallengeApiController {
         return challengeService.getChallenge(challengeId);
     }
 
+    //새로운 챌린지 생성
     @PostMapping("/challenges")
     public String createChallenge(
             @ModelAttribute ChallengeRequestDto requestDto,
@@ -36,12 +38,14 @@ public class ChallengeApiController {
         return "ok";
     }
 
+    //특정 챌린지 삭제
     @DeleteMapping("/challenges/{challengeId}")
     public String deleteChallenge(@PathVariable Long challengeId) {
         challengeService.deleteChallenge(challengeId);
         return "ok";
     }
 
+    //검색어에 해당하는 챌린지 리스트 가져오기
     @GetMapping("/search")
     public List<ChallengeResponseDto> searchChallenges(@RequestParam("search") String search) {
         return challengeService.searchChallenges(search);

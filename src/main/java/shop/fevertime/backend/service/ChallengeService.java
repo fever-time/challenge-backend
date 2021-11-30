@@ -30,6 +30,7 @@ public class ChallengeService {
     private final CertificationRepository certificationRepository;
     private final S3Uploader s3Uploader;
 
+    //카테고리에 해당하는 챌린지 찾아오기
     public List<ChallengeResponseDto> getChallenges(String category) {
         if (Objects.equals(category, "All")) {
             return challengeRepository.findAll().stream()
@@ -50,6 +51,7 @@ public class ChallengeService {
                 );
     }
 
+    //검색어에 해당하는 챌린지 찾아오기
     public List<ChallengeResponseDto> searchChallenges(String search) {
         return challengeRepository.findAllByTitleContaining(search)
                 .stream()
@@ -57,6 +59,7 @@ public class ChallengeService {
                 .collect(Collectors.toList());
     }
 
+    //새로운 챌린지 생성
     @Transactional
     public void createChallenge(ChallengeRequestDto requestDto, User user) throws IOException {
 
@@ -83,6 +86,7 @@ public class ChallengeService {
         challengeRepository.save(challenge);
     }
 
+    //챌린지 삭제
     @Transactional
     public void deleteChallenge(Long challengeId) {
         //이미지 s3에서 삭제

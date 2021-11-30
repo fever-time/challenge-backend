@@ -15,6 +15,7 @@ public class CertificationApiController {
 
     private final CertificationService certificationService;
 
+    //챌린지에 인증 생성하기
     @PostMapping("/certifications")
     public String setCertification(
             @ModelAttribute CertificationRequestDto requestDto,
@@ -23,6 +24,7 @@ public class CertificationApiController {
         return "ok";
     }
 
+    //특정 인증 삭제하기
     @DeleteMapping("/certifications/{certificationId}")
     public String deleteCertification(@PathVariable Long certificationId) {
         certificationService.deleteCertification(certificationId);
