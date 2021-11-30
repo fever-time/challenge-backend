@@ -22,9 +22,9 @@ public class ChallengeResponseDto {
     private boolean onOff;
     private String image;
     private CategoryResponseDto category;
-    private int participants;
+    private long participants;
 
-    public ChallengeResponseDto(Challenge challenge) {
+    public ChallengeResponseDto(Challenge challenge, long participants) {
         this.challengeId = challenge.getId();
         this.title = challenge.getTitle();
         this.description = challenge.getDescription();
@@ -34,5 +34,6 @@ public class ChallengeResponseDto {
         this.limitPerson = challenge.getLimitPerson();
         this.onOff = challenge.isOnOff();
         this.category = new CategoryResponseDto(challenge.getCategory());
+        this.participants = participants;
     }
 }
