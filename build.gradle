@@ -45,6 +45,10 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
+jar {
+    enabled = false
+}
+
 test {
     useJUnitPlatform()
 }

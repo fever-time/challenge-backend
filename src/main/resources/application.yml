@@ -33,6 +33,10 @@ logging:
         type:
           descriptor:
             sql: trace
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
 
 jwt:
   secret: ${JWT_SECRET}
