@@ -7,6 +7,7 @@ import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.CertificationRequestDto;
 import shop.fevertime.backend.dto.response.CertificationResponseDto;
+import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
@@ -14,6 +15,8 @@ import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +26,15 @@ public class CertificationService {
     private final S3Uploader s3Uploader;
     private final ChallengeRepository challengeRepository;
 
+    public List<CertificationResponseDto> getCertification(Long challengeId) {
+        return certificationRepository.findAllByChallengeId(challengeId)
+                .stream()
+                .map(CertificationResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
-    public void setCertification(CertificationRequestDto requestDto, User user) throws IOException {
+    public void createCertification(CertificationRequestDto requestDto, User user) throws IOException {
 
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImg(), "certification");
@@ -53,5 +63,4 @@ public class CertificationService {
 
         certificationRepository.deleteById(certificationId);
     }
-
 }

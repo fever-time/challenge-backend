@@ -12,22 +12,23 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/challenges")
 @RequiredArgsConstructor
 public class ChallengeApiController {
 
     private final ChallengeService challengeService;
 
-    @GetMapping("/challenges")
+    @GetMapping()
     public List<ChallengeResponseDto> getChallenges(@RequestParam("kind") String category) {
         return challengeService.getChallenges(category);
     }
 
-    @GetMapping("/challenges/{challengeId}")
+    @GetMapping("/{challengeId}")
     public ChallengeResponseDto getChallenge(@PathVariable Long challengeId) {
         return challengeService.getChallenge(challengeId);
     }
 
-    @PostMapping("/challenges")
+    @PostMapping()
     public String createChallenge(
             @ModelAttribute ChallengeRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
