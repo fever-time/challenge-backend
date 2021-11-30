@@ -18,8 +18,8 @@ public class ChallengeApiController {
     private final ChallengeService challengeService;
 
     @GetMapping("/challenges")
-    public List<ChallengeResponseDto> getChallenges() {
-        return challengeService.getChallenges();
+    public List<ChallengeResponseDto> getChallenges(@RequestParam("kind") String category) {
+        return challengeService.getChallenges(category);
     }
 
     @GetMapping("/challenges/{challengeId}")
@@ -40,5 +40,10 @@ public class ChallengeApiController {
     public String deleteChallenge(@PathVariable Long challengeId) {
         challengeService.deleteChallenge(challengeId);
         return "ok";
+    }
+
+    @GetMapping("/search")
+    public List<ChallengeResponseDto> searchChallenges(@RequestParam("search") String search) {
+        return challengeService.searchChallenges(search);
     }
 }
