@@ -17,12 +17,10 @@ public class FeedApiController {
 
     private final FeedService feedService;
 
-    // DTO로 감싸기 responseDto 생성해서 감싸기
-
     // 피드 조회
     @GetMapping()
-    public List<FeedResponseDto> readFeeds() {
-        return feedService.readFeeds();
+    public List<FeedResponseDto> getFeeds() {
+        return feedService.getFeeds();
     }
 
     // 피드 생성

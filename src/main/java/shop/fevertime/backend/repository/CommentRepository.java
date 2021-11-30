@@ -7,6 +7,6 @@ import shop.fevertime.backend.domain.Feed;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-
+    List<Comment> deleteAllByFeedId(Long feedId);
 }
 
