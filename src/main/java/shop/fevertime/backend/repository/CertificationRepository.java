@@ -6,7 +6,7 @@ import shop.fevertime.backend.domain.Certification;
 import java.util.List;
 
 public interface CertificationRepository extends JpaRepository<Certification, Long> {
-    void deleteByChallengeId(Long challengeId);
+    void deleteAllByChallengeId(Long challengeId);
 
     List<Certification> findAllByChallengeId(Long challengeId);
 }

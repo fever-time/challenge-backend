@@ -3,6 +3,7 @@ package shop.fevertime.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.Category;
+import shop.fevertime.backend.domain.Certification;
 import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
@@ -85,7 +86,7 @@ public class ChallengeService {
 
     @Transactional
     public void deleteChallenge(Long challengeId) {
-        //이미지 s3에서 삭제
+        // 챌린지 이미지 s3에서 삭제
         ChallengeResponseDto responseDto = challengeRepository.findById(challengeId)
                 .map(ChallengeResponseDto::new)
                 .orElseThrow(
@@ -93,14 +94,14 @@ public class ChallengeService {
         String[] ar = responseDto.getImage().split("/");
         s3Uploader.delete(ar[ar.length - 1], "challenge");
 
-        //삭제하는 챌린지에 해당하는 인증 이미지 s3 삭제
-        List<CertificationResponseDto> certifications = responseDto.getCertifications();
-        for (CertificationResponseDto certification : certifications) {
+        // 삭제하는 챌린지에 해당하는 인증 이미지 s3 삭제
+        List<Certification> certifications = certificationRepository.findAllByChallengeId(challengeId);
+        for (Certification certification : certifications) {
             String[] arr = certification.getImg().split("/");
             s3Uploader.delete(arr[arr.length - 1], "certification");
         }
 
-        certificationRepository.deleteByChallengeId(challengeId);
+        certificationRepository.deleteAllByChallengeId(challengeId);
         challengeRepository.deleteById(challengeId);
     }
 }
