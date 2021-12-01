@@ -36,7 +36,11 @@ public class Challenge extends BaseTimeEntity {
     private int limitPerson;
 
     @Column(nullable = false)
-    private boolean onOff;
+    @Enumerated(value = EnumType.STRING)
+    private LocationType locationType;
+
+    @Column
+    private String address;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -55,7 +59,8 @@ public class Challenge extends BaseTimeEntity {
                      LocalDateTime startDate,
                      LocalDateTime endDate,
                      int limitPerson,
-                     boolean onOff,
+                     LocationType locationType,
+                     String address,
                      User user,
                      Category category
     ) {
@@ -65,7 +70,8 @@ public class Challenge extends BaseTimeEntity {
         this.startDate = startDate;
         this.endDate = endDate;
         this.limitPerson = limitPerson;
-        this.onOff = onOff;
+        this.locationType = locationType;
+        this.address = address;
         this.user = user;
         this.category = category;
     }

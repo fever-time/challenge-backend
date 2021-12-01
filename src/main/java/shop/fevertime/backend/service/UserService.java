@@ -25,6 +25,7 @@ public class UserService {
         String kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
         String email = userInfo.getEmail();
+        String defaultImgLink = "변경 필요";
 
         // DB 에 중복된 Kakao Id 가 있는지 확인
         User kakaoUser = userRepository.findByKakaoId(kakaoId)
@@ -32,7 +33,7 @@ public class UserService {
 
         // 카카오 정보로 회원가입
         if (kakaoUser == null) {
-            kakaoUser = new User(nickname, email, UserRole.USER, kakaoId);
+            kakaoUser = new User(nickname, email, UserRole.USER, kakaoId, defaultImgLink);
             userRepository.save(kakaoUser);
         }
 

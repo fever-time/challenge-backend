@@ -17,7 +17,7 @@ public class Certification extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String img;
+    private String imgLink;
 
     @Column(nullable = false)
     private String contents;
@@ -30,8 +30,8 @@ public class Certification extends BaseTimeEntity {
     @JoinColumn(name = "challenge_id")
     private Challenge challenge;
 
-    public Certification(String img, String contents, User user, Challenge challenge) {
-        this.img = img;
+    public Certification(String imgLink, String contents, User user, Challenge challenge) {
+        this.imgLink = imgLink;
         this.contents = contents;
         this.user = user;
         this.challenge = challenge;
