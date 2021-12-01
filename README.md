@@ -3,7 +3,6 @@
 ### 🔗 링크
 - 피버타임 사이트 링크 : <a href="https://www.fevertime.shop">https://www.fevertime.shop</a>
 - 3차 프로젝트 with Java/Spring - <a href="https://faint-clef-9ea.notion.site/3-Spring-8a33a098b255452894f6a67ca74f4381">개발문서</a> (API 설계, DB 설계, 화면 설계, Convention)
-- 3차 프로젝트 with Java/Spring - <a href="https://faint-clef-9ea.notion.site/3-5f1f7b129e794822a8f237299f042188">회의록</a> (회고, Project History)
 - 3차 프로젝트 with Java/Spring - <a href="https://github.com/fever-time/challenge-frontend">Frontend Github Repo</a>
 - 3차 프로젝트 with Java/Spring - <a href="https://github.com/fever-time/challenge-backend">Backend Github Repo</a>
 - 1차, 2차 프로젝트 with Python/Flask - <a href="https://github.com/fever-time/challenge-with-flask">Project Github Repo</a>
@@ -45,3 +44,9 @@
 - 스케줄러를 활용한 챌린지 마감
 
 ### 📌 문제를 이렇게 해결했어요! - <a href="https://github.com/fever-time/challenge-backend/wiki/3.-%EB%AC%B8%EC%A0%9C%EB%A5%BC-%EC%9D%B4%EB%A0%87%EA%B2%8C-%ED%95%B4%EA%B2%B0%ED%96%88%EC%96%B4%EC%9A%94!">WIKI 이동</a>
+
+### 📌 Project History - <a href="https://github.com/fever-time/challenge-backend/wiki/4.-Project-History">WIKI 이동</a>
+
+### 📌 팀 문화 - <a href="https://github.com/fever-time/challenge-backend/wiki/5.-%ED%8C%80-%EB%AC%B8%ED%99%94">WIKI 이동</a>
+
+### 📌 매일 회고록 - <a href="https://github.com/fever-time/challenge-backend/wiki/6.-%EB%A7%A4%EC%9D%BC-%ED%9A%8C%EA%B3%A0%EB%A1%9D">WIKI 이동</a>
