@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import shop.fevertime.backend.domain.Challenge;
+import shop.fevertime.backend.domain.LocationType;
 
 import java.time.format.DateTimeFormatter;
 
@@ -19,7 +20,7 @@ public class ChallengeResponseDto {
     private String startDate;
     private String endDate;
     private int limitPerson;
-    private boolean onOff;
+    private LocationType locationType;
     private String imgLink;
     private CategoryResponseDto category;
     private long participants;
@@ -32,7 +33,7 @@ public class ChallengeResponseDto {
         this.startDate = challenge.getStartDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.endDate = challenge.getEndDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.limitPerson = challenge.getLimitPerson();
-        this.onOff = challenge.isOnOff();
+        this.locationType = challenge.getLocationType();
         this.category = new CategoryResponseDto(challenge.getCategory());
         this.participants = participants;
     }

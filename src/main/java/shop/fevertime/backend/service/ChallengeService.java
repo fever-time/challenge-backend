@@ -2,10 +2,7 @@ package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shop.fevertime.backend.domain.Category;
-import shop.fevertime.backend.domain.Certification;
-import shop.fevertime.backend.domain.Challenge;
-import shop.fevertime.backend.domain.User;
+import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 import shop.fevertime.backend.repository.CategoryRepository;
@@ -90,7 +87,8 @@ public class ChallengeService {
                 LocalDateTimeUtil.getLocalDateTime(requestDto.getStartDate()),
                 LocalDateTimeUtil.getLocalDateTime(requestDto.getEndDate()),
                 requestDto.getLimitPerson(),
-                requestDto.isOnOff(),
+                requestDto.getLocationType(),
+                requestDto.getAddress(),
                 user,
                 category
         );
