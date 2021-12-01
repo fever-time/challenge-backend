@@ -21,6 +21,7 @@ public class ChallengeResponseDto {
     private String endDate;
     private int limitPerson;
     private LocationType locationType;
+    private String address;
     private String imgLink;
     private CategoryResponseDto category;
     private long participants;
@@ -34,6 +35,7 @@ public class ChallengeResponseDto {
         this.endDate = challenge.getEndDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.limitPerson = challenge.getLimitPerson();
         this.locationType = challenge.getLocationType();
+        this.address = challenge.getAddress();
         this.category = new CategoryResponseDto(challenge.getCategory());
         this.participants = participants;
     }
