@@ -97,7 +97,7 @@ public class ChallengeService {
     public void updateChallenge(Long challengeId, ChallengeUpdateRequestDto requestDto, User user) throws IOException {
         // 챌린지 이미지 s3에서 기존 이미지 삭제
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+                () -> new NoSuchElementException("해당 아이디가 존재하지 않습니다.")
         );
 
         // 기존 이미지 S3에서 삭제
