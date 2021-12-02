@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,9 +22,6 @@ public class Feed extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(mappedBy = "feed", fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
 
     public Feed(FeedRequestDto requestDto, User user) {
         // validation 해야함

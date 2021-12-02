@@ -23,10 +23,8 @@ public class CommentService {
 
     // 댓글 조회
     public List<CommentResponseDto> readcomments(Long feedId) {
-        Feed feed = feedRepository.findById(feedId).orElseThrow(
-                () -> new IllegalArgumentException("존재하는 피드가 없습니다.")
-        );
-        return feed.getComments()
+
+        return commentRepository.findAllByFeed_Id(feedId)
                 .stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());
