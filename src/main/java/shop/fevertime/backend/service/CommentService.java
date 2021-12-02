@@ -12,6 +12,7 @@ import shop.fevertime.backend.repository.FeedRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class CommentService {
     @Transactional
     public Long updateComment(Long commentId, CommentRequestDto requestDto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("존재하는 아이디가 없습니다.")
+                () -> new NoSuchElementException("존재하는 아이디가 없습니다.")
         );
         comment.commentUpdate(requestDto);
         return comment.getId();

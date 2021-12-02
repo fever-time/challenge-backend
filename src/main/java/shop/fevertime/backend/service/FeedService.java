@@ -12,6 +12,7 @@ import shop.fevertime.backend.repository.FeedRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class FeedService {
     @Transactional
     public Long updateFeed(Long id, FeedRequestDto requestDto) {
         Feed feed = feedRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하는 피드가 없습니다.")
+                () -> new NoSuchElementException("존재하는 피드가 없습니다.")
         );
         feed.update(requestDto);
         return id;
