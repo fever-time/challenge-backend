@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class CertificationRequestDto {
-    private Long challengeId;
-    private MultipartFile img;
+    private MultipartFile image;
     private String contents;
 }
