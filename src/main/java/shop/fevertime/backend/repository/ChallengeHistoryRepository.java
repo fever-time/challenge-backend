@@ -8,9 +8,11 @@ import shop.fevertime.backend.domain.ChallengeHistory;
 import shop.fevertime.backend.domain.ChallengeStatus;
 import shop.fevertime.backend.domain.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ChallengeHistoryRepository extends JpaRepository<ChallengeHistory, Long> {
+
     @Query("select ch " +
             "from ChallengeHistory ch " +
             "where ch.challengeStatus =:challengeStatus " +
@@ -20,4 +22,6 @@ public interface ChallengeHistoryRepository extends JpaRepository<ChallengeHisto
             @Param("challengeStatus") ChallengeStatus challengeStatus,
             @Param("user") User user,
             @Param("challenge") Challenge challenge);
+
+    List<ChallengeHistory> findAllByChallengeAndUser(Challenge challenge, User user);
 }
