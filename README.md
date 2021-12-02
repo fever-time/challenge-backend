@@ -22,11 +22,10 @@
 - <a href="https://github.com/suubinkim">김수빈</a>
 
 ### 📌 3차 프로젝트 기술 스택&선택 이유 - <a href="https://github.com/fever-time/challenge-backend/wiki/1.-%EA%B8%B0%EC%88%A0-%EC%84%A0%ED%83%9D-%EC%9D%B4%EC%9C%A0!">WIKI 이동</a>
-- IntelliJ - IDE
-- Spring boot - 웹 프레임워크
-- Spring Security - 인증&인가 프레임워크
 - Java - 개발 언어
 - JPA - 자바 ORM 기술 표준
+- Spring boot - 웹 프레임워크
+- Spring Security - 인증&인가 프레임워크
 - MySQL(AWS RDS) - 데이터베이스
 - Git - 형상관리
 - Github Actions - CI/CD
@@ -34,7 +33,7 @@
 
 ### 📌 주요 기능 - <a href="https://github.com/fever-time/challenge-backend/wiki/2.-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5">WIKI 이동</a>
 ### User
-- JWT 기반 로그인
+- Spring Security + JWT 로그인
 - OAuth 2.0 기반 카카오 로그인
 ### Challenge
 - 로그인 유저만 챌린지 생성/참여
