@@ -3,6 +3,7 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,8 +40,8 @@ public class Challenge extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private LocationType locationType;
 
-    @Column
-    private String address;
+    @Column(nullable = false)
+    private String address; // 오프라인으로 선택한 경우 장소 지정
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -49,6 +50,15 @@ public class Challenge extends BaseTimeEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+
+    /**
+     * 챌린지 수정 메서드
+     */
+    public void update(String imgLink, String address) {
+        this.imgLink = imgLink;
+        this.address = address;
+    }
 
     /**
      * 챌린지 생성 시 사용하는 생성자
@@ -75,4 +85,5 @@ public class Challenge extends BaseTimeEntity {
         this.user = user;
         this.category = category;
     }
+
 }
