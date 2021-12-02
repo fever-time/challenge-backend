@@ -34,4 +34,26 @@ public class ChallengeHistory {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private ChallengeStatus challengeStatus;
+
+    public ChallengeHistory(
+            User user,
+            Challenge challenge,
+            LocalDateTime createdDate,
+            LocalDateTime missionDate,
+            ChallengeStatus challengeStatus
+    ) {
+        this.user = user;
+        this.challenge = challenge;
+        this.createdDate = createdDate;
+        this.missionDate = missionDate;
+        this.challengeStatus = challengeStatus;
+    }
+
+    public void cancel() {
+        this.challengeStatus = ChallengeStatus.CANCEL;
+    }
+
+    public void fail() {
+        this.challengeStatus = ChallengeStatus.FAIL;
+    }
 }
