@@ -2,20 +2,37 @@ package shop.fevertime.backend.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import shop.fevertime.backend.dto.response.ChallengeUserResponseDto;
+import shop.fevertime.backend.dto.response.UserCertifiesResponseDto;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.service.ChallengeHistoryService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/challenges/{challengeId}")
 public class ChallengeHistoryApiController {
 
     private final ChallengeHistoryService challengeHistoryService;
 
-    @PostMapping("/challenges/{challengeId}/join")
+    @GetMapping("/users")
+    public List<UserCertifiesResponseDto> getChallengeHistoryUsers(
+            @PathVariable Long challengeId
+    ) {
+        return challengeHistoryService.getChallengeHistoryUsers(challengeId);
+    }
+
+    @GetMapping("/user")
+    public ChallengeUserResponseDto getChallengeHistoryUser(
+            @PathVariable Long challengeId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return challengeHistoryService.getChallengeHistoryUser(challengeId, userDetails.getUser());
+    }
+
+    @PostMapping("/join")
     public String joinChallenge(
             @PathVariable Long challengeId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
@@ -24,7 +41,7 @@ public class ChallengeHistoryApiController {
         return "ok";
     }
 
-    @PutMapping("/challenges/{challengeId}/join")
+    @PutMapping("/join")
     public String cancelChallenge(
             @PathVariable Long challengeId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
