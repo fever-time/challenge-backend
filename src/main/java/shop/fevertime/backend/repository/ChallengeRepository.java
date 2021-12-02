@@ -9,4 +9,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     List<Challenge> findAllByTitleContaining(String title);
 
     List<Challenge> findAllByCategoryNameEquals(String category);
+
+    List<Challenge> findAllByUserKakaoId(String kakaoId);
+
 }
