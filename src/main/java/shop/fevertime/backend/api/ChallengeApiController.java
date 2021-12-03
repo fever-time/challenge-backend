@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/challenges")
 @RequiredArgsConstructor
 public class ChallengeApiController {
 

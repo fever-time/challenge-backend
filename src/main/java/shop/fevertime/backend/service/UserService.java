@@ -10,8 +10,10 @@ import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.domain.UserRole;
 import shop.fevertime.backend.dto.request.UserRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
+import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
+import shop.fevertime.backend.repository.FeedRepository;
 import shop.fevertime.backend.repository.UserRepository;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.security.kakao.KakaoOAuth2;
@@ -22,7 +24,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +35,7 @@ public class UserService {
     private final S3Uploader s3Uploader;
     private final ChallengeRepository challengeRepository;
     private final CertificationRepository certificationRepository;
+    private final FeedRepository feedRepository;
 
     public String kakaoLogin(String token) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
