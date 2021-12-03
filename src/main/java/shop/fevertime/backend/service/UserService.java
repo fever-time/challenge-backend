@@ -83,7 +83,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(Long userId, UserRequestDto requestDto) throws IOException {
+    public void updateUserimg(Long userId, UserRequestDto requestDto) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
@@ -94,7 +94,7 @@ public class UserService {
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "user");
 
-        user.update(requestDto.getUsername(), uploadImageUrl);
+        user.updateUserimg(uploadImageUrl);
 
     }
 
