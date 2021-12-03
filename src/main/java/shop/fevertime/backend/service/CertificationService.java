@@ -77,11 +77,11 @@ public class CertificationService {
 
     public ResultResponseDto checkCertificationCreator(Long challengeId, String kakaoId) {
         Certification certification = certificationRepository.findById(challengeId).orElseThrow(
-                () -> new NoSuchElementException("존재하지 않는 피드입니다.")
+                () -> new NoSuchElementException("존재하지 않는 인증입니다.")
         );
         if (!Objects.equals(certification.getUser().getKakaoId(), kakaoId)) {
-            return new ResultResponseDto("fail", "챌린지 생성자가 아닙니다.");
+            return new ResultResponseDto("fail", "챌린지 인증 생성자가 아닙니다.");
         }
-        return new ResultResponseDto("success", "챌린지 생성자가 맞습니다.");
+        return new ResultResponseDto("success", "챌린지 인증 생성자가 맞습니다.");
     }
 }
