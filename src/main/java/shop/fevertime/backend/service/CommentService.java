@@ -7,12 +7,14 @@ import shop.fevertime.backend.domain.Feed;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.CommentRequestDto;
 import shop.fevertime.backend.dto.response.CommentResponseDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.repository.CommentRepository;
 import shop.fevertime.backend.repository.FeedRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -54,5 +56,18 @@ public class CommentService {
     @Transactional
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    /**
+     * 댓글 생성자 확인 API
+     */
+    public ResultResponseDto checkCommentCreator(Long commentId, String kakaoId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new NoSuchElementException("존재하지 않는 댓글입니다.")
+        );
+        if (!Objects.equals(comment.getUser().getKakaoId(), kakaoId)) {
+            return new ResultResponseDto("fail", "댓글 생성자가 아닙니다.");
+        }
+        return new ResultResponseDto("success", "댓글 생성자가 맞습니다.");
     }
 }
