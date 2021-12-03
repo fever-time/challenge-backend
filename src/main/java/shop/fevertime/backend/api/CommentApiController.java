@@ -10,20 +10,20 @@ import shop.fevertime.backend.service.CommentService;
 
 import java.util.List;
 
-@RequestMapping("/feeds/{feedId}/comments")
+@RequestMapping("/feeds/{feedId}")
 @RequiredArgsConstructor
 @RestController
 public class CommentApiController {
     private final CommentService commentService;
 
     // 댓글 조회
-    @GetMapping()
+    @GetMapping("/comments")
     public List<CommentResponseDto> readComments(@PathVariable Long feedId) {
         return commentService.readcomments(feedId);
     }
 
     // 댓글 생성
-    @PostMapping()
+    @PostMapping("/comment")
     public String createComment(@PathVariable Long feedId,
                                 @RequestBody CommentRequestDto requestDto,
                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -32,14 +32,14 @@ public class CommentApiController {
     }
 
     // 댓글 수정
-    @PutMapping("/{commentId}")
+    @PutMapping("/comments/{commentId}")
     public String updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto requestDto) {
         commentService.updateComment(commentId, requestDto);
         return "ok";
     }
 
     // 댓글 삭제
-    @DeleteMapping("/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     public String deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
         return "ok";

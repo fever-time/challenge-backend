@@ -12,6 +12,7 @@ import shop.fevertime.backend.repository.FeedRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -23,10 +24,8 @@ public class CommentService {
 
     // 댓글 조회
     public List<CommentResponseDto> readcomments(Long feedId) {
-        Feed feed = feedRepository.findById(feedId).orElseThrow(
-                () -> new IllegalArgumentException("존재하는 피드가 없습니다.")
-        );
-        return feed.getComments()
+
+        return commentRepository.findAllByFeed_Id(feedId)
                 .stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());
@@ -45,12 +44,11 @@ public class CommentService {
 
     // 댓글 수정
     @Transactional
-    public Long updateComment(Long commentId, CommentRequestDto requestDto) {
+    public void updateComment(Long commentId, CommentRequestDto requestDto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("존재하는 아이디가 없습니다.")
+                () -> new NoSuchElementException("존재하는 아이디가 없습니다.")
         );
         comment.commentUpdate(requestDto);
-        return comment.getId();
     }
 
     // 댓글 삭제

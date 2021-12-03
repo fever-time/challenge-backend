@@ -42,4 +42,12 @@ public class User extends BaseTimeEntity {
         this.kakaoId = kakaoId;
         this.imgLink = imgLink;
     }
+
+    /**
+     * 유저 정보 수정 메서드
+     */
+    public void update(String username, String imgLink) {
+        this.username = username;
+        this.imgLink = imgLink;
+    }
 }
