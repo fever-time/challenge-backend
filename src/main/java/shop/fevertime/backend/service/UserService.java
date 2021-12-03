@@ -97,4 +97,13 @@ public class UserService {
         user.update(requestDto.getUsername(), uploadImageUrl);
 
     }
+
+    @Transactional
+    public void updateUsername(Long userId, UserRequestDto requestDto) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+        );
+
+        user.updateUsername(requestDto.getUsername());
+    }
 }

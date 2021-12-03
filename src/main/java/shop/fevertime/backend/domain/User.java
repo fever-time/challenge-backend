@@ -55,4 +55,8 @@ public class User extends BaseTimeEntity {
         this.username = username;
         this.imgLink = imgLink;
     }
+
+    public void updateUsername(String username) {
+        this.username = username;
+    }
 }

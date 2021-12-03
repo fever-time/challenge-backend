@@ -68,10 +68,17 @@ public class UserApiController {
     /**
      * 유저 정보 변경 API
      */
-    @PutMapping("/user")
+    @PutMapping("/user/img")
     public ResultResponseDto updateUser(@ModelAttribute UserRequestDto requestDto,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         userService.updateUser(userDetails.getUser().getId(), requestDto);
+        return new ResultResponseDto("success", "유저정보 수정되었습니다.");
+    }
+
+    @PutMapping("/user/name")
+    public ResultResponseDto updateUsername(@ModelAttribute UserRequestDto requestDto,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        userService.updateUsername(userDetails.getUser().getId(), requestDto);
         return new ResultResponseDto("success", "유저정보 수정되었습니다.");
     }
 }
