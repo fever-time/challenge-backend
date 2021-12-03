@@ -23,8 +23,7 @@ public class CommentService {
     private final FeedRepository feedRepository;
 
     // 댓글 조회
-    public List<CommentResponseDto> readcomments(Long feedId) {
-
+    public List<CommentResponseDto> getComments(Long feedId) {
         return commentRepository.findAllByFeed_Id(feedId)
                 .stream()
                 .map(CommentResponseDto::new)

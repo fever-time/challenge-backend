@@ -5,6 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import shop.fevertime.backend.dto.request.CertificationRequestDto;
 import shop.fevertime.backend.dto.response.CertificationResponseDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.service.CertificationService;
 
@@ -39,20 +40,20 @@ public class CertificationApiController {
      * 챌린지 인증 API
      */
     @PostMapping("/challenges/{challengeId}/certi")
-    public String createCertification(
+    public ResultResponseDto createCertification(
             @PathVariable Long challengeId,
             @ModelAttribute CertificationRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         certificationService.createCertification(challengeId, requestDto, userDetails.getUser());
-        return "ok";
+        return new ResultResponseDto("success","챌린지 인증되었습니다.");
     }
 
     /**
      * 챌린지 인증 삭제 API
      */
     @DeleteMapping("/challenges/{challengeId}/certis/{certiId}")
-    public String deleteCertification(@PathVariable Long certiId) {
+    public ResultResponseDto deleteCertification(@PathVariable Long certiId) {
         certificationService.deleteCertification(certiId);
-        return "ok";
+        return new ResultResponseDto("success","챌린지 인증 삭제되었습니다.");
     }
 }
