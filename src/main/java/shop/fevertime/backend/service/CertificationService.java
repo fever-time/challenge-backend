@@ -7,6 +7,7 @@ import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.CertificationRequestDto;
 import shop.fevertime.backend.dto.response.CertificationResponseDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.util.S3Uploader;
@@ -15,6 +16,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -71,5 +73,15 @@ public class CertificationService {
         s3Uploader.delete(ar[ar.length - 1], "certification");
 
         certificationRepository.deleteById(certiId);
+    }
+
+    public ResultResponseDto checkCertificationCreator(Long challengeId, String kakaoId) {
+        Certification certification = certificationRepository.findById(challengeId).orElseThrow(
+                () -> new NoSuchElementException("존재하지 않는 피드입니다.")
+        );
+        if (!Objects.equals(certification.getUser().getKakaoId(), kakaoId)) {
+            return new ResultResponseDto("fail", "챌린지 생성자가 아닙니다.");
+        }
+        return new ResultResponseDto("success", "챌린지 생성자가 맞습니다.");
     }
 }
