@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
+import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.CertificationRepository;
@@ -13,10 +14,7 @@ import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -92,8 +90,25 @@ public class ChallengeService {
                 user,
                 category
         );
-
         challengeRepository.save(challenge);
+    }
+
+    @Transactional
+    public void updateChallenge(Long challengeId, ChallengeUpdateRequestDto requestDto, User user) throws IOException {
+        // 챌린지 이미지 s3에서 기존 이미지 삭제
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
+                () -> new NoSuchElementException("해당 아이디가 존재하지 않습니다.")
+        );
+
+        // 기존 이미지 S3에서 삭제
+        String[] ar = challenge.getImgLink().split("/");
+        s3Uploader.delete(ar[ar.length - 1], "challenge");
+
+        // 이미지 AWS S3 업로드
+        String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
+
+        // 해당 챌린지의 필드 값을 변경 -> 변경 감지
+        challenge.update(uploadImageUrl, requestDto.getAddress());
     }
 
     @Transactional
