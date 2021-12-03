@@ -53,14 +53,12 @@ public class FeedService {
         feedRepository.deleteById(feedId);
     }
 
-    public ResultResponseDto checkFeedCreator(Long feedId, String kakaoId) {
-        Feed feed = feedRepository.findById(feedId).orElseThrow(
-                () -> new NoSuchElementException("존재하지 않는 피드입니다.")
-        );
+    public ResultResponseDto checkFeedCreator(Long feedId, User user) {
+        boolean present = feedRepository.findByIdAndUser(feedId, user).isPresent();
 
-        if (!Objects.equals(feed.getUser().getKakaoId(), kakaoId)) {
-            return new ResultResponseDto("fail", "피드 생성자가 아닙니다.");
+        if (present) {
+            return new ResultResponseDto("success", "피드 생성자가 맞습니다.");
         }
-        return new ResultResponseDto("success", "피드 생성자가 맞습니다.");
+        return new ResultResponseDto("fail", "피드 생성자가 아닙니다.");
     }
 }

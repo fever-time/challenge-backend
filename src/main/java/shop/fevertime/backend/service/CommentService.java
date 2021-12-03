@@ -61,13 +61,12 @@ public class CommentService {
     /**
      * 댓글 생성자 확인 API
      */
-    public ResultResponseDto checkCommentCreator(Long commentId, String kakaoId) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new NoSuchElementException("존재하지 않는 댓글입니다.")
-        );
-        if (!Objects.equals(comment.getUser().getKakaoId(), kakaoId)) {
-            return new ResultResponseDto("fail", "댓글 생성자가 아닙니다.");
+    public ResultResponseDto checkCommentCreator(Long commentId, User user) {
+        boolean present = commentRepository.findByIdAndUser(commentId, user).isPresent();
+        if (present) {
+            return new ResultResponseDto("success", "댓글 생성자가 맞습니다.");
         }
-        return new ResultResponseDto("success", "댓글 생성자가 맞습니다.");
+        return new ResultResponseDto("fail", "댓글 생성자가 아닙니다.");
+
     }
 }

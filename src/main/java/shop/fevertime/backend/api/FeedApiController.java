@@ -60,6 +60,6 @@ public class FeedApiController {
     public ResultResponseDto checkFeedCreator(
             @PathVariable Long feedId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return feedService.checkFeedCreator(feedId, userDetails.getUser().getKakaoId());
+        return feedService.checkFeedCreator(feedId, userDetails.getUser());
     }
 }

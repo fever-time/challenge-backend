@@ -65,6 +65,6 @@ public class CertificationApiController {
             @PathVariable Long certiId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return certificationService.checkCertificationCreator(certiId, userDetails.getUser().getKakaoId());
+        return certificationService.checkCertificationCreator(certiId, userDetails.getUser());
     }
 }

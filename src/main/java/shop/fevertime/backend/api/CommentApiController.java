@@ -62,6 +62,6 @@ public class CommentApiController {
             @PathVariable Long commentId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return commentService.checkCommentCreator(commentId, userDetails.getUser().getKakaoId());
+        return commentService.checkCommentCreator(commentId, userDetails.getUser());
     }
 }

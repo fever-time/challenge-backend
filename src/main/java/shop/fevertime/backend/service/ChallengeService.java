@@ -132,13 +132,11 @@ public class ChallengeService {
         challengeRepository.deleteById(challengeId);
     }
 
-    public ResultResponseDto checkChallengeCreator(Long challengeId, String kakaoId) {
-        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NoSuchElementException("존재하지 않는 피드입니다.")
-        );
-        if (!Objects.equals(challenge.getUser().getKakaoId(), kakaoId)) {
-            return new ResultResponseDto("fail", "챌린지 생성자가 아닙니다.");
+    public ResultResponseDto checkChallengeCreator(Long challengeId, User user) {
+        boolean present = challengeRepository.findByIdAndUser(challengeId, user).isPresent();
+        if (present) {
+            return new ResultResponseDto("success", "챌린지 생성자가 맞습니다.");
         }
-        return new ResultResponseDto("success", "챌린지 생성자가 맞습니다.");
+        return new ResultResponseDto("fail", "챌린지 생성자가 아닙니다.");
     }
 }

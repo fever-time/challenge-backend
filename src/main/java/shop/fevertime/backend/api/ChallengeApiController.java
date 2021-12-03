@@ -85,6 +85,6 @@ public class ChallengeApiController {
             @PathVariable Long challengeId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        return challengeService.checkChallengeCreator(challengeId, userDetails.getUser().getKakaoId());
+        return challengeService.checkChallengeCreator(challengeId, userDetails.getUser());
     }
 }
