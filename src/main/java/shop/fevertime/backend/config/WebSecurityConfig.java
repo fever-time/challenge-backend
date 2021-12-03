@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import shop.fevertime.backend.security.AdminAccessDeniedHandler;
 import shop.fevertime.backend.security.jwt.JwtAuthenticationEntryPoint;
 import shop.fevertime.backend.security.jwt.JwtAuthenticationFilter;
 
@@ -23,6 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFilter jwtRequestFilter;
+
+    private final AdminAccessDeniedHandler adminAccessDeniedHandler;
 
     @Bean
     public BCryptPasswordEncoder encodePassword() {
@@ -48,8 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .exceptionHandling()
-                .accessDeniedPage("/user/forbidden");
+                .exceptionHandling().accessDeniedHandler(adminAccessDeniedHandler);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
