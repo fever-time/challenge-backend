@@ -40,7 +40,7 @@ public class UserApiController {
 
     @GetMapping("/user")
     public UserResponseDto getUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return userService.getUser(userDetails.getUser().getKakaoId());
+        return new UserResponseDto(userDetails.getUser());
     }
 
     @GetMapping("/user/challenges")
