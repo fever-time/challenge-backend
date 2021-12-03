@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import shop.fevertime.backend.dto.request.UserRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
+import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.JwtResponse;
 import shop.fevertime.backend.dto.request.SocialLoginRequestDto;
 import shop.fevertime.backend.dto.response.UserResponseDto;
@@ -28,7 +29,9 @@ public class UserApiController {
     private final UserDetailsService userDetailsService;
     private final UserService userService;
 
-
+    /**
+     * 유저 카카오 로그인 API
+     */
     @PostMapping(value = "/login/kakao")
     public ResponseEntity<?> createAuthenticationTokenByKakao(@RequestBody SocialLoginRequestDto socialLoginDto) throws Exception {
         String kakaoId = userService.kakaoLogin(socialLoginDto.getToken());
@@ -37,16 +40,33 @@ public class UserApiController {
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getUsername()));
     }
 
+    /**
+     * 유저 정보 조회 API
+     */
     @GetMapping("/user")
     public UserResponseDto getUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return new UserResponseDto(userDetails.getUser());
     }
 
+    /**
+     * 유저가 생성한 챌린지 리스트 API
+     */
     @GetMapping("/user/challenges")
     public List<ChallengeResponseDto> getUserChallenges(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return userService.getChallenges(userDetails.getUser().getKakaoId());
     }
 
+    /**
+     * 유저가 작성한 피드 리스트 API
+     */
+    @GetMapping("/user/feeds")
+    public List<FeedResponseDto> getUserFeeds(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.getFeeds(userDetails.getUser().getId());
+    }
+
+    /**
+     * 유저 정보 변경 API
+     */
     @PutMapping("/user")
     public String updateUser(@ModelAttribute UserRequestDto requestDto,
                              @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
