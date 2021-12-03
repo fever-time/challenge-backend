@@ -11,9 +11,9 @@ import shop.fevertime.backend.dto.request.UserRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 import shop.fevertime.backend.dto.response.JwtResponse;
 import shop.fevertime.backend.dto.request.SocialLoginRequestDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.dto.response.UserResponseDto;
 import shop.fevertime.backend.security.UserDetailsImpl;
-import shop.fevertime.backend.service.ChallengeService;
 import shop.fevertime.backend.service.UserService;
 import shop.fevertime.backend.util.JwtTokenUtil;
 
@@ -49,9 +49,9 @@ public class UserApiController {
     }
 
     @PutMapping("/user")
-    public String updateUser(@ModelAttribute UserRequestDto requestDto,
-                             @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+    public ResultResponseDto updateUser(@ModelAttribute UserRequestDto requestDto,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         userService.updateUser(userDetails.getUser().getId(), requestDto);
-        return "ok";
+        return new ResultResponseDto("success", "유저정보 수정되었습니다.");
     }
 }

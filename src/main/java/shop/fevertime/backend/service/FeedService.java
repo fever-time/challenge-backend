@@ -2,7 +2,6 @@ package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shop.fevertime.backend.domain.Comment;
 import shop.fevertime.backend.domain.Feed;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
