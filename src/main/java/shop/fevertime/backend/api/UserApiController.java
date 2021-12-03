@@ -13,7 +13,6 @@ import shop.fevertime.backend.dto.response.JwtResponse;
 import shop.fevertime.backend.dto.request.SocialLoginRequestDto;
 import shop.fevertime.backend.dto.response.UserResponseDto;
 import shop.fevertime.backend.security.UserDetailsImpl;
-import shop.fevertime.backend.service.ChallengeService;
 import shop.fevertime.backend.service.UserService;
 import shop.fevertime.backend.util.JwtTokenUtil;
 
@@ -40,7 +39,7 @@ public class UserApiController {
 
     @GetMapping("/user")
     public UserResponseDto getUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return userService.getUser(userDetails.getUser().getKakaoId());
+        return new UserResponseDto(userDetails.getUser());
     }
 
     @GetMapping("/user/challenges")

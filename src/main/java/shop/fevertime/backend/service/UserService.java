@@ -64,14 +64,6 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto getUser(String kakaoId) {
-        User user = userRepository.findByKakaoId(kakaoId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
-        );
-        return new UserResponseDto(user);
-    }
-
-    @Transactional
     public List<ChallengeResponseDto> getChallenges(String kakaoId) {
         List<ChallengeResponseDto> challengeResponseDtoList = new ArrayList<>();
         List<Challenge> getChallenges = challengeRepository.findAllByUserKakaoId(kakaoId);
