@@ -31,6 +31,9 @@
 - Github Actions - CI/CD
 - AWS S3, CloudFront, EBS - 서버 인프라
 
+### 📌 아키텍처 설계
+![image](https://user-images.githubusercontent.com/78840035/144712735-a51ce6e6-5744-46c5-bfa5-3951ed4fc3d5.png)
+
 ### 📌 주요 기능 - <a href="https://github.com/fever-time/challenge-backend/wiki/2.-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5">WIKI 이동</a>
 ### User
 - Spring Security + JWT 로그인
