@@ -3,10 +3,15 @@ package shop.fevertime.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.Challenge;
+import shop.fevertime.backend.domain.ChallengeStatus;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.domain.UserRole;
 import shop.fevertime.backend.dto.request.UserRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
+
+import shop.fevertime.backend.dto.response.FeedResponseDto;
+import shop.fevertime.backend.dto.response.UserChallengeResponseDto;
+import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.repository.UserRepository;
@@ -18,6 +23,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +33,8 @@ public class UserService {
     private final KakaoOAuth2 kakaoOAuth2;
     private final S3Uploader s3Uploader;
     private final ChallengeRepository challengeRepository;
-    private final CertificationRepository certificationRepository;
+    private final ChallengeHistoryRepository challengeHistoryRepository;
+    private final FeedRepository feedRepository;
 
     public String kakaoLogin(String token) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
@@ -55,19 +62,22 @@ public class UserService {
     }
 
     @Transactional
-    public List<ChallengeResponseDto> getChallenges(String kakaoId) {
-        List<ChallengeResponseDto> challengeResponseDtoList = new ArrayList<>();
-        List<Challenge> getChallenges = challengeRepository.findAllByUserKakaoId(kakaoId);
-        for (Challenge getChallenge : getChallenges) {
-            long participants = certificationRepository.countDistinctUserIdByChallenge(getChallenge);
-            ChallengeResponseDto challengeResponseDto = new ChallengeResponseDto(getChallenge, participants);
-            challengeResponseDtoList.add(challengeResponseDto);
-        }
-        return challengeResponseDtoList;
+    public List<UserChallengeResponseDto> getChallenges(User user) {
+        return challengeRepository.findAllByUser(user).stream()
+                .map(UserChallengeResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public void updateUser(Long userId, UserRequestDto requestDto) throws IOException {
+    public List<FeedResponseDto> getFeeds(Long id) {
+        return feedRepository.findAllByUserId(id)
+                .stream()
+                .map(FeedResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updateUserImg(Long userId, UserRequestDto requestDto) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
@@ -77,7 +87,15 @@ public class UserService {
 
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "user");
+        user.updateUserimg(uploadImageUrl);
+    }
 
-        user.update(requestDto.getUsername(), uploadImageUrl);
+    @Transactional
+    public void updateUsername(Long userId, UserRequestDto requestDto) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+        );
+
+        user.updateUsername(requestDto.getUsername());
     }
 }

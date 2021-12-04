@@ -6,8 +6,10 @@ import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.CertificationRepository;
+import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
 import shop.fevertime.backend.util.S3Uploader;
@@ -23,6 +25,7 @@ public class ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final CategoryRepository categoryRepository;
     private final CertificationRepository certificationRepository;
+    private final ChallengeHistoryRepository challengeHistoryRepository;
     private final S3Uploader s3Uploader;
 
     public List<ChallengeResponseDto> getChallenges(String category) {
@@ -43,7 +46,7 @@ public class ChallengeService {
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
         // 챌린지 참여자 수
-        long participants = certificationRepository.countDistinctUserIdByChallenge(challenge);
+        long participants = challengeHistoryRepository.countDistinctUserByChallengeAndChallengeStatus(challenge, ChallengeStatus.JOIN);
         return new ChallengeResponseDto(challenge, participants);
     }
 
@@ -62,7 +65,7 @@ public class ChallengeService {
      */
     private void getChallengesWithParticipants(List<ChallengeResponseDto> challengeResponseDtoList, List<Challenge> getChallenges) {
         for (Challenge getChallenge : getChallenges) {
-            long participants = certificationRepository.countDistinctUserIdByChallenge(getChallenge);
+            long participants = challengeHistoryRepository.countDistinctUserByChallengeAndChallengeStatus(getChallenge, ChallengeStatus.JOIN);
             ChallengeResponseDto challengeResponseDto = new ChallengeResponseDto(getChallenge, participants);
             challengeResponseDtoList.add(challengeResponseDto);
         }
@@ -129,5 +132,13 @@ public class ChallengeService {
 
         certificationRepository.deleteAllByChallengeId(challengeId);
         challengeRepository.deleteById(challengeId);
+    }
+
+    public ResultResponseDto checkChallengeCreator(Long challengeId, User user) {
+        boolean present = challengeRepository.findByIdAndUser(challengeId, user).isPresent();
+        if (present) {
+            return new ResultResponseDto("success", "챌린지 생성자가 맞습니다.");
+        }
+        return new ResultResponseDto("fail", "챌린지 생성자가 아닙니다.");
     }
 }

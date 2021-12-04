@@ -7,6 +7,7 @@ import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.CertificationRequestDto;
 import shop.fevertime.backend.dto.response.CertificationResponseDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.util.S3Uploader;
@@ -15,6 +16,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -71,5 +73,13 @@ public class CertificationService {
         s3Uploader.delete(ar[ar.length - 1], "certification");
 
         certificationRepository.deleteById(certiId);
+    }
+
+    public ResultResponseDto checkCertificationCreator(Long certiId, User user) {
+        boolean present = certificationRepository.findByIdAndUser(certiId, user).isPresent();
+        if (present) {
+            return new ResultResponseDto("success", "챌린지 인증 생성자가 맞습니다.");
+        }
+        return new ResultResponseDto("fail", "챌린지 인증 생성자가 아닙니다.");
     }
 }

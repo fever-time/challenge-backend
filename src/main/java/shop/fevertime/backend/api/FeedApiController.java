@@ -52,4 +52,14 @@ public class FeedApiController {
         feedService.deleteFeed(feedId);
         return new ResultResponseDto("success", "피드 삭제되었습니다.");
     }
+
+    /**
+     * 피드 삭제 사용자 확인 API
+     */
+    @GetMapping("/user/feed/{feedId}")
+    public ResultResponseDto checkFeedCreator(
+            @PathVariable Long feedId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return feedService.checkFeedCreator(feedId, userDetails.getUser());
+    }
 }

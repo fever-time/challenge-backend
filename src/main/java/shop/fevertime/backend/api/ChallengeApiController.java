@@ -76,4 +76,15 @@ public class ChallengeApiController {
         challengeService.deleteChallenge(challengeId);
         return new ResultResponseDto("success", "챌린지 삭제되었습니다.");
     }
+
+    /**
+     * 챌린지 생성자 확인 API
+     */
+    @GetMapping("/user/challenge/{challengeId}")
+    public ResultResponseDto checkChallengeCreator(
+            @PathVariable Long challengeId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return challengeService.checkChallengeCreator(challengeId, userDetails.getUser());
+    }
 }

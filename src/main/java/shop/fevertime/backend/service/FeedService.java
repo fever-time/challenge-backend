@@ -6,12 +6,14 @@ import shop.fevertime.backend.domain.Feed;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
 import shop.fevertime.backend.dto.response.FeedResponseDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.repository.CommentRepository;
 import shop.fevertime.backend.repository.FeedRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -49,5 +51,14 @@ public class FeedService {
         // 피드 삭제전에 댓글테이블에 feedId으로 댓글 삭제 추가
         commentRepository.deleteAllByFeedId(feedId);
         feedRepository.deleteById(feedId);
+    }
+
+    public ResultResponseDto checkFeedCreator(Long feedId, User user) {
+        boolean present = feedRepository.findByIdAndUser(feedId, user).isPresent();
+
+        if (present) {
+            return new ResultResponseDto("success", "피드 생성자가 맞습니다.");
+        }
+        return new ResultResponseDto("fail", "피드 생성자가 아닙니다.");
     }
 }

@@ -56,4 +56,15 @@ public class CertificationApiController {
         certificationService.deleteCertification(certiId);
         return new ResultResponseDto("success","챌린지 인증 삭제되었습니다.");
     }
+
+    /**
+     * 챌린지 인증 생성자 확인 API
+     */
+    @GetMapping("/user/certi/{certiId}")
+    public ResultResponseDto checkCommentCreator(
+            @PathVariable Long certiId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return certificationService.checkCertificationCreator(certiId, userDetails.getUser());
+    }
 }
