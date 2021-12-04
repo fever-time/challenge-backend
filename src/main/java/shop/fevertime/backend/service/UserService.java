@@ -2,18 +2,15 @@ package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shop.fevertime.backend.domain.Challenge;
-import shop.fevertime.backend.domain.ChallengeStatus;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.domain.UserRole;
 import shop.fevertime.backend.dto.request.UserRequestDto;
-import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 
 import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.UserChallengeResponseDto;
-import shop.fevertime.backend.security.UserDetailsImpl;
-import shop.fevertime.backend.repository.CertificationRepository;
+import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
+import shop.fevertime.backend.repository.FeedRepository;
 import shop.fevertime.backend.repository.UserRepository;
 import shop.fevertime.backend.security.kakao.KakaoOAuth2;
 import shop.fevertime.backend.security.kakao.KakaoUserInfo;
@@ -21,7 +18,6 @@ import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
