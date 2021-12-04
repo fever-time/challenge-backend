@@ -11,7 +11,6 @@ import shop.fevertime.backend.service.CommentService;
 
 import java.util.List;
 
-@RequestMapping("/feeds/{feedId}")
 @RequiredArgsConstructor
 @RestController
 public class CommentApiController {
@@ -21,7 +20,7 @@ public class CommentApiController {
     /**
      * 댓글 조회 API
      */
-    @GetMapping("/comments")
+    @GetMapping("/feeds/{feedId}/comments")
     public List<CommentResponseDto> readComments(@PathVariable Long feedId) {
         return commentService.getComments(feedId);
     }
@@ -29,7 +28,7 @@ public class CommentApiController {
     /**
      * 댓글 생성 API
      */
-    @PostMapping("/comment")
+    @PostMapping("/feeds/{feedId}/comment")
     public ResultResponseDto createComment(@PathVariable Long feedId,
                                            @RequestBody CommentRequestDto requestDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -40,7 +39,7 @@ public class CommentApiController {
     /**
      * 댓글 수정 API
      */
-    @PutMapping("/comments/{commentId}")
+    @PutMapping("/feeds/{feedId}/comments/{commentId}")
     public ResultResponseDto updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto requestDto) {
         commentService.updateComment(commentId, requestDto);
         return new ResultResponseDto("success", "댓글 수정되었습니다.");
@@ -49,9 +48,20 @@ public class CommentApiController {
     /**
      * 댓글 삭제 API
      */
-    @DeleteMapping("/comments/{commentId}")
+    @DeleteMapping("/feeds/{feedId}/comments/{commentId}")
     public ResultResponseDto deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
         return new ResultResponseDto("success", "댓글 삭제되었습니다.");
+    }
+
+    /**
+     * 댓글 생성자 확인 API
+     */
+    @GetMapping("/user/comment/{commentId}")
+    public ResultResponseDto checkCommentCreator(
+            @PathVariable Long commentId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return commentService.checkCommentCreator(commentId, userDetails.getUser());
     }
 }

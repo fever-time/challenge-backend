@@ -6,6 +6,7 @@ import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CertificationRepository extends JpaRepository<Certification, Long> {
 
@@ -14,4 +15,6 @@ public interface CertificationRepository extends JpaRepository<Certification, Lo
     List<Certification> findAllByChallengeId(Long challengeId);
 
     List<Certification> findAllByChallengeAndUser(Challenge challenge, User user);
+
+    Optional<Certification> findByIdAndUser(Long certificationId, User user);
 }
