@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.fevertime.backend.domain.*;
-import shop.fevertime.backend.dto.response.CertificationResponseDto;
-import shop.fevertime.backend.dto.response.ChallengeHistoryResponseDto;
-import shop.fevertime.backend.dto.response.ChallengeUserResponseDto;
-import shop.fevertime.backend.dto.response.UserCertifiesResponseDto;
+import shop.fevertime.backend.dto.response.*;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
@@ -86,5 +83,11 @@ public class ChallengeHistoryService {
         );
 
         challengeHistory.cancel();
+    }
+
+    public List<UserChallengeResponseDto> getChallengesByUser(User user) {
+        return challengeHistoryRepository.findAllByUserAndChallengeStatus(user, ChallengeStatus.JOIN).stream()
+                .map(challengeHistory -> new UserChallengeResponseDto(challengeHistory.getChallenge()))
+                .collect(Collectors.toList());
     }
 }

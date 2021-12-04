@@ -8,13 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import shop.fevertime.backend.dto.request.UserRequestDto;
-import shop.fevertime.backend.dto.response.ChallengeResponseDto;
-import shop.fevertime.backend.dto.response.FeedResponseDto;
-import shop.fevertime.backend.dto.response.JwtResponse;
+import shop.fevertime.backend.dto.response.*;
 import shop.fevertime.backend.dto.request.SocialLoginRequestDto;
-import shop.fevertime.backend.dto.response.ResultResponseDto;
-import shop.fevertime.backend.dto.response.UserResponseDto;
 import shop.fevertime.backend.security.UserDetailsImpl;
+import shop.fevertime.backend.service.ChallengeHistoryService;
 import shop.fevertime.backend.service.UserService;
 import shop.fevertime.backend.util.JwtTokenUtil;
 
@@ -29,6 +26,7 @@ public class UserApiController {
     private final JwtTokenUtil jwtTokenUtil;
     private final UserDetailsService userDetailsService;
     private final UserService userService;
+    private final ChallengeHistoryService challengeHistoryService;
 
     /**
      * 유저 카카오 로그인 API
@@ -52,9 +50,9 @@ public class UserApiController {
     /**
      * 유저가 생성한 챌린지 리스트 API
      */
-    @GetMapping("/user/challenges")
-    public List<ChallengeResponseDto> getUserChallenges(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return userService.getChallenges(userDetails.getUser().getKakaoId());
+    @GetMapping("/user/challenges/create")
+    public List<UserChallengeResponseDto> getUserChallenges(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.getChallenges(userDetails.getUser());
     }
 
     /**
@@ -71,7 +69,7 @@ public class UserApiController {
     @PutMapping("/user/img")
     public ResultResponseDto updateUser(@ModelAttribute UserRequestDto requestDto,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-        userService.updateUserimg(userDetails.getUser().getId(), requestDto);
+        userService.updateUserImg(userDetails.getUser().getId(), requestDto);
         return new ResultResponseDto("success", "유저 이미지가 수정되었습니다.");
     }
 
@@ -80,5 +78,13 @@ public class UserApiController {
                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         userService.updateUsername(userDetails.getUser().getId(), requestDto);
         return new ResultResponseDto("success", "유저 닉네임이 수정되었습니다.");
+    }
+
+    /**
+     * 유저가 참여중인 챌린지 리스트 API
+     */
+    @GetMapping("/user/challenges/join")
+    public List<UserChallengeResponseDto> getChallengesByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return challengeHistoryService.getChallengesByUser(userDetails.getUser());
     }
 }

@@ -6,15 +6,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.Challenge;
+import shop.fevertime.backend.domain.ChallengeStatus;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.domain.UserRole;
 import shop.fevertime.backend.dto.request.UserRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 import shop.fevertime.backend.dto.response.FeedResponseDto;
-import shop.fevertime.backend.repository.CertificationRepository;
-import shop.fevertime.backend.repository.ChallengeRepository;
-import shop.fevertime.backend.repository.FeedRepository;
-import shop.fevertime.backend.repository.UserRepository;
+import shop.fevertime.backend.dto.response.UserChallengeResponseDto;
+import shop.fevertime.backend.repository.*;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.security.kakao.KakaoOAuth2;
 import shop.fevertime.backend.security.kakao.KakaoUserInfo;
@@ -34,7 +33,7 @@ public class UserService {
     private final KakaoOAuth2 kakaoOAuth2;
     private final S3Uploader s3Uploader;
     private final ChallengeRepository challengeRepository;
-    private final CertificationRepository certificationRepository;
+    private final ChallengeHistoryRepository challengeHistoryRepository;
     private final FeedRepository feedRepository;
 
     public String kakaoLogin(String token) {
@@ -63,15 +62,10 @@ public class UserService {
     }
 
     @Transactional
-    public List<ChallengeResponseDto> getChallenges(String kakaoId) {
-        List<ChallengeResponseDto> challengeResponseDtoList = new ArrayList<>();
-        List<Challenge> getChallenges = challengeRepository.findAllByUserKakaoId(kakaoId);
-        for (Challenge getChallenge : getChallenges) {
-            long participants = certificationRepository.countDistinctUserIdByChallenge(getChallenge);
-            ChallengeResponseDto challengeResponseDto = new ChallengeResponseDto(getChallenge, participants);
-            challengeResponseDtoList.add(challengeResponseDto);
-        }
-        return challengeResponseDtoList;
+    public List<UserChallengeResponseDto> getChallenges(User user) {
+        return challengeRepository.findAllByUser(user).stream()
+                .map(UserChallengeResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -83,7 +77,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserimg(Long userId, UserRequestDto requestDto) throws IOException {
+    public void updateUserImg(Long userId, UserRequestDto requestDto) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
