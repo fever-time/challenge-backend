@@ -83,13 +83,10 @@ public class ChallengeHistoryService {
                 () -> new NoSuchElementException("해당 챌린지를 참여중인 기록이 없습니다.")
         );
 
-        List<CertificationResponseDto> certis = certificationRepository.findAllByChallengeAndUser(challenge, user)
-                .stream()
-                .map(CertificationResponseDto::new)
-                .collect(Collectors.toList());
+        List<Certification> certis = certificationRepository.findAllByChallengeAndUser(challenge, user);
 
-        for (CertificationResponseDto certi : certis) {
-            certificationService.deleteCertification(certi.getCertificationId());
+        for (Certification certi : certis) {
+            certificationService.deleteCertification(certi.getId());
         }
 
         challengeHistory.cancel();
