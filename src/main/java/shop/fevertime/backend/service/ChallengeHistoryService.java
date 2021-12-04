@@ -23,6 +23,7 @@ public class ChallengeHistoryService {
     private final ChallengeRepository challengeRepository;
     private final CertificationRepository certificationRepository;
     private final UserRepository userRepository;
+    private final CertificationService certificationService;
 
     @Transactional
     public ChallengeUserResponseDto getChallengeHistoryUser(Long challengeId, User user) {
@@ -81,6 +82,15 @@ public class ChallengeHistoryService {
                 challenge).orElseThrow(
                 () -> new NoSuchElementException("해당 챌린지를 참여중인 기록이 없습니다.")
         );
+
+        List<CertificationResponseDto> certis = certificationRepository.findAllByChallengeAndUser(challenge, user)
+                .stream()
+                .map(CertificationResponseDto::new)
+                .collect(Collectors.toList());
+
+        for (CertificationResponseDto certi : certis) {
+            certificationService.deleteCertification(certi.getCertificationId());
+        }
 
         challengeHistory.cancel();
     }
