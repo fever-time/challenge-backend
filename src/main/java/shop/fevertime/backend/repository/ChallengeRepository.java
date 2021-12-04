@@ -12,7 +12,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
     List<Challenge> findAllByCategoryNameEquals(String category);
 
-    List<Challenge> findAllByUserKakaoId(String kakaoId);
+    List<Challenge> findAllByUser(User user);
 
     Optional<Challenge> findByIdAndUser(Long challengeId, User user);
 
