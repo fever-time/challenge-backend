@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,6 +34,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String imgLink;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Certification> certificationList = new ArrayList<>();
+
     /**
      * 카카오 로그인 유저 생성자
      */
@@ -41,5 +46,16 @@ public class User extends BaseTimeEntity {
         this.role = role;
         this.kakaoId = kakaoId;
         this.imgLink = imgLink;
+    }
+
+    /**
+     * 유저 정보 수정 메서드
+     */
+    public void updateUserimg(String imgLink) {
+        this.imgLink = imgLink;
+    }
+
+    public void updateUsername(String username) {
+        this.username = username;
     }
 }
