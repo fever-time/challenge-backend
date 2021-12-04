@@ -1,9 +1,6 @@
 package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.User;
@@ -13,7 +10,6 @@ import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.repository.UserRepository;
-import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.security.kakao.KakaoOAuth2;
 import shop.fevertime.backend.security.kakao.KakaoUserInfo;
 import shop.fevertime.backend.util.S3Uploader;
@@ -22,7 +18,6 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -52,9 +47,9 @@ public class UserService {
             userRepository.save(kakaoUser);
         }
 
-        UserDetailsImpl userDetails = new UserDetailsImpl(kakaoUser);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        UserDetailsImpl userDetails = new UserDetailsImpl(kakaoUser);
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return kakaoId;
     }
@@ -84,6 +79,5 @@ public class UserService {
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "user");
 
         user.update(requestDto.getUsername(), uploadImageUrl);
-
     }
 }
