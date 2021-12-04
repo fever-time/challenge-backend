@@ -4,19 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
+import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.CertificationRepository;
+import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
 import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +25,7 @@ public class ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final CategoryRepository categoryRepository;
     private final CertificationRepository certificationRepository;
+    private final ChallengeHistoryRepository challengeHistoryRepository;
     private final S3Uploader s3Uploader;
 
     public List<ChallengeResponseDto> getChallenges(String category) {
@@ -45,7 +46,7 @@ public class ChallengeService {
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );
         // 챌린지 참여자 수
-        long participants = certificationRepository.countDistinctUserIdByChallenge(challenge);
+        long participants = challengeHistoryRepository.countDistinctUserByChallengeAndChallengeStatus(challenge, ChallengeStatus.JOIN);
         return new ChallengeResponseDto(challenge, participants);
     }
 
@@ -64,7 +65,7 @@ public class ChallengeService {
      */
     private void getChallengesWithParticipants(List<ChallengeResponseDto> challengeResponseDtoList, List<Challenge> getChallenges) {
         for (Challenge getChallenge : getChallenges) {
-            long participants = certificationRepository.countDistinctUserIdByChallenge(getChallenge);
+            long participants = challengeHistoryRepository.countDistinctUserByChallengeAndChallengeStatus(getChallenge, ChallengeStatus.JOIN);
             ChallengeResponseDto challengeResponseDto = new ChallengeResponseDto(getChallenge, participants);
             challengeResponseDtoList.add(challengeResponseDto);
         }
@@ -92,8 +93,25 @@ public class ChallengeService {
                 user,
                 category
         );
-
         challengeRepository.save(challenge);
+    }
+
+    @Transactional
+    public void updateChallenge(Long challengeId, ChallengeUpdateRequestDto requestDto, User user) throws IOException {
+        // 챌린지 이미지 s3에서 기존 이미지 삭제
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
+                () -> new NoSuchElementException("해당 아이디가 존재하지 않습니다.")
+        );
+
+        // 기존 이미지 S3에서 삭제
+        String[] ar = challenge.getImgLink().split("/");
+        s3Uploader.delete(ar[ar.length - 1], "challenge");
+
+        // 이미지 AWS S3 업로드
+        String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
+
+        // 해당 챌린지의 필드 값을 변경 -> 변경 감지
+        challenge.update(uploadImageUrl, requestDto.getAddress());
     }
 
     @Transactional
@@ -114,5 +132,13 @@ public class ChallengeService {
 
         certificationRepository.deleteAllByChallengeId(challengeId);
         challengeRepository.deleteById(challengeId);
+    }
+
+    public ResultResponseDto checkChallengeCreator(Long challengeId, User user) {
+        boolean present = challengeRepository.findByIdAndUser(challengeId, user).isPresent();
+        if (present) {
+            return new ResultResponseDto("success", "챌린지 생성자가 맞습니다.");
+        }
+        return new ResultResponseDto("fail", "챌린지 생성자가 아닙니다.");
     }
 }
