@@ -21,7 +21,7 @@
 - <a href="https://github.com/JunHo-YH">강준호</a>
 - <a href="https://github.com/suubinkim">김수빈</a>
 
-### 📌 아키텍처 설계
+### 📌 아키텍처
 ![image](https://user-images.githubusercontent.com/78840035/144712735-a51ce6e6-5744-46c5-bfa5-3951ed4fc3d5.png)
 
 ### 📌 3차 프로젝트 기술 스택&선택 이유 - <a href="https://github.com/fever-time/challenge-backend/wiki/1.-%EA%B8%B0%EC%88%A0-%EC%84%A0%ED%83%9D-%EC%9D%B4%EC%9C%A0!">WIKI 이동</a>
