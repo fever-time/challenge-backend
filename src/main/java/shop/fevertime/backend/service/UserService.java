@@ -8,6 +8,7 @@ import shop.fevertime.backend.dto.request.UserRequestDto;
 
 import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.UserChallengeResponseDto;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.repository.FeedRepository;
@@ -88,6 +89,11 @@ public class UserService {
 
     @Transactional
     public void updateUsername(Long userId, UserRequestDto requestDto) {
+        if (requestDto.getUsername().trim().length() == 0) {
+            throw new ApiRequestException("공백으로 작성할 수 없습니다.");
+        } else if (requestDto.getUsername().length() > 8) {
+            throw new ApiRequestException("8자 이하로 입력하세요.");
+        }
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
         );

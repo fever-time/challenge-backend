@@ -16,4 +16,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
     Optional<Challenge> findByIdAndUser(Long challengeId, User user);
 
+    void deleteByIdAndUser(Long challengeId, User user);
 }

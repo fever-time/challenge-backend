@@ -10,9 +10,11 @@ import java.util.Optional;
 
 public interface CertificationRepository extends JpaRepository<Certification, Long> {
 
-    void deleteAllByChallengeId(Long challengeId);
+    void deleteAllByChallengeIdAndUser(Long challengeId, User user);
 
     List<Certification> findAllByChallengeId(Long challengeId);
+
+    List<Certification> findAllByChallengeIdAndUser(Long challengeId, User user);
 
     List<Certification> findAllByChallengeAndUser(Challenge challenge, User user);
 

@@ -45,16 +45,17 @@ public class CertificationApiController {
             @ModelAttribute CertificationRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         certificationService.createCertification(challengeId, requestDto, userDetails.getUser());
-        return new ResultResponseDto("success","챌린지 인증되었습니다.");
+        return new ResultResponseDto("success", "챌린지 인증되었습니다.");
     }
 
     /**
      * 챌린지 인증 삭제 API
      */
     @DeleteMapping("/challenges/{challengeId}/certis/{certiId}")
-    public ResultResponseDto deleteCertification(@PathVariable Long certiId) {
-        certificationService.deleteCertification(certiId);
-        return new ResultResponseDto("success","챌린지 인증 삭제되었습니다.");
+    public ResultResponseDto deleteCertification(@PathVariable Long certiId,
+                                                 @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        certificationService.deleteCertification(certiId, userDetails.getUser());
+        return new ResultResponseDto("success", "챌린지 인증 삭제되었습니다.");
     }
 
     /**
