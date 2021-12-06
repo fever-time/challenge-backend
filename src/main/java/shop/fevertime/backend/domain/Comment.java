@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.fevertime.backend.dto.request.CommentRequestDto;
+import shop.fevertime.backend.exception.ApiRequestException;
+import shop.fevertime.backend.util.CommentValidator;
 
 import javax.persistence.*;
 
@@ -29,13 +31,19 @@ public class Comment extends BaseTimeEntity {
 
     // 댓글 생성자
     public Comment(Feed feed, String contents, User user) {
+        // 댓글 생성 validation
+        CommentValidator.validateCommentCreate(contents, user, feed);
+
         this.contents = contents;
         this.feed = feed;
         this.user = user;
     }
 
     // 댓글 수정
-    public void commentUpdate(CommentRequestDto requestDto) {
-        this.contents = requestDto.getContents();
+    public void commentUpdate(String contents) {
+        if (contents.trim().length() == 0) {
+            throw new ApiRequestException("공백으로 댓글을 수정할 수 없습니다.");
+        }
+        this.contents = contents;
     }
 }

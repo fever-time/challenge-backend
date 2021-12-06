@@ -33,11 +33,7 @@ public class FeedService {
     // 피드 생성
     @Transactional // return 값 Long으로 통일
     public void createFeed(FeedRequestDto requestDto, User user) {
-        if (requestDto.getContents().trim().length() == 0) {
-            throw new ApiRequestException("공백으로 피드를 작성할 수 없습니다.");
-        } else {
-            feedRepository.save(new Feed(requestDto.getContents(), user));
-        }
+        feedRepository.save(new Feed(requestDto.getContents(), user));
     }
 
     @Transactional
@@ -45,7 +41,7 @@ public class FeedService {
         Feed feed = feedRepository.findByIdAndUser(id, user).orElseThrow(
                 () -> new ApiRequestException("존재하지 않는 피드입니다.")
         );
-        feed.update(requestDto);
+        feed.update(requestDto.getContents());
         return new ResultResponseDto("success", "피드 수정되었습니다.");
     }
 

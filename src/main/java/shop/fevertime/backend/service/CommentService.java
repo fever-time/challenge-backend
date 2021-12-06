@@ -11,11 +11,10 @@ import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CommentRepository;
 import shop.fevertime.backend.repository.FeedRepository;
+import shop.fevertime.backend.util.CommentValidator;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -27,6 +26,9 @@ public class CommentService {
 
     // 댓글 조회
     public List<CommentResponseDto> getComments(Long feedId) {
+        feedRepository.findById(feedId).orElseThrow(
+                () -> new ApiRequestException("피드가 존재하지 않습니다.")
+        );
         return commentRepository.findAllByFeed_Id(feedId)
                 .stream()
                 .map(CommentResponseDto::new)
@@ -36,7 +38,6 @@ public class CommentService {
     // 댓글 생성
     @Transactional
     public void createComment(Long feedId, CommentRequestDto requestDto, User user) {
-        // 댓글 생성 - > 해당 피드에 댓글 1 2 3 생성
         Feed feed = feedRepository.findByIdAndUser(feedId, user).orElseThrow(
                 () -> new ApiRequestException("존재하지 않는 댓글입니다.")
         );
@@ -50,7 +51,11 @@ public class CommentService {
         Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(
                 () -> new ApiRequestException("존재하지 않는 댓글이거나 수정 권한이 없습니다.")
         );
-        comment.commentUpdate(requestDto);
+        comment.commentUpdate(requestDto.getContents());
+        /**
+         * 생성할 때 domain에 String으로 넣었는데, 수정할 때도 dto가 아니라 String 값으로
+         * 넣는게 맞지 않을까 하는 고민
+         */
     }
 
     // 댓글 삭제
