@@ -40,7 +40,7 @@ public class CommentService {
         Feed feed = feedRepository.findByIdAndUser(feedId, user).orElseThrow(
                 () -> new ApiRequestException("존재하지 않는 댓글입니다.")
         );
-        Comment comment = new Comment(feed, requestDto, user);
+        Comment comment = new Comment(feed, requestDto.getContents(), user);
         commentRepository.save(comment);
     }
 
@@ -56,10 +56,10 @@ public class CommentService {
     // 댓글 삭제
     @Transactional
     public void deleteComment(Long commentId, User user) {
-        commentRepository.findByIdAndUser(commentId, user).orElseThrow(
+        Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(
                 () -> new ApiRequestException("존재하지 않는 댓글이거나 삭제 권한이 없습니다.")
         );
-        commentRepository.deleteById(commentId);
+        commentRepository.delete(comment);
     }
 
     /**

@@ -28,8 +28,8 @@ public class Comment extends BaseTimeEntity {
     private Feed feed;
 
     // 댓글 생성자
-    public Comment(Feed feed, CommentRequestDto requestDto, User user) {
-        this.contents = requestDto.getContents();
+    public Comment(Feed feed, String contents, User user) {
+        this.contents = contents;
         this.feed = feed;
         this.user = user;
     }

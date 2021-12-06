@@ -23,9 +23,9 @@ public class Feed extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Feed(FeedRequestDto requestDto, User user) {
+    public Feed(String contents, User user) {
         // validation 해야함
-        this.contents = requestDto.getContents();
+        this.contents = contents; // dto에서 받지말고 바로 string으로 변경
         this.user = user;
     }
 
