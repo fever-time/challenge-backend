@@ -12,6 +12,7 @@ import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
+import shop.fevertime.backend.util.ChallengeValidator;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
 import shop.fevertime.backend.util.S3Uploader;
 
@@ -75,9 +76,8 @@ public class ChallengeService {
 
     @Transactional
     public void createChallenge(ChallengeRequestDto requestDto, User user) throws IOException {
-        if (requestDto.getTitle().trim().length() == 0 || requestDto.getDescription().trim().length() == 0) {
-            throw new ApiRequestException("공백으로 작성할 수 없습니다.");
-        }
+        //validation
+        ChallengeValidator.validateCreate(requestDto,user.getId());
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
         // 카테고리 찾기
@@ -129,13 +129,13 @@ public class ChallengeService {
         s3Uploader.delete(ar[ar.length - 1], "challenge");
 
         // 삭제하는 챌린지에 해당하는 인증 이미지 s3 삭제
-        List<Certification> certifications = certificationRepository.findAllByChallengeIdAndUser(challengeId, user);
+        List<Certification> certifications = certificationRepository.findAllByChallenge(challenge);
         for (Certification certification : certifications) {
             String[] arr = certification.getImgLink().split("/");
             s3Uploader.delete(arr[arr.length - 1], "certification");
         }
 
-        certificationRepository.deleteAllByChallengeIdAndUser(challengeId, user);
+        certificationRepository.deleteAllByChallenge(challenge);
         challengeRepository.delete(challenge);
     }
 

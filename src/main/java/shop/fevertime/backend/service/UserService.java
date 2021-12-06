@@ -15,7 +15,10 @@ import shop.fevertime.backend.repository.FeedRepository;
 import shop.fevertime.backend.repository.UserRepository;
 import shop.fevertime.backend.security.kakao.KakaoOAuth2;
 import shop.fevertime.backend.security.kakao.KakaoUserInfo;
+import shop.fevertime.backend.util.CertificationValidator;
+import shop.fevertime.backend.util.ChallengeValidator;
 import shop.fevertime.backend.util.S3Uploader;
+import shop.fevertime.backend.util.UserValidator;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -75,8 +78,11 @@ public class UserService {
 
     @Transactional
     public void updateUserImg(Long userId, UserRequestDto requestDto) throws IOException {
+        //validation
+        UserValidator.validateUpdateImg(requestDto, userId);
+
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+                () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
         // 기존 이미지 S3에서 삭제
         String[] ar = user.getImgLink().split("/");
@@ -89,13 +95,11 @@ public class UserService {
 
     @Transactional
     public void updateUsername(Long userId, UserRequestDto requestDto) {
-        if (requestDto.getUsername().trim().length() == 0) {
-            throw new ApiRequestException("공백으로 작성할 수 없습니다.");
-        } else if (requestDto.getUsername().length() > 8) {
-            throw new ApiRequestException("8자 이하로 입력하세요.");
-        }
+        //validation
+        UserValidator.validateUpdateName(requestDto, userId);
+
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+                () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
 
         user.updateUsername(requestDto.getUsername());
