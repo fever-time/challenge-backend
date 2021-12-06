@@ -23,14 +23,14 @@ public class Feed extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Feed(FeedRequestDto requestDto, User user) {
+    public Feed(String contents, User user) {
         // validation 해야함
-        this.contents = requestDto.getContents();
+        this.contents = contents;
         this.user = user;
     }
 
-    public void update(FeedRequestDto requestDto) {
-        this.contents = requestDto.getContents();
+    public void update(String contents) {
+        this.contents = contents;
     }
 
 }

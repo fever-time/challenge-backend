@@ -39,7 +39,7 @@ public class CommentService {
         Feed feed = feedRepository.findById(feedId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 피드입니다.")
         );
-        Comment comment = new Comment(feed, requestDto, user);
+        Comment comment = new Comment(feed, requestDto.getContents(), user);
         commentRepository.save(comment);
     }
 

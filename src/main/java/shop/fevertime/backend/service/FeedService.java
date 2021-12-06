@@ -13,7 +13,6 @@ import shop.fevertime.backend.repository.FeedRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class FeedService {
     // 피드 생성
     @Transactional // return 값 Long으로 통일
     public void createFeed(FeedRequestDto requestDto, User user) {
-        feedRepository.save(new Feed(requestDto, user));
+        feedRepository.save(new Feed(requestDto.getContents(), user));
     }
 
     @Transactional
@@ -42,7 +41,7 @@ public class FeedService {
         Feed feed = feedRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("존재하는 피드가 없습니다.")
         );
-        feed.update(requestDto);
+        feed.update(requestDto.getContents());
         return id;
     }
 
