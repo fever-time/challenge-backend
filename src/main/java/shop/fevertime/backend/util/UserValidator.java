@@ -15,6 +15,10 @@ public class UserValidator {
         if (requestDto.getUsername() == null || requestDto.getUsername().trim().length() == 0) {
             throw new ApiRequestException("입력된 유저 이름이 없습니다.");
         }
+
+        if (requestDto.getUsername().length() > 8 || requestDto.getUsername().length() < 1) {
+            throw new ApiRequestException("유저 이름은 1~8자 사이로 입력하세요.");
+        }
     }
 
     /**
