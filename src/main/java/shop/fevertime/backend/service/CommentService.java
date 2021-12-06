@@ -8,6 +8,7 @@ import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.CommentRequestDto;
 import shop.fevertime.backend.dto.response.CommentResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CommentRepository;
 import shop.fevertime.backend.repository.FeedRepository;
 
@@ -36,8 +37,8 @@ public class CommentService {
     @Transactional
     public void createComment(Long feedId, CommentRequestDto requestDto, User user) {
         // 댓글 생성 - > 해당 피드에 댓글 1 2 3 생성
-        Feed feed = feedRepository.findById(feedId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 피드입니다.")
+        Feed feed = feedRepository.findByIdAndUser(feedId, user).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 댓글입니다.")
         );
         Comment comment = new Comment(feed, requestDto, user);
         commentRepository.save(comment);
@@ -45,16 +46,19 @@ public class CommentService {
 
     // 댓글 수정
     @Transactional
-    public void updateComment(Long commentId, CommentRequestDto requestDto) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new NoSuchElementException("존재하는 아이디가 없습니다.")
+    public void updateComment(Long commentId, CommentRequestDto requestDto, User user) {
+        Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 댓글이거나 수정 권한이 없습니다.")
         );
         comment.commentUpdate(requestDto);
     }
 
     // 댓글 삭제
     @Transactional
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long commentId, User user) {
+        commentRepository.findByIdAndUser(commentId, user).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 댓글이거나 삭제 권한이 없습니다.")
+        );
         commentRepository.deleteById(commentId);
     }
 
