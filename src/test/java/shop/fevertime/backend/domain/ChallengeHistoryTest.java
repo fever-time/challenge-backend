@@ -139,4 +139,57 @@ class ChallengeHistoryTest {
             }
         }
     }
+
+    @Nested
+    @DisplayName("챌린지 참여기록 객체 수정")
+    class Update {
+
+        private User user;
+        private Challenge challenge;
+        private LocalDateTime createdDate;
+        private LocalDateTime missionDate;
+        private ChallengeStatus challengeStatus;
+
+        @BeforeEach
+        void setup() {
+            user = new User("test", "test@email.com", UserRole.USER, "123456", "https://img.com/img");
+            Category category = new Category("운동");
+            challenge = new Challenge("제목", "설명", "", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", user, category);
+            createdDate = LocalDateTime.now();
+            missionDate = LocalDateTime.now().plusDays(7);
+            challengeStatus = ChallengeStatus.JOIN;
+        }
+
+        @Test
+        @DisplayName("정상 케이스_취소")
+        void update_Normal1() {
+            // given
+            ChallengeHistory challengeHistory = new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus);
+            // when
+            challengeHistory.cancel();
+            // then
+            assertThat(challengeHistory.getId()).isNull();
+            assertThat(challengeHistory.getUser()).isEqualTo(user);
+            assertThat(challengeHistory.getChallenge()).isEqualTo(challenge);
+            assertThat(challengeHistory.getCreatedDate()).isEqualTo(createdDate);
+            assertThat(challengeHistory.getMissionDate()).isEqualTo(missionDate);
+            assertThat(challengeHistory.getChallengeStatus()).isEqualTo(ChallengeStatus.CANCEL);
+        }
+
+        @Test
+        @DisplayName("정상 케이스_미션실패")
+        void update_Normal2() {
+            // given
+            ChallengeHistory challengeHistory = new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus);
+            // when
+            challengeHistory.fail();
+            // then
+            assertThat(challengeHistory.getId()).isNull();
+            assertThat(challengeHistory.getUser()).isEqualTo(user);
+            assertThat(challengeHistory.getChallenge()).isEqualTo(challenge);
+            assertThat(challengeHistory.getCreatedDate()).isEqualTo(createdDate);
+            assertThat(challengeHistory.getMissionDate()).isEqualTo(missionDate);
+            assertThat(challengeHistory.getChallengeStatus()).isEqualTo(ChallengeStatus.FAIL);
+        }
+    }
 }

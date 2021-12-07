@@ -39,7 +39,7 @@ public class Comment extends BaseTimeEntity {
     }
 
     // 댓글 수정
-    public void commentUpdate(String contents) {
+    public void update(String contents) {
         CommentValidator.validatorCommentUpdate(contents);
         this.contents = contents;
     }
