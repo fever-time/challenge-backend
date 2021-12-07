@@ -13,7 +13,7 @@ public class UserValidator {
             throw new ApiRequestException("입력된 유저 이름이 없습니다.");
         }
 
-        if (username.length() > 8 || username.length() <= 1) {
+        if (username.length() > 8 || username.length() < 1) {
             throw new ApiRequestException("유저 이름은 1~8자 사이로 입력하세요.");
         }
 
@@ -29,7 +29,7 @@ public class UserValidator {
             throw new ApiRequestException("카카오 아이디 값이 없습니다.");
         }
 
-        if(!URLValidator.urlValidator(imgLink)) {
+        if (!URLValidator.urlValidator(imgLink)) {
             throw new ApiRequestException("이미지 링크를 확인해주세요.");
         }
     }
@@ -51,7 +51,7 @@ public class UserValidator {
      * 유저 이미지 변경 validation
      */
     public static void validateUpdateImg(String imgLink) {
-        if(!URLValidator.urlValidator(imgLink)) {
+        if (!URLValidator.urlValidator(imgLink)) {
             throw new ApiRequestException("이미지 링크를 확인해주세요.");
         }
     }

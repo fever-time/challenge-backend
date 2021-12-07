@@ -11,11 +11,9 @@ import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CommentRepository;
 import shop.fevertime.backend.repository.FeedRepository;
-import shop.fevertime.backend.util.CommentValidator;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -55,7 +53,7 @@ public class CommentService {
         Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(
                 () -> new ApiRequestException("존재하지 않는 댓글이거나 수정 권한이 없습니다.")
         );
-        comment.commentUpdate(requestDto.getContents());
+        comment.update(requestDto.getContents());
     }
 
     // 댓글 삭제
