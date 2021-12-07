@@ -61,8 +61,8 @@ public class ChallengeValidator {
             throw new ApiRequestException("카테고리를 지정해주세요.");
         }
 
-        if (imgLink == null || imgLink.trim().length() == 0) {
-            throw new ApiRequestException("첨부된 파일이 없습니다.");
+        if (!URLValidator.urlValidator(imgLink)) {
+            throw new ApiRequestException("이미지 링크를 확인해주세요.");
         }
     }
 

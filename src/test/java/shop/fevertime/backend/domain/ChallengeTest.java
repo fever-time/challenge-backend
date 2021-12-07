@@ -137,11 +137,11 @@ class ChallengeTest {
             }
 
             @Nested
-            @DisplayName("챌린지 이미지 링크가 null이면 예외 발생")
+            @DisplayName("챌린지 이미지 링크")
             class ImgLink {
 
                 @Test
-                @DisplayName("null")
+                @DisplayName("챌린지 이미지 링크가 null이면 예외 발생")
                 void imgLink_null() {
                     // given
                     imgLink = null;
@@ -151,7 +151,7 @@ class ChallengeTest {
                             () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
-                    assertThat(exception.getMessage()).isEqualTo("첨부된 파일이 없습니다.");
+                    assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
 
                 @Test
@@ -165,7 +165,7 @@ class ChallengeTest {
                             () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
-                    assertThat(exception.getMessage()).isEqualTo("첨부된 파일이 없습니다.");
+                    assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
             }
 
