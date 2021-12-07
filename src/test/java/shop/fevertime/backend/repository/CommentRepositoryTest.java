@@ -112,10 +112,10 @@ class CommentRepositoryTest {
         commentRepository.save(comment4);
 
         // when
-        Optional<Comment> ByIdAndUser = commentRepository.findByIdAndUser(comment1.getId(),user1);
+        Comment ByIdAndUser = commentRepository.findByIdAndUser(comment1.getId(),user1).orElse(null);
 
         // then
-        assertThat(ByIdAndUser.orElse(null)).isEqualTo(comment1);
+        assertThat(ByIdAndUser).isEqualTo(comment1);
     }
 
     @Test

@@ -161,10 +161,10 @@ class CertificationRepositoryTest {
         certificationRepository.save(certification4);
 
         // when
-        Optional<Certification> ByIdAndUser = certificationRepository.findByIdAndUser(certification1.getId(), user1);
+        Certification ByIdAndUser = certificationRepository.findByIdAndUser(certification1.getId(), user1).orElse(null);
 
         // then
-        assertThat(ByIdAndUser.orElse(null)).isEqualTo(certification1);
+        assertThat(ByIdAndUser).isEqualTo(certification1);
     }
 
     @Test

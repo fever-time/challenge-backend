@@ -99,10 +99,10 @@ class FeedRepositoryTest {
         feedRepository.save(feed3);
 
         // when
-        Optional<Feed> allByUserId = feedRepository.findByIdAndUser(feed1.getId(), user1);
+        Feed allByUserId = feedRepository.findByIdAndUser(feed1.getId(), user1).orElse(null);
 
         // then
-        assertThat(allByUserId.orElse(null)).isEqualTo(feed1);
+        assertThat(allByUserId).isEqualTo(feed1);
     }
 
     @Test
