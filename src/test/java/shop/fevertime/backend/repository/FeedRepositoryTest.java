@@ -104,24 +104,4 @@ class FeedRepositoryTest {
         // then
         assertThat(allByUserId).isEqualTo(feed1);
     }
-
-    @Test
-    @Order(5)
-    public void deleteByIdAndUser() {
-        // given
-        Feed feed1 = new Feed("피드1", user1);
-        Feed feed2 = new Feed("피드2", user1);
-        Feed feed3 = new Feed("피드3", user2);
-
-        feedRepository.save(feed1);
-        feedRepository.save(feed2);
-        feedRepository.save(feed3);
-
-        // when
-        feedRepository.deleteByIdAndUser(feed1.getId(), user1);
-
-        // then
-        assertThat(feedRepository.findAll().size()).isEqualTo(2);
-
-    }
 }

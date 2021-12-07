@@ -1,6 +1,7 @@
 package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.Feed;
 import shop.fevertime.backend.domain.User;
@@ -24,7 +25,7 @@ public class FeedService {
 
     // 피드 조회
     public List<FeedResponseDto> getFeeds() {
-        return feedRepository.findAll()
+        return feedRepository.findAll(Sort.by(Sort.Direction.DESC,"createdDate"))
                 .stream()
                 .map(FeedResponseDto::new)
                 .collect(Collectors.toList());
