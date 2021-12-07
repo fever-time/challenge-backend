@@ -34,13 +34,13 @@ class ChallengeTest {
 
             title = "제목";
             description = "내용";
-            imgLink = "anyImg.jpg"; // 프론트랑 상의해야함
+            imgLink = "https://www.img.com/img";
             startDate = LocalDateTimeUtil.getLocalDateTime("2020-01-01");
             endDate = LocalDateTimeUtil.getLocalDateTime("2020-12-12");
             limitPerson = 10;
             locationType = LocationType.OFFLINE;
             address = "강남구";
-            user = new User("test", "test@email.com", UserRole.USER, "123456", "https://fever-prac.s3.ap-northeast-2.amazonaws.com/challenge/ee87a2ad-d03e-4e28-9a3f-609deda36cc0%EC%B6%94%EC%B9%B4%EC%B6%94%EC%B9%B4%EB%A7%81.png");
+            user = new User("test", "test@email.com", UserRole.USER, "123456", imgLink);
             category = new Category("운동");
         }
 
@@ -121,6 +121,7 @@ class ChallengeTest {
                     assertThat(exception.getMessage()).isEqualTo("챌린지 상세 설명이 없습니다.");
 
                 }
+
                 @Test
                 @DisplayName("챌린지 설명이 공백이면 예외 발생")
                 void description_empty() {
