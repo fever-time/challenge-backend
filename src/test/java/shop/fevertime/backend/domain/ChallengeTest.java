@@ -1,5 +1,6 @@
 package shop.fevertime.backend.domain;
 
+import org.hibernate.type.LocaleType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -44,10 +45,33 @@ class ChallengeTest {
         }
 
         @Test
-        @DisplayName("정상 케이스")
+        @DisplayName("정상 케이스_오프라인")
         void create_Normal() {
             // given
 
+            // when
+            Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+
+            // then
+            assertThat(challenge.getId()).isNull();
+            assertThat(challenge.getTitle()).isEqualTo(title);
+            assertThat(challenge.getDescription()).isEqualTo(description);
+            assertThat(challenge.getImgLink()).isEqualTo(imgLink);
+            assertThat(challenge.getStartDate()).isEqualTo(startDate);
+            assertThat(challenge.getEndDate()).isEqualTo(endDate);
+            assertThat(challenge.getLimitPerson()).isEqualTo(limitPerson);
+            assertThat(challenge.getLocationType()).isEqualTo(locationType);
+            assertThat(challenge.getAddress()).isEqualTo(address);
+            assertThat(challenge.getUser()).isEqualTo(user);
+            assertThat(challenge.getCategory()).isEqualTo(category);
+        }
+
+        @Test
+        @DisplayName("정상 케이스_온라인")
+        void create_Normal2() {
+            // given
+            locationType = LocationType.ONLINE;
+            address = "";
             // when
             Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
 

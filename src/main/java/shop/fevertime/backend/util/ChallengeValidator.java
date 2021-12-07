@@ -45,12 +45,11 @@ public class ChallengeValidator {
             throw new ApiRequestException("챌린지 타입을 입력하세요.");
         }
 
-        if (locationType == LocationType.OFFLINE && Objects.equals(address, "") || address == null) {
+        if (locationType == LocationType.OFFLINE && Objects.equals(address, "") || locationType == LocationType.OFFLINE && address == null) {
             throw new ApiRequestException("오프라인인 경우 주소를 입력하세요.");
         }
 
-        if (locationType == LocationType.ONLINE && address.trim().length() >= 1 ||
-                locationType == LocationType.ONLINE &&  Objects.equals(address, "")) {
+        if (locationType == LocationType.ONLINE && address.trim().length() >= 1) {
             throw new ApiRequestException("온라인 챌린지는 주소를 설정할 수 없습니다.");
         }
 
