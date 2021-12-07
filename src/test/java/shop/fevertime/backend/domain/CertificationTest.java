@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import shop.fevertime.backend.exception.ApiRequestException;
 
 import java.time.LocalDateTime;
 
@@ -23,11 +24,11 @@ class CertificationTest {
 
         @BeforeEach
         void setup() {
-            imgLink = "";
+            imgLink = "https://img.com/img";
             contents = "챌린지 인증";
-            user = new User("test", "test@email.com", UserRole.USER, "123456", "");
+            user = new User("test", "test@email.com", UserRole.USER, "123456", "https://img.com/img");
             Category category = new Category("운동");
-            challenge = new Challenge("제목", "설명", "", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", user, category);
+            challenge = new Challenge("제목", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", user, category);
         }
 
         @Test
@@ -59,11 +60,11 @@ class CertificationTest {
                 void fail_null() {
                     // given
                     imgLink = null;
-
                     // when
-                    Certification certification = new Certification(imgLink, contents, user, challenge);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Certification(imgLink, contents, user, challenge));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("첨부된 파일이 없습니다.");
                 }
 
                 @Test
@@ -71,23 +72,23 @@ class CertificationTest {
                 void fail_empty() {
                     // given
                     imgLink = "";
-
                     // when
-                    Certification certification = new Certification(imgLink, contents, user, challenge);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Certification(imgLink, contents, user, challenge));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("첨부된 파일이 없습니다.");
                 }
 
                 @Test
                 @DisplayName("URL")
                 void fail_url_form() {
                     // given
-                    imgLink = "";
-
+                    imgLink = "test_imgLink";
                     // when
-                    Certification certification = new Certification(imgLink, contents, user, challenge);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Certification(imgLink, contents, user, challenge));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
             }
 
@@ -100,11 +101,11 @@ class CertificationTest {
                 void fail_null() {
                     // given
                     contents = null;
-
                     // when
-                    Certification certification = new Certification(imgLink, contents, user, challenge);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Certification(imgLink, contents, user, challenge));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("인증 내용이 없습니다.");
                 }
 
                 @Test
@@ -112,11 +113,11 @@ class CertificationTest {
                 void fail_empty() {
                     // given
                     contents = "";
-
                     // when
-                    Certification certification = new Certification(imgLink, contents, user, challenge);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Certification(imgLink, contents, user, challenge));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("인증 내용이 없습니다.");
                 }
             }
 
@@ -129,11 +130,11 @@ class CertificationTest {
                 void fail_null() {
                     // given
                     user = null;
-
                     // when
-                    Certification certification = new Certification(imgLink, contents, user, challenge);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Certification(imgLink, contents, user, challenge));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("유저 정보가 유효하지 않습니다.");
                 }
             }
 
@@ -146,11 +147,11 @@ class CertificationTest {
                 void fail_null() {
                     // given
                     challenge = null;
-
                     // when
-                    Certification certification = new Certification(imgLink, contents, user, challenge);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Certification(imgLink, contents, user, challenge));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지 정보가 유효하지 않습니다.");
                 }
             }
         }
