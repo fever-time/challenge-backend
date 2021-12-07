@@ -54,9 +54,7 @@ public class FeedService {
         );
         commentRepository.deleteAllByFeed(feed);
 
-        feedRepository.deleteByIdAndUser(feedId, user).orElseThrow(
-                () -> new ApiRequestException("정상적으로 삭제되지 않았습니다.")
-        );
+        feedRepository.delete(feed);
     }
 
     public ResultResponseDto checkFeedCreator(Long feedId, User user) {

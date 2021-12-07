@@ -10,6 +10,7 @@ import shop.fevertime.backend.domain.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -101,6 +102,90 @@ class CertificationRepositoryTest {
 
         // then
         assertThat(allByChallengeAndUser.size()).isEqualTo(1);
+    }
+
+    @Test
+    @Order(4)
+    public void findAllByChallenge() {
+        // given
+        Certification certification1 = new Certification("https://www.img.com/img", "인증1", user1, challenge1);
+        Certification certification2 = new Certification("https://www.img.com/img", "인증1", user1, challenge2);
+        Certification certification3 = new Certification("https://www.img.com/img", "인증2", user2, challenge1);
+        Certification certification4 = new Certification("https://www.img.com/img", "인증2", user2, challenge2);
+
+        certificationRepository.save(certification1);
+        certificationRepository.save(certification2);
+        certificationRepository.save(certification3);
+        certificationRepository.save(certification4);
+
+        // when
+        List<Certification> allByChallenge = certificationRepository.findAllByChallenge(challenge1);
+
+        // then
+        assertThat(allByChallenge.size()).isEqualTo(2);
+    }
+
+    @Test
+    @Order(5)
+    public void findAllByChallengeId() {
+        // given
+        Certification certification1 = new Certification("https://www.img.com/img", "인증1", user1, challenge1);
+        Certification certification2 = new Certification("https://www.img.com/img", "인증1", user1, challenge2);
+        Certification certification3 = new Certification("https://www.img.com/img", "인증2", user2, challenge1);
+        Certification certification4 = new Certification("https://www.img.com/img", "인증2", user2, challenge2);
+
+        certificationRepository.save(certification1);
+        certificationRepository.save(certification2);
+        certificationRepository.save(certification3);
+        certificationRepository.save(certification4);
+
+        // when
+        List<Certification> allByChallengeId = certificationRepository.findAllByChallengeId(challenge1.getId());
+
+        // then
+        assertThat(allByChallengeId.size()).isEqualTo(2);
+    }
+
+    @Test
+    @Order(6)
+    public void findByIdAndUser() {
+        // given
+        Certification certification1 = new Certification("https://www.img.com/img", "인증1", user1, challenge1);
+        Certification certification2 = new Certification("https://www.img.com/img", "인증1", user1, challenge2);
+        Certification certification3 = new Certification("https://www.img.com/img", "인증2", user2, challenge1);
+        Certification certification4 = new Certification("https://www.img.com/img", "인증2", user2, challenge2);
+
+        certificationRepository.save(certification1);
+        certificationRepository.save(certification2);
+        certificationRepository.save(certification3);
+        certificationRepository.save(certification4);
+
+        // when
+        Optional<Certification> ByIdAndUser = certificationRepository.findByIdAndUser(certification1.getId(), user1);
+
+        // then
+        assertThat(ByIdAndUser.orElse(null)).isEqualTo(certification1);
+    }
+
+    @Test
+    @Order(7)
+    public void deleteAllByChallenge() {
+        // given
+        Certification certification1 = new Certification("https://www.img.com/img", "인증1", user1, challenge1);
+        Certification certification2 = new Certification("https://www.img.com/img", "인증1", user1, challenge2);
+        Certification certification3 = new Certification("https://www.img.com/img", "인증2", user2, challenge1);
+        Certification certification4 = new Certification("https://www.img.com/img", "인증2", user2, challenge2);
+
+        certificationRepository.save(certification1);
+        certificationRepository.save(certification2);
+        certificationRepository.save(certification3);
+        certificationRepository.save(certification4);
+
+        // when
+        certificationRepository.deleteAllByChallenge(challenge2);
+
+        // then
+        assertThat(certificationRepository.findAll().size()).isEqualTo(2);
     }
 
 

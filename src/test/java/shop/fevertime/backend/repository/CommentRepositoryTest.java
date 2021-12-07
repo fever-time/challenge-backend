@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.fevertime.backend.domain.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,6 +74,71 @@ class CommentRepositoryTest {
 
         // then
         assertThat(all.size()).isEqualTo(4);
+    }
+
+    @Test
+    @Order(3)
+    public void findAllByFeed() {
+        // given
+        Comment comment1 = new Comment(feed1, "댓글1", user1);
+        Comment comment2 = new Comment(feed1, "댓글2", user2);
+        Comment comment3 = new Comment(feed2, "댓글1", user1);
+        Comment comment4 = new Comment(feed2, "댓글2", user2);
+
+        commentRepository.save(comment1);
+        commentRepository.save(comment2);
+        commentRepository.save(comment3);
+        commentRepository.save(comment4);
+
+        // when
+        List<Comment> allByFeed = commentRepository.findAllByFeed(feed1);
+
+        // then
+        assertThat(allByFeed.size()).isEqualTo(2);
+    }
+
+    @Test
+    @Order(3)
+    public void findByIdAndUser() {
+        // given
+        Comment comment1 = new Comment(feed1, "댓글1", user1);
+        Comment comment2 = new Comment(feed1, "댓글2", user2);
+        Comment comment3 = new Comment(feed2, "댓글1", user1);
+        Comment comment4 = new Comment(feed2, "댓글2", user2);
+
+        commentRepository.save(comment1);
+        commentRepository.save(comment2);
+        commentRepository.save(comment3);
+        commentRepository.save(comment4);
+
+        // when
+        Optional<Comment> ByIdAndUser = commentRepository.findByIdAndUser(comment1.getId(),user1);
+
+        // then
+        assertThat(ByIdAndUser.orElse(null)).isEqualTo(comment1);
+    }
+
+    @Test
+    @Order(4)
+    public void deleteAllByFeed() {
+        // given
+        Comment comment1 = new Comment(feed1, "댓글1", user1);
+        Comment comment2 = new Comment(feed1, "댓글2", user2);
+        Comment comment3 = new Comment(feed2, "댓글1", user1);
+        Comment comment4 = new Comment(feed2, "댓글2", user2);
+        Comment comment5 = new Comment(feed2, "댓글3", user2);
+
+        commentRepository.save(comment1);
+        commentRepository.save(comment2);
+        commentRepository.save(comment3);
+        commentRepository.save(comment4);
+        commentRepository.save(comment5);
+
+        // when
+        commentRepository.deleteAllByFeed(feed2);
+
+        // then
+        assertThat(commentRepository.findAll().size()).isEqualTo(2);
     }
 
 }
