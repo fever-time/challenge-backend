@@ -77,31 +77,25 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserImg(Long userId, UserRequestDto requestDto) throws IOException {
-        //validation
-        UserValidator.validateUpdateImg(requestDto, userId);
-
-        User user = userRepository.findById(userId).orElseThrow(
+    public void updateUserImg(User user, UserRequestDto requestDto) throws IOException {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
                 () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
         // 기존 이미지 S3에서 삭제
-        String[] ar = user.getImgLink().split("/");
+        String[] ar = findUser.getImgLink().split("/");
         s3Uploader.delete(ar[ar.length - 1], "user");
 
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "user");
-        user.updateUserimg(uploadImageUrl);
+        findUser.updateUserimg(uploadImageUrl);
     }
 
     @Transactional
-    public void updateUsername(Long userId, UserRequestDto requestDto) {
-        //validation
-        UserValidator.validateUpdateName(requestDto, userId);
-
-        User user = userRepository.findById(userId).orElseThrow(
+    public void updateUsername(User user, UserRequestDto requestDto) {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
                 () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
 
-        user.updateUsername(requestDto.getUsername());
+        findUser.updateUsername(requestDto.getUsername());
     }
 }

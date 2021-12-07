@@ -49,9 +49,6 @@ public class CertificationService {
 
     @Transactional
     public void createCertification(Long challengeId, CertificationRequestDto requestDto, User user) throws IOException {
-        //validation
-        CertificationValidator.validateCreate(requestDto,user.getId());
-
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "certification");
 

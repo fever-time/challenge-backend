@@ -76,8 +76,6 @@ public class ChallengeService {
 
     @Transactional
     public void createChallenge(ChallengeRequestDto requestDto, User user) throws IOException {
-        //validation
-        ChallengeValidator.validateCreate(requestDto,user.getId());
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
         // 카테고리 찾기
