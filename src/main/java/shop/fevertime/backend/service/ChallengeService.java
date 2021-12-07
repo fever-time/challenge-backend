@@ -12,11 +12,9 @@ import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
-import shop.fevertime.backend.util.ChallengeValidator;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
 import shop.fevertime.backend.util.S3Uploader;
 
-import javax.security.sasl.AuthenticationException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
@@ -82,7 +80,6 @@ public class ChallengeService {
         Category category = categoryRepository.findByName(requestDto.getCategory()).orElseThrow(
                 () -> new NoSuchElementException("카테고리 정보 찾기 실패")
         );
-
         // 챌린지 생성
         Challenge challenge = new Challenge(
                 requestDto.getTitle(),

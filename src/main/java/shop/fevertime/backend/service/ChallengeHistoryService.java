@@ -35,7 +35,7 @@ public class ChallengeHistoryService {
         List<CertificationResponseDto> certifies = certificationRepository.findAllByChallengeAndUser(challenge, user).stream()
                 .map(CertificationResponseDto::new)
                 .collect(Collectors.toList());
-
+        // 챌린지 참여 내역
         List<ChallengeHistoryResponseDto> userHistories = challengeHistoryRepository.findAllByChallengeAndUser(challenge, user).stream()
                 .map(ChallengeHistoryResponseDto::new)
                 .collect(Collectors.toList());
@@ -83,11 +83,8 @@ public class ChallengeHistoryService {
                 () -> new NoSuchElementException("해당 챌린지를 참여중인 기록이 없습니다.")
         );
 
-        List<Certification> certis = certificationRepository.findAllByChallengeAndUser(challenge, user);
-
-        for (Certification certi : certis) {
-            certificationService.deleteCertification(certi.getId(), user);
-        }
+        certificationRepository.findAllByChallengeAndUser(challenge, user)
+                .forEach(certi -> certificationService.deleteCertification(certi.getId(), user));
 
         challengeHistory.cancel();
     }

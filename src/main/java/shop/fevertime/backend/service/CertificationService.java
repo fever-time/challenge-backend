@@ -11,16 +11,12 @@ import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
-import shop.fevertime.backend.util.CertificationValidator;
-import shop.fevertime.backend.util.ChallengeValidator;
 import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +40,6 @@ public class CertificationService {
                 .orElseThrow(
                         () -> new NoSuchElementException("존재하지 않는 인증입니다.")
                 );
-
     }
 
     @Transactional
@@ -72,7 +67,7 @@ public class CertificationService {
         );
         String[] ar = certi.getImgLink().split("/");
         s3Uploader.delete(ar[ar.length - 1], "certification");
-
+        // 챌린지 인증 삭제
         certificationRepository.delete(certi);
     }
 

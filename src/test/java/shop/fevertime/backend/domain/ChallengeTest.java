@@ -31,7 +31,6 @@ class ChallengeTest {
 
         @BeforeEach
         void setup() {
-
             title = "제목";
             description = "내용";
             imgLink = "https://www.img.com/img";
