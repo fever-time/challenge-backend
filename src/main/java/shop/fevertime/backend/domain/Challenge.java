@@ -77,7 +77,7 @@ public class Challenge extends BaseTimeEntity {
                      User user,
                      Category category
     ) {
-        ChallengeValidator.validateCreate(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user);
+        ChallengeValidator.validateCreate(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
         this.title = title;
         this.description = description;
         this.imgLink = imgLink;
