@@ -15,10 +15,7 @@ import shop.fevertime.backend.repository.FeedRepository;
 import shop.fevertime.backend.repository.UserRepository;
 import shop.fevertime.backend.security.kakao.KakaoOAuth2;
 import shop.fevertime.backend.security.kakao.KakaoUserInfo;
-import shop.fevertime.backend.util.CertificationValidator;
-import shop.fevertime.backend.util.ChallengeValidator;
 import shop.fevertime.backend.util.S3Uploader;
-import shop.fevertime.backend.util.UserValidator;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -83,7 +80,7 @@ public class UserService {
 
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "user");
-        findUser.updateUserimg(uploadImageUrl);
+        findUser.updateUserImg(uploadImageUrl);
     }
 
     @Transactional

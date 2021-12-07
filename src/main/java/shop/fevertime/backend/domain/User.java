@@ -42,6 +42,7 @@ public class User extends BaseTimeEntity {
      * 카카오 로그인 유저 생성자
      */
     public User(String username, String email, UserRole role, String kakaoId, String imgLink) {
+        UserValidator.validateCreateUser(username, email, role, kakaoId, imgLink);
         this.username = username;
         this.email = email;
         this.role = role;
@@ -52,7 +53,7 @@ public class User extends BaseTimeEntity {
     /**
      * 유저 정보 수정 메서드
      */
-    public void updateUserimg(String imgLink) {
+    public void updateUserImg(String imgLink) {
         UserValidator.validateUpdateImg(imgLink);
         this.imgLink = imgLink;
     }

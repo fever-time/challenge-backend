@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import shop.fevertime.backend.exception.ApiRequestException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +27,7 @@ class UserTest {
             email = "tes@email.com";
             role = UserRole.USER;
             kakaoId = "12456";
-            imgLink = "";
+            imgLink = "http://img.com/img";
         }
 
         @Test
@@ -44,7 +45,6 @@ class UserTest {
             assertThat(user.getRole()).isEqualTo(role);
             assertThat(user.getKakaoId()).isEqualTo(kakaoId);
             assertThat(user.getImgLink()).isEqualTo(imgLink);
-
         }
 
         @Nested
@@ -62,10 +62,13 @@ class UserTest {
                     username = null;
 
                     // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("입력된 유저 이름이 없습니다.");
                 }
+
                 @Test
                 @DisplayName("공백")
                 void fail_empty() {
@@ -73,9 +76,39 @@ class UserTest {
                     username = "";
 
                     // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("입력된 유저 이름이 없습니다.");
+                }
+
+                @Test
+                @DisplayName("이름 한글자")
+                void fail_length_one() {
+                    // given
+                    username = "일";
+
+                    // when
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
+
+                    // then
+                    assertThat(exception.getMessage()).isEqualTo("유저 이름은 1~8자 사이로 입력하세요.");
+                }
+
+                @Test
+                @DisplayName("이름 아홉글자")
+                void fail_length_nine() {
+                    // given
+                    username = "일이삼사오육칠팔구";
+
+                    // when
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
+
+                    // then
+                    assertThat(exception.getMessage()).isEqualTo("유저 이름은 1~8자 사이로 입력하세요.");
                 }
             }
 
@@ -90,31 +123,11 @@ class UserTest {
                     email = null;
 
                     // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
 
                     // then
-                }
-                @Test
-                @DisplayName("공백")
-                void fail_empty() {
-                    // given
-                    email = "";
-
-                    // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
-
-                    // then
-                }
-                @Test
-                @DisplayName("이메일 형식")
-                void fail_email_form() {
-                    // given
-                    email = "test_email";
-
-                    // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
-
-                    // then
+                    assertThat(exception.getMessage()).isEqualTo("이메일이 없습니다.");
                 }
             }
 
@@ -129,9 +142,11 @@ class UserTest {
                     role = null;
 
                     // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("유저 권한이 없습니다.");
                 }
             }
 
@@ -146,10 +161,13 @@ class UserTest {
                     kakaoId = null;
 
                     // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("카카오 아이디 값이 없습니다.");
                 }
+
                 @Test
                 @DisplayName("공백")
                 void fail_empty() {
@@ -157,9 +175,11 @@ class UserTest {
                     kakaoId = "";
 
                     // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("카카오 아이디 값이 없습니다.");
                 }
             }
 
@@ -174,10 +194,13 @@ class UserTest {
                     imgLink = null;
 
                     // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
+
                 @Test
                 @DisplayName("공백")
                 void fail_empty() {
@@ -185,9 +208,11 @@ class UserTest {
                     imgLink = "";
 
                     // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
 
                 @Test
@@ -197,9 +222,11 @@ class UserTest {
                     imgLink = "test_email";
 
                     // when
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new User(username, email, role, kakaoId, imgLink));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
             }
         }
