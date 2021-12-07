@@ -13,6 +13,7 @@ import shop.fevertime.backend.repository.FeedRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -43,6 +44,7 @@ public class FeedService {
         );
         feed.update(requestDto.getContents());
         return new ResultResponseDto("success", "피드 수정되었습니다.");
+
     }
 
     @Transactional
