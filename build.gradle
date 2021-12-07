@@ -1,8 +1,8 @@
-buildscript {
-    ext {
-        queryDslVersion = "4.4.0"
-    }
-}
+//buildscript {
+//    ext {
+//        queryDslVersion = "4.4.0"
+//    }
+//}
 
 plugins {
     id 'org.springframework.boot' version '2.5.7'
@@ -20,11 +20,11 @@ repositories {
 
 dependencies {
     // QueryDSL
-    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    annotationProcessor(
-            "javax.persistence:javax.persistence-api",
-            "javax.annotation:javax.annotation-api",
-            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+//    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+//    annotationProcessor(
+//            "javax.persistence:javax.persistence-api",
+//            "javax.annotation:javax.annotation-api",
+//            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
 
     // aws secrets
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
@@ -54,13 +54,13 @@ jar {
 }
 
 // QueryDSL
-sourceSets {
-    main {
-        java {
-            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
-        }
-    }
-}
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+//        }
+//    }
+//}
 
 test {
     useJUnitPlatform()
