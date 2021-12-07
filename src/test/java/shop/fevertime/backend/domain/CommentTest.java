@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import shop.fevertime.backend.exception.ApiRequestException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +22,7 @@ class CommentTest {
         @BeforeEach
         void setup() {
             contents = "댓글1";
-            user = new User("test", "test@email.com", UserRole.USER, "123456", "");
+            user = new User("test", "test@email.com", UserRole.USER, "123456", "https://img.com/img");
             feed = new Feed("피드1", user);
         }
 
@@ -32,7 +33,6 @@ class CommentTest {
 
             // when
             Comment comment = new Comment(feed, contents, user);
-
             // then
             assertThat(comment.getId()).isNull();
             assertThat(comment.getContents()).isEqualTo(contents);
@@ -53,22 +53,23 @@ class CommentTest {
                 void fail_null() {
                     // given
                     contents = null;
-
                     // when
-                    Comment comment = new Comment(feed, contents, user);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Comment(feed, contents, user));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("공백으로 댓글을 생성할 수 없습니다.");
                 }
+
                 @Test
-                @DisplayName("공백")
+                @DisplayName("null")
                 void fail_empty() {
                     // given
                     contents = "";
-
                     // when
-                    Comment comment = new Comment(feed, contents, user);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Comment(feed, contents, user));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("공백으로 댓글을 생성할 수 없습니다.");
                 }
             }
 
@@ -81,11 +82,11 @@ class CommentTest {
                 void fail_null() {
                     // given
                     feed = null;
-
                     // when
-                    Comment comment = new Comment(feed, contents, user);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Comment(feed, contents, user));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("피드 정보가 유효하지 않습니다.");
                 }
             }
 
@@ -98,11 +99,11 @@ class CommentTest {
                 void fail_null() {
                     // given
                     user = null;
-
                     // when
-                    Comment comment = new Comment(feed, contents, user);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Comment(feed, contents, user));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("유저 정보가 유효하지 않습니다.");
                 }
             }
         }

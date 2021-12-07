@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import shop.fevertime.backend.exception.ApiRequestException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +21,7 @@ class FeedTest {
         @BeforeEach
         void setup() {
             contents = "피드1";
-            user = new User("test", "test@email.com", UserRole.USER, "123456", "");
+            user = new User("test", "test@email.com", UserRole.USER, "123456", "https://img.com/img");
         }
 
         @Test
@@ -30,7 +31,6 @@ class FeedTest {
 
             // when
             Feed feed = new Feed(contents, user);
-
             // then
             assertThat(feed.getId()).isNull();
             assertThat(feed.getContents()).isEqualTo(contents);
@@ -50,22 +50,22 @@ class FeedTest {
                 void fail_null() {
                     // given
                     contents = null;
-
                     // when
-                    Feed feed = new Feed(contents, user);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Feed(contents, user));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("공백으로 피드를 생성할 수 없습니다.");
                 }
                 @Test
                 @DisplayName("공백")
                 void fail_empty() {
                     // given
                     contents = "";
-
                     // when
-                    Feed feed = new Feed(contents, user);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Feed(contents, user));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("공백으로 피드를 생성할 수 없습니다.");
                 }
             }
 
@@ -78,11 +78,11 @@ class FeedTest {
                 void fail_null() {
                     // given
                     user = null;
-
                     // when
-                    Feed feed = new Feed(contents, user);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Feed(contents, user));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("유저 정보가 유효하지 않습니다.");
                 }
             }
         }

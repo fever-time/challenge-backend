@@ -37,7 +37,6 @@ class UserTest {
 
             // when
             User user = new User(username, email, role, kakaoId, imgLink);
-
             // then
             assertThat(user.getId()).isNull();
             assertThat(user.getUsername()).isEqualTo(username);
@@ -60,11 +59,9 @@ class UserTest {
                 void fail_null() {
                     // given
                     username = null;
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("입력된 유저 이름이 없습니다.");
                 }
@@ -74,11 +71,9 @@ class UserTest {
                 void fail_empty() {
                     // given
                     username = "";
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("입력된 유저 이름이 없습니다.");
                 }
@@ -88,11 +83,9 @@ class UserTest {
                 void fail_length_one() {
                     // given
                     username = "일";
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("유저 이름은 1~8자 사이로 입력하세요.");
                 }
@@ -102,11 +95,9 @@ class UserTest {
                 void fail_length_nine() {
                     // given
                     username = "일이삼사오육칠팔구";
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("유저 이름은 1~8자 사이로 입력하세요.");
                 }
@@ -121,11 +112,9 @@ class UserTest {
                 void fail_null() {
                     // given
                     email = null;
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이메일이 없습니다.");
                 }
@@ -140,11 +129,9 @@ class UserTest {
                 void fail_null() {
                     // given
                     role = null;
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("유저 권한이 없습니다.");
                 }
@@ -159,11 +146,9 @@ class UserTest {
                 void fail_null() {
                     // given
                     kakaoId = null;
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("카카오 아이디 값이 없습니다.");
                 }
@@ -173,11 +158,9 @@ class UserTest {
                 void fail_empty() {
                     // given
                     kakaoId = "";
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("카카오 아이디 값이 없습니다.");
                 }
@@ -192,11 +175,9 @@ class UserTest {
                 void fail_null() {
                     // given
                     imgLink = null;
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
@@ -206,11 +187,9 @@ class UserTest {
                 void fail_empty() {
                     // given
                     imgLink = "";
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
@@ -220,11 +199,9 @@ class UserTest {
                 void fail_url_form() {
                     // given
                     imgLink = "test_email";
-
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> new User(username, email, role, kakaoId, imgLink));
-
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
