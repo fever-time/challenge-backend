@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     void deleteAllByFeed(Feed feed);
 
-    List<Comment> findAllByFeed_Id(Long feedId);
+    List<Comment> findAllByFeed(Feed feed);
 
     Optional<Comment> findByIdAndUser(Long commentId, User user);
 }

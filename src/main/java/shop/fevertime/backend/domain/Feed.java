@@ -26,17 +26,13 @@ public class Feed extends BaseTimeEntity {
     private User user;
 
     public Feed(String contents, User user) {
-        // Feed 생성 validation
         FeedValidator.validateFeedCreate(contents, user);
-
-        this.contents = contents; // dto에서 받지말고 바로 string으로 변경
+        this.contents = contents;
         this.user = user;
     }
 
     public void update(String contents) {
-        if (contents.trim().length() == 0) {
-            throw new ApiRequestException("공백으로 피드를 수정할 수 없습니다.");
-        }
+        FeedValidator.validatorFeedUpdate(contents);
         this.contents = contents;
     }
 

@@ -31,9 +31,7 @@ public class Comment extends BaseTimeEntity {
 
     // 댓글 생성자
     public Comment(Feed feed, String contents, User user) {
-        // 댓글 생성 validation
         CommentValidator.validateCommentCreate(contents, user, feed);
-
         this.contents = contents;
         this.feed = feed;
         this.user = user;
@@ -41,9 +39,7 @@ public class Comment extends BaseTimeEntity {
 
     // 댓글 수정
     public void commentUpdate(String contents) {
-        if (contents.trim().length() == 0) {
-            throw new ApiRequestException("공백으로 댓글을 수정할 수 없습니다.");
-        }
+        CommentValidator.validatorCommentUpdate(contents);
         this.contents = contents;
     }
 }
