@@ -7,6 +7,7 @@ import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
 import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CommentRepository;
 import shop.fevertime.backend.repository.FeedRepository;
 
@@ -37,19 +38,26 @@ public class FeedService {
     }
 
     @Transactional
-    public Long updateFeed(Long id, FeedRequestDto requestDto) {
-        Feed feed = feedRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("존재하는 피드가 없습니다.")
+    public ResultResponseDto updateFeed(Long id, FeedRequestDto requestDto, User user) {
+        Feed feed = feedRepository.findByIdAndUser(id, user).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 피드입니다.")
         );
         feed.update(requestDto.getContents());
-        return id;
+        return new ResultResponseDto("success", "피드 수정되었습니다.");
+
     }
 
     @Transactional
-    public void deleteFeed(Long feedId) {
+    public void deleteFeed(Long feedId, User user) {
         // 피드 삭제전에 댓글테이블에 feedId으로 댓글 삭제 추가
-        commentRepository.deleteAllByFeedId(feedId);
-        feedRepository.deleteById(feedId);
+        Feed feed = feedRepository.findByIdAndUser(feedId, user).orElseThrow(
+                () -> new ApiRequestException("피드가 존재하지 않거나 삭제 권한이 없습니다.")
+        );
+        commentRepository.deleteAllByFeed(feed);
+
+        feedRepository.deleteByIdAndUser(feedId, user).orElseThrow(
+                () -> new ApiRequestException("정상적으로 삭제되지 않았습니다.")
+        );
     }
 
     public ResultResponseDto checkFeedCreator(Long feedId, User user) {

@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
+import shop.fevertime.backend.exception.ApiRequestException;
+import shop.fevertime.backend.util.FeedValidator;
 
 import javax.persistence.*;
 
@@ -24,12 +26,13 @@ public class Feed extends BaseTimeEntity {
     private User user;
 
     public Feed(String contents, User user) {
-        // validation 해야함
+        FeedValidator.validateFeedCreate(contents, user);
         this.contents = contents;
         this.user = user;
     }
 
     public void update(String contents) {
+        FeedValidator.validatorFeedUpdate(contents);
         this.contents = contents;
     }
 

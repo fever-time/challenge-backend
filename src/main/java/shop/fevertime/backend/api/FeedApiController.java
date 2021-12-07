@@ -1,11 +1,15 @@
 package shop.fevertime.backend.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
 import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
+import shop.fevertime.backend.exception.ApiException;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.service.FeedService;
 
@@ -39,17 +43,23 @@ public class FeedApiController {
      * 피드 수정 API
      */
     @PutMapping("/feeds/{feedId}")
-    public ResultResponseDto updateFeed(@PathVariable Long feedId, @RequestBody FeedRequestDto requestDto) {
-        feedService.updateFeed(feedId, requestDto);
-        return new ResultResponseDto("success", "피드 수정되었습니다.");
+    public ResultResponseDto updateFeed(
+            @PathVariable Long feedId,
+            @RequestBody FeedRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+            ) {
+        return feedService.updateFeed(feedId, requestDto, userDetails.getUser());
     }
 
     /**
      * 피드 삭제 API
      */
     @DeleteMapping("/feeds/{feedId}")
-    public ResultResponseDto deleteFeed(@PathVariable Long feedId) {
-        feedService.deleteFeed(feedId);
+    public ResultResponseDto deleteFeed(
+            @PathVariable Long feedId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+            ) {
+        feedService.deleteFeed(feedId, userDetails.getUser());
         return new ResultResponseDto("success", "피드 삭제되었습니다.");
     }
 
