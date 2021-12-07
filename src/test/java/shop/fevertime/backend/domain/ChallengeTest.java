@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
 
 import java.time.LocalDateTime;
@@ -33,13 +34,13 @@ class ChallengeTest {
 
             title = "제목";
             description = "내용";
-            imgLink = "";
+            imgLink = "anyImg.jpg"; // 프론트랑 상의해야함
             startDate = LocalDateTimeUtil.getLocalDateTime("2020-01-01");
             endDate = LocalDateTimeUtil.getLocalDateTime("2020-12-12");
             limitPerson = 10;
             locationType = LocationType.OFFLINE;
             address = "강남구";
-            user = new User("test", "test@email.com", UserRole.USER, "123456", "");
+            user = new User("test", "test@email.com", UserRole.USER, "123456", "https://fever-prac.s3.ap-northeast-2.amazonaws.com/challenge/ee87a2ad-d03e-4e28-9a3f-609deda36cc0%EC%B6%94%EC%B9%B4%EC%B6%94%EC%B9%B4%EB%A7%81.png");
             category = new Category("운동");
         }
 
@@ -74,93 +75,97 @@ class ChallengeTest {
             class Title {
 
                 @Test
-                @DisplayName("null")
-                void fail_null() {
+                @DisplayName("챌린지의 제목이 null이면 예외 발생")
+                void title_null() {
                     // given
                     title = null;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지 이름이 없습니다.");
                 }
+
                 @Test
-                @DisplayName("공백")
-                void fail_empty() {
+                @DisplayName("챌린지가 공백이면 예외 발생")
+                void title_empty() {
                     // given
                     title = "";
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지 이름이 없습니다.");
                 }
             }
 
             @Nested
-            @DisplayName("챌린지 설명")
+            @DisplayName("챌린지 설명이 null이면 예외 발생")
             class Description {
 
                 @Test
                 @DisplayName("null")
-                void fail_null() {
+                void description_null() {
                     // given
                     description = null;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지 상세 설명이 없습니다.");
+
                 }
                 @Test
-                @DisplayName("공백")
-                void fail_empty() {
+                @DisplayName("챌린지 설명이 공백이면 예외 발생")
+                void description_empty() {
                     // given
                     description = "";
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지 상세 설명이 없습니다.");
                 }
             }
 
             @Nested
-            @DisplayName("챌린지 이미지 링크")
+            @DisplayName("챌린지 이미지 링크가 null이면 예외 발생")
             class ImgLink {
 
                 @Test
                 @DisplayName("null")
-                void fail_null() {
+                void imgLink_null() {
                     // given
                     imgLink = null;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("첨부된 파일이 없습니다.");
                 }
+
                 @Test
-                @DisplayName("공백")
-                void fail_empty() {
+                @DisplayName("챌린지 이미지 링크가 공백이면 예외 발생")
+                void imgLink_empty() {
                     // given
                     imgLink = "";
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
-                }
-                @Test
-                @DisplayName("URL")
-                void fail_url_form() {
-                    // given
-                    imgLink = "";
-
-                    // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
-
-                    // then
+                    assertThat(exception.getMessage()).isEqualTo("첨부된 파일이 없습니다.");
                 }
             }
 
@@ -169,15 +174,17 @@ class ChallengeTest {
             class StartDate {
 
                 @Test
-                @DisplayName("null")
-                void fail_null() {
+                @DisplayName("챌린지 시작 기간이 null이면 예외 발생")
+                void startDate_null() {
                     // given
                     startDate = null;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("날짜 형식이 알맞지 않습니다.");
                 }
             }
 
@@ -186,15 +193,17 @@ class ChallengeTest {
             class EndDate {
 
                 @Test
-                @DisplayName("null")
-                void fail_null() {
+                @DisplayName("챌린지 종료 기간이 null이면 예외 발생")
+                void endDate_null() {
                     // given
                     endDate = null;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("날짜 형식이 알맞지 않습니다.");
                 }
             }
 
@@ -203,26 +212,31 @@ class ChallengeTest {
             class LimitPerson {
 
                 @Test
-                @DisplayName("음수")
-                void fail_null() {
+                @DisplayName("챌린지 신청 인원이 33명 초과하면 예외 발생")
+                void applier_over() {
                     // given
-                    limitPerson = -10;
+                    limitPerson = 34;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("제한 인원은 1명~33명 사이로 입력하세요");
                 }
+
                 @Test
-                @DisplayName("적은 인원")
-                void fail_lessLimit() {
+                @DisplayName("챌린지 신청 인원이 1명 미만일 때 예외가 발생")
+                void applier_less() {
                     // given
-                    limitPerson = 1;
+                    limitPerson = 0;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("제한 인원은 1명~33명 사이로 입력하세요");
                 }
             }
 
@@ -231,15 +245,17 @@ class ChallengeTest {
             class LocationType {
 
                 @Test
-                @DisplayName("null")
-                void fail_null() {
+                @DisplayName("챌린지 참여자 위치가 null이면 예외 발생")
+                void locationType_null() {
                     // given
                     locationType = null;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지 타입을 입력하세요.");
                 }
             }
 
@@ -248,16 +264,34 @@ class ChallengeTest {
             class Address {
 
                 @Test
-                @DisplayName("null")
-                void fail_null() {
+                @DisplayName("챌린지 오프라인 주소가 null이면 예외 발생")
+                void address_null() {
                     // given
                     address = null;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("오프라인인 경우 주소를 입력하세요.");
                 }
+
+                @Test
+                @DisplayName("온라인 챌린지일 경우 address 입력시 예외 발생")
+                void online_challenge_no_address() {
+                    // given
+                    locationType = shop.fevertime.backend.domain.LocationType.ONLINE;
+                    address = "판교역";
+
+                    // when
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
+
+                    // then
+                    assertThat(exception.getMessage()).isEqualTo("온라인 챌린지는 주소를 설정할 수 없습니다.");
+                }
+
             }
 
             @Nested
@@ -265,15 +299,17 @@ class ChallengeTest {
             class User {
 
                 @Test
-                @DisplayName("null")
-                void fail_null() {
+                @DisplayName("챌린지 개설자가 null이면 예외 발생")
+                void challenge_creator_null() {
                     // given
                     user = null;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("유저 Id 가 유효하지 않습니다.");
                 }
             }
 
@@ -282,15 +318,17 @@ class ChallengeTest {
             class Category {
 
                 @Test
-                @DisplayName("null")
-                void fail_null() {
+                @DisplayName("챌린지 카테고리가 null이면 예외 발생")
+                void category_null() {
                     // given
                     category = null;
 
                     // when
-                    Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category));
 
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("카테고리를 지정해주세요.");
                 }
             }
         }
