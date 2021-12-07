@@ -56,7 +56,6 @@ public class CommentService {
                 () -> new ApiRequestException("존재하지 않는 댓글이거나 수정 권한이 없습니다.")
         );
         comment.commentUpdate(requestDto.getContents());
-
     }
 
     // 댓글 삭제
@@ -80,6 +79,5 @@ public class CommentService {
             return new ResultResponseDto("success", "댓글 생성자가 맞습니다.");
         }
         return new ResultResponseDto("fail", "댓글 생성자가 아닙니다.");
-
     }
 }

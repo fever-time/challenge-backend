@@ -54,10 +54,6 @@ public class UserService {
             userRepository.save(kakaoUser);
         }
 
-//        UserDetailsImpl userDetails = new UserDetailsImpl(kakaoUser);
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-
         return kakaoId;
     }
 

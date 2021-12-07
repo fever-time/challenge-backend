@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Feed extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "feed_id")
@@ -35,5 +36,4 @@ public class Feed extends BaseTimeEntity {
         FeedValidator.validatorFeedUpdate(contents);
         this.contents = contents;
     }
-
 }

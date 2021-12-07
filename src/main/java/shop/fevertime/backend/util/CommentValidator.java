@@ -25,5 +25,4 @@ public class CommentValidator {
             throw new ApiRequestException("공백으로 댓글을 수정할 수 없습니다.");
         }
     }
-
 }

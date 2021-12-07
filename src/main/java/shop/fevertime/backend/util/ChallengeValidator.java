@@ -63,7 +63,6 @@ public class ChallengeValidator {
         }
     }
 
-
     public static boolean validationDate(LocalDateTime checkDate) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

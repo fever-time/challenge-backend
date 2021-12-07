@@ -44,7 +44,6 @@ public class FeedService {
         );
         feed.update(requestDto.getContents());
         return new ResultResponseDto("success", "피드 수정되었습니다.");
-
     }
 
     @Transactional

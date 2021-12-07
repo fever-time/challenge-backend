@@ -74,7 +74,7 @@ public class ChallengeApiController {
     @DeleteMapping("/challenges/{challengeId}")
     public ResultResponseDto deleteChallenge(@PathVariable Long challengeId,
                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        challengeService.deleteChallenge(challengeId ,userDetails.getUser());
+        challengeService.deleteChallenge(challengeId, userDetails.getUser());
         return new ResultResponseDto("success", "챌린지 삭제되었습니다.");
     }
 

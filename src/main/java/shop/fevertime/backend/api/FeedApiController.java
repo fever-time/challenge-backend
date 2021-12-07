@@ -1,15 +1,11 @@
 package shop.fevertime.backend.api;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
 import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
-import shop.fevertime.backend.exception.ApiException;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.service.FeedService;
 
@@ -47,7 +43,7 @@ public class FeedApiController {
             @PathVariable Long feedId,
             @RequestBody FeedRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
-            ) {
+    ) {
         return feedService.updateFeed(feedId, requestDto, userDetails.getUser());
     }
 
@@ -58,7 +54,7 @@ public class FeedApiController {
     public ResultResponseDto deleteFeed(
             @PathVariable Long feedId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
-            ) {
+    ) {
         feedService.deleteFeed(feedId, userDetails.getUser());
         return new ResultResponseDto("success", "피드 삭제되었습니다.");
     }

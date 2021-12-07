@@ -3,7 +3,6 @@ package shop.fevertime.backend.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.response.ChallengeUserResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.dto.response.UserCertifiesResponseDto;
