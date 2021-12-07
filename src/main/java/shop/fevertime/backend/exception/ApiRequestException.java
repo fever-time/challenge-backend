@@ -1,6 +1,7 @@
 package shop.fevertime.backend.exception;
 
-public class ApiRequestException extends IllegalArgumentException { // NoSuchException으로 변경
+
+public class ApiRequestException extends IllegalArgumentException {
     public ApiRequestException(String message) {
         super(message);
     }

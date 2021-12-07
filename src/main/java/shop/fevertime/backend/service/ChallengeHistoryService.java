@@ -86,7 +86,7 @@ public class ChallengeHistoryService {
         List<Certification> certis = certificationRepository.findAllByChallengeAndUser(challenge, user);
 
         for (Certification certi : certis) {
-            certificationService.deleteCertification(certi.getId());
+            certificationService.deleteCertification(certi.getId(), user);
         }
 
         challengeHistory.cancel();

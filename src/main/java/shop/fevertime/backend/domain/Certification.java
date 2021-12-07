@@ -3,6 +3,7 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.fevertime.backend.util.CertificationValidator;
 
 import javax.persistence.*;
 
@@ -31,6 +32,9 @@ public class Certification extends BaseTimeEntity {
     private Challenge challenge;
 
     public Certification(String imgLink, String contents, User user, Challenge challenge) {
+        //validation
+        CertificationValidator.validateCreate(user, imgLink, contents);
+
         this.imgLink = imgLink;
         this.contents = contents;
         this.user = user;

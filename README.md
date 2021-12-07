@@ -21,10 +21,13 @@
 - <a href="https://github.com/JunHo-YH">강준호</a>
 - <a href="https://github.com/suubinkim">김수빈</a>
 
+### 📌 아키텍처
+![image](https://user-images.githubusercontent.com/78840035/144712735-a51ce6e6-5744-46c5-bfa5-3951ed4fc3d5.png)
+
 ### 📌 3차 프로젝트 기술 스택&선택 이유 - <a href="https://github.com/fever-time/challenge-backend/wiki/1.-%EA%B8%B0%EC%88%A0-%EC%84%A0%ED%83%9D-%EC%9D%B4%EC%9C%A0!">WIKI 이동</a>
 - Java - 개발 언어
-- JPA - 자바 ORM 기술 표준
 - Spring boot - 웹 프레임워크
+- Spring Data JPA + Querydsl - JPA(Hibernate) : 자바 ORM 기술 표준
 - Spring Security - 인증&인가 프레임워크
 - MySQL(AWS RDS) - 데이터베이스
 - Git - 형상관리
@@ -37,10 +40,12 @@
 - OAuth 2.0 기반 카카오 로그인
 ### Challenge
 - 로그인 유저만 챌린지 생성/참여
-- 챌린지 생성한 유저만 챌린지 삭제
 - 오프라인 챌린지 장소 Kakao Map 키워드 검색 및 위치 설정
 - 챌린지 카테고리/제목 검색
 - 스케줄러를 활용한 챌린지 마감
+
+### 📌 ERD
+![FEVER-TIME](https://user-images.githubusercontent.com/64997245/144733570-f9fd211d-525c-4640-a228-b56da5ef27d4.png)
 
 ### 📌 문제를 이렇게 해결했어요! - <a href="https://github.com/fever-time/challenge-backend/wiki/3.-%EB%AC%B8%EC%A0%9C%EB%A5%BC-%EC%9D%B4%EB%A0%87%EA%B2%8C-%ED%95%B4%EA%B2%B0%ED%96%88%EC%96%B4%EC%9A%94!">WIKI 이동</a>
 

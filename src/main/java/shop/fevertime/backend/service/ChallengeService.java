@@ -7,13 +7,16 @@ import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
+import shop.fevertime.backend.util.ChallengeValidator;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
 import shop.fevertime.backend.util.S3Uploader;
 
+import javax.security.sasl.AuthenticationException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
@@ -99,8 +102,8 @@ public class ChallengeService {
     @Transactional
     public void updateChallenge(Long challengeId, ChallengeUpdateRequestDto requestDto, User user) throws IOException {
         // 챌린지 이미지 s3에서 기존 이미지 삭제
-        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NoSuchElementException("해당 아이디가 존재하지 않습니다.")
+        Challenge challenge = challengeRepository.findByIdAndUser(challengeId, user).orElseThrow(
+                () -> new ApiRequestException("해당 챌린지가 존재하지 않습니다.")
         );
 
         // 기존 이미지 S3에서 삭제
@@ -115,23 +118,23 @@ public class ChallengeService {
     }
 
     @Transactional
-    public void deleteChallenge(Long challengeId) {
+    public void deleteChallenge(Long challengeId, User user) {
         // 챌린지 이미지 s3에서 삭제
-        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+        Challenge challenge = challengeRepository.findByIdAndUser(challengeId, user).orElseThrow(
+                () -> new ApiRequestException("해당 챌린지가 존재하지 않습니다.")
         );
         String[] ar = challenge.getImgLink().split("/");
         s3Uploader.delete(ar[ar.length - 1], "challenge");
 
         // 삭제하는 챌린지에 해당하는 인증 이미지 s3 삭제
-        List<Certification> certifications = certificationRepository.findAllByChallengeId(challengeId);
+        List<Certification> certifications = certificationRepository.findAllByChallenge(challenge);
         for (Certification certification : certifications) {
             String[] arr = certification.getImgLink().split("/");
             s3Uploader.delete(arr[arr.length - 1], "certification");
         }
 
-        certificationRepository.deleteAllByChallengeId(challengeId);
-        challengeRepository.deleteById(challengeId);
+        certificationRepository.deleteAllByChallenge(challenge);
+        challengeRepository.delete(challenge);
     }
 
     public ResultResponseDto checkChallengeCreator(Long challengeId, User user) {
