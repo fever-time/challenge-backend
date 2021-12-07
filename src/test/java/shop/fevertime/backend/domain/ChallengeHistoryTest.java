@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import shop.fevertime.backend.exception.ApiRequestException;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +25,7 @@ class ChallengeHistoryTest {
 
         @BeforeEach
         void setup() {
-            user = new User("test", "test@email.com", UserRole.USER, "123456", "");
+            user = new User("test", "test@email.com", UserRole.USER, "123456", "https://img.com/img");
             Category category = new Category("운동");
             challenge = new Challenge("제목", "설명", "", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", user, category);
             createdDate = LocalDateTime.now();
@@ -39,7 +40,6 @@ class ChallengeHistoryTest {
 
             // when
             ChallengeHistory challengeHistory = new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus);
-
             // then
             assertThat(challengeHistory.getId()).isNull();
             assertThat(challengeHistory.getUser()).isEqualTo(user);
@@ -47,7 +47,6 @@ class ChallengeHistoryTest {
             assertThat(challengeHistory.getCreatedDate()).isEqualTo(createdDate);
             assertThat(challengeHistory.getMissionDate()).isEqualTo(missionDate);
             assertThat(challengeHistory.getChallengeStatus()).isEqualTo(challengeStatus);
-
         }
 
         @Nested
@@ -63,11 +62,11 @@ class ChallengeHistoryTest {
                 void fail_null() {
                     // given
                     user = null;
-
                     // when
-                    ChallengeHistory challengeHistory = new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("유저 Id 가 유효하지 않습니다.");
                 }
             }
 
@@ -80,11 +79,11 @@ class ChallengeHistoryTest {
                 void fail_null() {
                     // given
                     challenge = null;
-
                     // when
-                    ChallengeHistory challengeHistory = new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지가 유효하지 않습니다.");
                 }
             }
 
@@ -97,11 +96,11 @@ class ChallengeHistoryTest {
                 void fail_null() {
                     // given
                     createdDate = null;
-
                     // when
-                    ChallengeHistory challengeHistory = new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지 참가 날짜가 없습니다.");
                 }
             }
 
@@ -114,11 +113,11 @@ class ChallengeHistoryTest {
                 void fail_null() {
                     // given
                     missionDate = null;
-
                     // when
-                    ChallengeHistory challengeHistory = new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지 미션 날짜가 없습니다.");
                 }
             }
 
@@ -131,11 +130,11 @@ class ChallengeHistoryTest {
                 void fail_null() {
                     // given
                     challengeStatus = null;
-
                     // when
-                    ChallengeHistory challengeHistory = new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus);
-
+                    Exception exception = assertThrows(ApiRequestException.class,
+                            () -> new ChallengeHistory(user, challenge, createdDate, missionDate, challengeStatus));
                     // then
+                    assertThat(exception.getMessage()).isEqualTo("챌린지 참여 상태가 없습니다.");
                 }
             }
         }
