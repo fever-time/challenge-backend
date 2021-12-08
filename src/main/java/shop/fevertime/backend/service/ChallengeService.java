@@ -44,7 +44,7 @@ public class ChallengeService {
 
     public ChallengeResponseDto getChallenge(Long challengeId) {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+                () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
         // 챌린지 참여자 수
         long participants = challengeHistoryRepository.countDistinctUserByChallengeAndChallengeStatus(challenge, ChallengeStatus.JOIN);
@@ -78,7 +78,7 @@ public class ChallengeService {
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
         // 카테고리 찾기
         Category category = categoryRepository.findByName(requestDto.getCategory()).orElseThrow(
-                () -> new NoSuchElementException("카테고리 정보 찾기 실패")
+                () -> new ApiRequestException("카테고리 정보 찾기 실패")
         );
         // 챌린지 생성
         Challenge challenge = new Challenge(
