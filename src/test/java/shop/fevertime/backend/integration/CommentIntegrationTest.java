@@ -8,6 +8,7 @@ import shop.fevertime.backend.domain.Feed;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.domain.UserRole;
 import shop.fevertime.backend.dto.request.CommentRequestDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CommentRepository;
 import shop.fevertime.backend.repository.FeedRepository;
@@ -88,8 +89,12 @@ public class CommentIntegrationTest {
         Feed feed = new Feed("첫번째 피드", user);
         feedRepository.save(feed);
 
+
         Comment comment1 = new Comment(feed, "첫번째 댓글", user);
         Comment comment2 = new Comment(feed, "두번째 댓글", user2);
+
+        // 댓글 생성자 확인
+        ResultResponseDto resultResponseDto = commentService.checkCommentCreator(comment1.getId(), user2);
 
         commentRepository.save(comment1);
         commentRepository.save(comment2);
@@ -99,10 +104,12 @@ public class CommentIntegrationTest {
                 () -> commentService.deleteComment(feed.getId(), comment1.getId(), user2));// 현규님이 내 댓글을 지우려고 한다.
 
         commentService.deleteComment(feed.getId(), comment1.getId(), user); // 본인의 댓글을 지우면
-        List<Comment> comments = commentRepository.findAll(); // 댓글은 총 2개가 된다.
+        List<Comment> comments = commentRepository.findAll(); // 댓글은 총 1개가 된다.
+
         // then
         assertEquals("존재하지 않는 댓글이거나 삭제 권한이 없습니다.", exception.getMessage());
-        assertEquals(2, comments.size());
+        assertEquals(1, comments.size());
+        assertEquals("fail", resultResponseDto.getResult());
     }
 
     @Test
@@ -120,6 +127,9 @@ public class CommentIntegrationTest {
         Comment comment1 = new Comment(feed, "첫번째 댓글", user);
         Comment comment2 = new Comment(feed, "두번째 댓글", user2);
 
+        // 댓글 생성자 확인
+        ResultResponseDto resultResponseDto = commentService.checkCommentCreator(comment1.getId(), user2);
+
         commentRepository.save(comment1);
         commentRepository.save(comment2);
 
@@ -131,6 +141,6 @@ public class CommentIntegrationTest {
 
         // then
         assertEquals("존재하지 않는 댓글이거나 수정 권한이 없습니다.", exception.getMessage());
-
+        assertEquals("fail", resultResponseDto.getResult());
     }
 }
