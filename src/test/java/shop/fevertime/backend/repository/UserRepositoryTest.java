@@ -124,7 +124,6 @@ class UserRepositoryTest {
         Challenge challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user2, category);
         challengeRepository.save(challenge1);
 
-
         Certification certification = new Certification("https://www.img.com/img", "인증", user1, challenge1);
         Certification certification2 = new Certification("https://www.img.com/img", "인증", user1, challenge1);
         Certification certification3 = new Certification("https://www.img.com/img", "인증", user2, challenge1);
