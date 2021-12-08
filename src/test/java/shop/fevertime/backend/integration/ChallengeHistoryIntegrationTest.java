@@ -80,6 +80,7 @@ public class ChallengeHistoryIntegrationTest {
             certificationRepository.save(certification2);
             certificationRepository.save(certification3);
 
+            //user1,user2 챌린지 참여
             ChallengeHistory challengeHistory1 = new ChallengeHistory(user1, challenge, LocalDateTime.now(), LocalDateTime.now().plusDays(7), ChallengeStatus.JOIN);
             ChallengeHistory challengeHistory2 = new ChallengeHistory(user2, challenge, LocalDateTime.now(), LocalDateTime.now().plusDays(7), ChallengeStatus.JOIN);
             challengeHistoryRepository.save(challengeHistory1);
@@ -97,7 +98,7 @@ public class ChallengeHistoryIntegrationTest {
 
             //then
             assertEquals(challengeHistoryUser.getUsername(),"user1");
-            assertThat(challengeHistoryUser.getCertifies().size()).isEqualTo(2);
+            assertThat(challengeHistoryUser.getCertifies().size()).isEqualTo(2); //챌린지 참여한 user1의 인증 횟수
             assertThat(challengeHistoryUser.getUserHistories().get(0).getChallengeStatus()).isEqualTo(ChallengeStatus.JOIN);
         }
 
@@ -111,10 +112,10 @@ public class ChallengeHistoryIntegrationTest {
             List<UserCertifiesResponseDto> challengeHistoryUsers = challengeHistoryService.getChallengeHistoryUsers(challenge.getId());
 
             //then
-            assertThat(challengeHistoryUsers.size()).isEqualTo(2);
+            assertThat(challengeHistoryUsers.size()).isEqualTo(2);//챌린지 참여 유저 인원
             assertThat(challengeHistoryUsers.get(0).getUsername()).isEqualTo("user1");
             assertThat(challengeHistoryUsers.get(1).getUsername()).isEqualTo("user2");
-            assertThat(challengeHistoryUsers.get(1).getCertifies().get(0).getContents()).isEqualTo("나인증1");
+            assertThat(challengeHistoryUsers.get(1).getCertifies().get(0).getContents()).isEqualTo("나인증1");//유저2의 인증 내용
         }
 
         @Test
@@ -125,11 +126,11 @@ public class ChallengeHistoryIntegrationTest {
             //given
 
             //when
-            challengeHistoryService.joinChallenge(challenge.getId(),user3);
+            challengeHistoryService.joinChallenge(challenge.getId(),user3);//유저3 챌린지 참여
 
             //then
             List<ChallengeHistory> allByChallengeAndUser = challengeHistoryRepository.findAllByChallengeAndUser(challenge, user3);
-            assertThat(allByChallengeAndUser.get(0).getChallengeStatus()).isEqualTo(ChallengeStatus.JOIN);
+            assertThat(allByChallengeAndUser.get(0).getChallengeStatus()).isEqualTo(ChallengeStatus.JOIN); //챌린지 히스토리에 유저3 참여 상태
             assertThat(allByChallengeAndUser.get(0).getUser()).isEqualTo(user3);
         }
 
@@ -141,16 +142,16 @@ public class ChallengeHistoryIntegrationTest {
             //given
 
             //when
-            challengeHistoryService.cancelChallenge(challenge.getId(),user1);
+            challengeHistoryService.cancelChallenge(challenge.getId(),user1);//유저1 챌린지 참여 취소
             //참여 안한 유저가 참여 취소
             Exception exception = assertThrows(NoSuchElementException.class,
                     () -> challengeHistoryService.cancelChallenge(challenge.getId(),user3));
 
             //then
             List<ChallengeHistory> user1status = challengeHistoryRepository.findAllByUserAndChallengeStatus(user1, ChallengeStatus.CANCEL);
-            assertThat(user1status.size()).isEqualTo(1);
+            assertThat(user1status.size()).isEqualTo(1);//챌린지 참여 인원 ( user1이 취소해서 user2만 남음 )
 
-            assertThat(exception.getMessage()).isEqualTo("해당 챌린지를 참여중인 기록이 없습니다.");
+            assertThat(exception.getMessage()).isEqualTo("해당 챌린지를 참여중인 기록이 없습니다."); //참여 하지 않은 user3이 챌린지 취소 했을 떄
         }
 
     }
