@@ -61,3 +61,24 @@ include::{snippets}/feeds/delete/request-headers.adoc[]
 include::{snippets}/feeds/delete/path-parameters.adoc[]
 include::{snippets}/feeds/delete/response-fields.adoc[]
 
+== 댓글 API
+=== 댓글 리스트 API
+include::{snippets}/comment/list/http-request.adoc[]
+include::{snippets}/comment/list/response-fields.adoc[]
+=== 댓글 생성 API
+include::{snippets}/comment/create/http-request.adoc[]
+include::{snippets}/comment/create/request-headers.adoc[]
+include::{snippets}/comment/create/request-fields.adoc[]
+include::{snippets}/comment/create/response-fields.adoc[]
+=== 댓글 수정 API
+include::{snippets}/comment/update/http-request.adoc[]
+include::{snippets}/comment/update/request-headers.adoc[]
+include::{snippets}/comment/update/path-parameters.adoc[]
+include::{snippets}/comment/update/request-fields.adoc[]
+include::{snippets}/comment/update/response-fields.adoc[]
+=== 댓글 API
+include::{snippets}/comment/delete/http-request.adoc[]
+include::{snippets}/comment/delete/request-headers.adoc[]
+include::{snippets}/comment/delete/path-parameters.adoc[]
+include::{snippets}/comment/delete/response-fields.adoc[]
+
