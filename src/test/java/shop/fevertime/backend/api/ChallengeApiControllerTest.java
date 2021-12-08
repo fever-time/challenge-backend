@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -33,8 +34,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -165,13 +165,12 @@ class ChallengeApiControllerTest {
     @Order(4)
     @WithUserDetails(value = "1234")
     public void 챌린지_생성() throws Exception {
-        MockMultipartFile file = new MockMultipartFile("image",
-                "test.png",
-                "image/png",
-                new FileInputStream("C:\\github\\selectshop\\src\\main\\resources\\static\\images\\icon-save.png"));
+        MockMultipartFile image = new MockMultipartFile("image", "image.png", "image/png",
+                "<<png data>>".getBytes());
 
         mockMvc.perform(multipart("/challenge")
-                .file(file)
+                .file(image)
+//                .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Basic dXNlcjpzZWNyZXQ=")
                 .param("title", "title")
                 .param("description", "description")

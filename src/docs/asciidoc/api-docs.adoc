@@ -46,7 +46,6 @@ include::{snippets}/feeds/list/response-fields.adoc[]
 === 피드 생성 API
 include::{snippets}/feeds/create/http-request.adoc[]
 include::{snippets}/feeds/create/request-headers.adoc[]
-include::{snippets}/feeds/create/request-parameters.adoc[]
 include::{snippets}/feeds/create/request-fields.adoc[]
 include::{snippets}/feeds/create/response-fields.adoc[]
 === 피드 수정 API
