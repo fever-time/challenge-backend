@@ -71,7 +71,7 @@ public class FeedIntegrationTest {
             Feed feed = new Feed(contents, user);
             feedRepository.save(feed);
 
-            // 사용자 확인
+            // 생성자 확인
             ResultResponseDto checkResultResponseDto = feedService.checkFeedCreator(feed.getId(), null);
             ResultResponseDto checkResultResponseDto2 = feedService.checkFeedCreator(feed.getId(), user);
 
@@ -84,7 +84,7 @@ public class FeedIntegrationTest {
             // then
             assertThat(resultResponseDto.getResult()).isEqualTo("success");
 
-            // 사용자 확인
+            // 생성자 확인
             assertThat(checkResultResponseDto.getResult()).isEqualTo("fail");
             assertThat(checkResultResponseDto2.getResult()).isEqualTo("success");
         }
@@ -103,6 +103,11 @@ public class FeedIntegrationTest {
             feedRepository.save(feed);
 
             // when
+
+            //생성자 확인
+            ResultResponseDto checkResultResponseDto = feedService.checkFeedCreator(feed.getId(), null);
+            ResultResponseDto checkResultResponseDto2 = feedService.checkFeedCreator(feed.getId(), user);
+
             Exception exception = assertThrows(ApiRequestException.class,
                     () -> feedService.deleteFeed(feed.getId(), null));
             feedService.deleteFeed(feed.getId(), user);
@@ -110,6 +115,10 @@ public class FeedIntegrationTest {
             // then
             assertEquals("피드가 존재하지 않거나 삭제 권한이 없습니다.", exception.getMessage());
             assertThat(feeds.size()).isEqualTo(0);
+
+            // 생성자 확인
+            assertThat(checkResultResponseDto.getResult()).isEqualTo("fail");
+            assertThat(checkResultResponseDto2.getResult()).isEqualTo("success");
         }
     }
 
