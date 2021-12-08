@@ -127,7 +127,7 @@ public class UserIntegrationTest {
 
             //then
             Optional<User> byId = userRepository.findById(user1.getId());
-            assertThat(byId.get().getImgLink()).isNotEqualTo(user1.getImgLink());
+            assertThat(byId.get().getImgLink()).isNotEqualTo(user1.getImgLink());//기존 이미지와 변경한 이미지가 같지 않다.
         }
 
         @Test
