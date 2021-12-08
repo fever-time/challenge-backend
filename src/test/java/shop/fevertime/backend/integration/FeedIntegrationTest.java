@@ -1,4 +1,4 @@
-package shop.fevertime.backend.Integration;
+package shop.fevertime.backend.integration;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,10 +67,14 @@ public class FeedIntegrationTest {
             // given
             User user = new User("사용자 이름", "test@email.com", UserRole.USER, "1234567", "https://img.com/img");
             userRepository.save(user);
-            // 유저 정보를 저장 안해서 에러
 
             Feed feed = new Feed(contents, user);
             feedRepository.save(feed);
+
+            // 사용자 확인
+            ResultResponseDto checkResultResponseDto = feedService.checkFeedCreator(feed.getId(), null);
+            ResultResponseDto checkResultResponseDto2 = feedService.checkFeedCreator(feed.getId(), user);
+
 
             FeedRequestDto updateRequestDto = new FeedRequestDto("수정 피드");
 
@@ -79,6 +83,10 @@ public class FeedIntegrationTest {
 
             // then
             assertThat(resultResponseDto.getResult()).isEqualTo("success");
+
+            // 사용자 확인
+            assertThat(checkResultResponseDto.getResult()).isEqualTo("fail");
+            assertThat(checkResultResponseDto2.getResult()).isEqualTo("success");
         }
 
 
