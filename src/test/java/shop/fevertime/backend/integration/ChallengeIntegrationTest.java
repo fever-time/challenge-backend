@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
+import shop.fevertime.backend.dto.response.ChallengeResponseDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
@@ -153,6 +155,10 @@ public class ChallengeIntegrationTest {
             requestDto.setAddress(newAddress);
             requestDto.setImage(newImage);
 
+            // 생성자 확인
+            ResultResponseDto resultResponseDto = challengeService.checkChallengeCreator(allByUser.get(0).getId(), user);
+            assertThat(resultResponseDto.getMsg()).isEqualTo("챌린지 생성자가 맞습니다.");
+
             // when
             challengeService.updateChallenge(allByUser.get(0).getId(), requestDto, user);
 
@@ -175,12 +181,36 @@ public class ChallengeIntegrationTest {
             challengeService.createChallenge(requestDto, user);
             List<Challenge> allByUser = challengeRepository.findAllByUser(user);
 
+            // 생성자 확인
+            ResultResponseDto resultResponseDto = challengeService.checkChallengeCreator(allByUser.get(0).getId(), user);
+            assertThat(resultResponseDto.getMsg()).isEqualTo("챌린지 생성자가 맞습니다.");
+
             // when
             challengeService.deleteChallenge(allByUser.get(0).getId(), user);
 
             // then
             List<Challenge> allByUser2 = challengeRepository.findAllByUser(user);
             assertThat(allByUser2.size()).isEqualTo(0);
+
+        }
+
+        @Test
+        @Order(5)
+        @DisplayName("챌린지 검색")
+        void test5() throws IOException {
+            // given
+            //챌린지 생성
+            user = new User("test", "test@email.com", UserRole.USER, "123456", "https://www.img.com/img");
+            userRepository.save(user);
+
+            challengeService.createChallenge(requestDto, user);
+
+            // when
+            List<ChallengeResponseDto> responseDtos = challengeService.searchChallenges("제");
+
+            // then
+            assertThat(responseDtos.size()).isEqualTo(1);
+            assertThat(responseDtos.get(0).getTitle()).isEqualTo("제목");
 
         }
 

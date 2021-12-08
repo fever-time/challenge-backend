@@ -7,6 +7,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.CertificationRequestDto;
+import shop.fevertime.backend.dto.response.CertificationResponseDto;
+import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
@@ -14,6 +16,7 @@ import shop.fevertime.backend.repository.UserRepository;
 import shop.fevertime.backend.service.CertificationService;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,7 +59,8 @@ class CertificationIntegrationTest {
         private String address;
         private User user;
         private Category category;
-        private final CertificationRequestDto requestDto = new CertificationRequestDto();
+        private final CertificationRequestDto requestDto1 = new CertificationRequestDto();
+        private final CertificationRequestDto requestDto2 = new CertificationRequestDto();
 
         @BeforeEach
         void setup() {
@@ -77,8 +81,11 @@ class CertificationIntegrationTest {
             byte[] content = new byte[0];
             MultipartFile image = new MockMultipartFile("content", "img.png", "multipart/mixed", content);
 
-            requestDto.setContents("첫번째 인증");
-            requestDto.setImage(image);
+            requestDto1.setContents("첫번째 인증");
+            requestDto1.setImage(image);
+
+            requestDto2.setContents("두번째 인증");
+            requestDto2.setImage(image);
         }
 
         @Test
@@ -90,7 +97,8 @@ class CertificationIntegrationTest {
             challengeRepository.save(challenge);
 
             //when
-            certificationService.createCertification(challenge.getId(), requestDto, user);
+            certificationService.createCertification(challenge.getId(), requestDto1, user);
+            certificationService.createCertification(challenge.getId(), requestDto2, user);
 
             //then
             List<Certification> allByChallenge = certificationRepository.findAllByChallenge(challenge);
@@ -102,22 +110,46 @@ class CertificationIntegrationTest {
 
         @Test
         @Order(2)
+        @Transactional
+        @DisplayName("특정 챌린지 인증 조회")
+        void getCerti() throws IOException {
+            //given
+            Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+            challengeRepository.save(challenge);
+
+            certificationService.createCertification(challenge.getId(), requestDto1, user);
+            certificationService.createCertification(challenge.getId(), requestDto2, user);
+
+            //when
+            List<CertificationResponseDto> certifications = certificationService.getCertifications(challenge.getId());
+
+            //then
+            assertThat(certifications.size()).isEqualTo(2);
+        }
+
+        @Test
+        @Order(3)
         @DisplayName("인증 삭제")
         void deleteCerti() throws IOException {
             //given
             Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
             challengeRepository.save(challenge);
 
-            certificationService.createCertification(challenge.getId(), requestDto, user);
+            certificationService.createCertification(challenge.getId(), requestDto1, user);
+            certificationService.createCertification(challenge.getId(), requestDto2, user);
             List<Certification> allByChallenge = certificationRepository.findAllByChallenge(challenge);
             Certification certification = allByChallenge.get(0);
 
+            //생성자 확인
+            ResultResponseDto resultResponseDto = certificationService.checkCertificationCreator(certification.getId(), user);
+            assertThat(resultResponseDto.getMsg()).isEqualTo("챌린지 인증 생성자가 맞습니다.");
+
             //when
-            certificationRepository.deleteById(certification.getId());
+            certificationService.deleteCertification(certification.getId(),user);
 
             //then
             List<Certification> allByChallenge1 = certificationRepository.findAllByChallenge(challenge);
-            assertThat(allByChallenge1.size()).isEqualTo(0);
+            assertThat(allByChallenge1.size()).isEqualTo(1);
         }
     }
 }
