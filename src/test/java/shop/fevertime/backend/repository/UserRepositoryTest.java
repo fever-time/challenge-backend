@@ -1,14 +1,19 @@
 package shop.fevertime.backend.repository;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
-import shop.fevertime.backend.domain.User;
-import shop.fevertime.backend.domain.UserRole;
+import shop.fevertime.backend.domain.*;
+import shop.fevertime.backend.exception.ApiRequestException;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,20 +25,51 @@ class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ChallengeRepository challengeRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
+    @Autowired
+    CertificationRepository certificationRepository;
+
+
     @Test
+    @DisplayName("유저 생성")
     @Order(1)
-    public void save_delete() {
+    public void create_user() {
         // given
-        User test = new User("test", "test@email.com", UserRole.USER, "1234545", "https://www.img.com/img");
+        User user = new User("test", "test@email.com", UserRole.USER, "1234545", "https://www.img.com/img");
 
         // when
-        userRepository.save(test);
+        userRepository.save(user);
 
-        userRepository.delete(test);
+        // then
+        List<User> users = userRepository.findAll();
+        assertThat(users.size()).isEqualTo(1);
     }
 
     @Test
+    @DisplayName("유저 삭제")
     @Order(2)
+    void delete_user() {
+        // given
+        User user = new User("test", "test@email.com", UserRole.USER, "1234545", "https://www.img.com/img");
+
+        // when
+        userRepository.delete(user);
+        List<User> users = userRepository.findAll();
+
+        // then
+        assertThat(users.size()).isEqualTo(0);
+
+    }
+
+
+    @Test
+    @DisplayName("유저 전체 조회")
+    @Order(3)
     public void findAll() {
         // given
         User user1 = new User("test", "test@email.com", UserRole.USER, "1234", "https://www.img.com/img");
@@ -53,4 +89,52 @@ class UserRepositoryTest {
         assertThat(all.size()).isEqualTo(4);
     }
 
+    @Test
+    @DisplayName("유저 전체 조회")
+    @Order(4)
+    void find_user_kakao() {
+        // given
+        User user1 = new User("test", "test@email.com", UserRole.USER, "1234", "https://www.img.com/img");
+        User user2 = new User("test2", "test@email.com", UserRole.USER, "12345", "https://www.img.com/img");
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+
+        // when
+        Exception exception = assertThrows(UsernameNotFoundException.class,
+                () -> userRepository.findByKakaoId("1111"));
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo("Can't find " + "1111");
+    }
+
+    @Test
+    @DisplayName("유저 챌린지 인증 내역")
+    @Order(5)
+    void user_certi_list() {
+        // give
+        User user1 = new User("test1", "test@email.com", UserRole.USER, "123456", "https://www.img.com/img");
+        User user2 = new User("test1", "test@email.com", UserRole.USER, "123458", "https://www.img.com/img");
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+        Category category = new Category("운동");
+        categoryRepository.save(category);
+
+        Challenge challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user2, category);
+        challengeRepository.save(challenge1);
+
+
+        Certification certification = new Certification("https://www.img.com/img", "인증", user1, challenge1);
+        Certification certification2 = new Certification("https://www.img.com/img", "인증", user1, challenge1);
+        Certification certification3 = new Certification("https://www.img.com/img", "인증", user2, challenge1);
+        certificationRepository.save(certification);
+        certificationRepository.save(certification2);
+        certificationRepository.save(certification3);
+        // when
+        List<User> usersCertifis = userRepository.findAllCertifiesByChallenge(challenge1);
+
+        // then
+        assertThat(usersCertifis.get(0).getCertificationList().size()).isEqualTo(2);
+    }
 }
