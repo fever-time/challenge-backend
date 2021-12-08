@@ -1,0 +1,41 @@
+= Fever time API Documents
+:toc: left
+:doctype: book
+
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+= API
+== 챌린지 API
+=== 챌린지 리스트 API
+include::{snippets}/challenges/list/http-request.adoc[]
+include::{snippets}/challenges/list/request-parameters.adoc[]
+include::{snippets}/challenges/list/response-fields.adoc[]
+=== 챌린지 검색 API
+include::{snippets}/challenges/search/http-request.adoc[]
+include::{snippets}/challenges/search/request-parameters.adoc[]
+include::{snippets}/challenges/search/response-fields.adoc[]
+=== 챌린지 상세 조회 API
+include::{snippets}/challenges/detail/http-request.adoc[]
+include::{snippets}/challenges/detail/path-parameters.adoc[]
+include::{snippets}/challenges/detail/response-fields.adoc[]
+=== 챌린지 생성 API
+include::{snippets}/challenges/create/http-request.adoc[]
+include::{snippets}/challenges/create/request-headers.adoc[]
+include::{snippets}/challenges/create/request-parameters.adoc[]
+include::{snippets}/challenges/create/request-parts.adoc[]
+include::{snippets}/challenges/create/response-fields.adoc[]
+=== 챌린지 수정 API
+//include::{snippets}/challenges/update/http-request.adoc[]
+//include::{snippets}/challenges/update/request-headers.adoc[]
+//include::{snippets}/challenges/update/path-parameters.adoc[]
+//include::{snippets}/challenges/update/request-parameters.adoc[]
+//include::{snippets}/challenges/update/request-parts.adoc[]
+//include::{snippets}/challenges/update/response-fields.adoc[]
+=== 챌린지 삭제 API
+include::{snippets}/challenges/delete/http-request.adoc[]
+include::{snippets}/challenges/delete/request-headers.adoc[]
+include::{snippets}/challenges/delete/path-parameters.adoc[]
+include::{snippets}/challenges/delete/response-fields.adoc[]
+
