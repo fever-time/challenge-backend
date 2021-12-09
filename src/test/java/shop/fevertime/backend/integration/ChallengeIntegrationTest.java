@@ -66,19 +66,19 @@ public class ChallengeIntegrationTest {
         @BeforeEach
         void setup() {
 
-            Category category1 = new Category("운동");
+            Category category1 = new Category("독서");
             categoryRepository.save(category1);
 
             user = null;
-            title = "제목";
-            description = "내용";
+            title = "챌린지";
+            description = "챌린지내용";
             MockMultipartFile image = new MockMultipartFile("content", "img.png", "multipart/mixed", content);
             startDate = "2020-01-01";
             endDate = "2020-12-12";
             limitPerson = 10;
             locationType = LocationType.OFFLINE;
             address = "강남구";
-            category = "운동";
+            category = "독서";
 
             requestDto.setTitle(title);
             requestDto.setDescription(description);
@@ -206,11 +206,11 @@ public class ChallengeIntegrationTest {
             challengeService.createChallenge(requestDto, user);
 
             // when
-            List<ChallengeResponseDto> responseDtos = challengeService.searchChallenges("제");
+            List<ChallengeResponseDto> responseDtos = challengeService.searchChallenges("챌");
 
             // then
             assertThat(responseDtos.size()).isEqualTo(1);
-            assertThat(responseDtos.get(0).getTitle()).isEqualTo("제목");
+            assertThat(responseDtos.get(0).getTitle()).isEqualTo("챌린지");
 
         }
 

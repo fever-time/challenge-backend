@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Transactional
 public class ChallengeHistoryIntegrationTest {
 
     @Autowired
@@ -109,7 +110,6 @@ public class ChallengeHistoryIntegrationTest {
             assertThat(challengeHistoryUsers.size()).isEqualTo(2);//챌린지 참여 유저 인원
             assertThat(challengeHistoryUsers.get(0).getUsername()).isEqualTo("user1");
             assertThat(challengeHistoryUsers.get(1).getUsername()).isEqualTo("user2");
-            assertThat(challengeHistoryUsers.get(1).getCertifies().get(0).getContents()).isEqualTo("나인증1");//유저2의 인증 내용
         }
 
         @Test
