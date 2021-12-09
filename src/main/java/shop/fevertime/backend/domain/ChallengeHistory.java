@@ -3,6 +3,8 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.fevertime.backend.util.ChallengeHistoryValidator;
+import shop.fevertime.backend.util.ChallengeValidator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,6 +44,7 @@ public class ChallengeHistory {
             LocalDateTime missionDate,
             ChallengeStatus challengeStatus
     ) {
+        ChallengeHistoryValidator.validateCreate(user, challenge, createdDate, missionDate, challengeStatus);
         this.user = user;
         this.challenge = challenge;
         this.createdDate = createdDate;

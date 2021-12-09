@@ -1,12 +1,13 @@
-buildscript {
-    ext {
-        queryDslVersion = "4.4.0"
-    }
-}
+//buildscript {
+//    ext {
+//        queryDslVersion = "4.4.0"
+//    }
+//}
 
 plugins {
     id 'org.springframework.boot' version '2.5.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'java'
 }
 
@@ -14,17 +15,40 @@ group = 'shop.fevertime'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}") {
+        into "/static/docs"
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    // spring rest docs
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'org.modelmapper:modelmapper:2.4.4'
+
     // QueryDSL
-    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    annotationProcessor(
-            "javax.persistence:javax.persistence-api",
-            "javax.annotation:javax.annotation-api",
-            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+//    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+//    annotationProcessor(
+//            "javax.persistence:javax.persistence-api",
+//            "javax.annotation:javax.annotation-api",
+//            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
 
     // aws secrets
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
@@ -46,6 +70,7 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
@@ -53,15 +78,38 @@ jar {
     enabled = false
 }
 
-// QueryDSL
-sourceSets {
-    main {
-        java {
-            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
-        }
+test {
+    useJUnitPlatform()
+    outputs.dir snippetsDir
+    filter {
+        includeTestsMatching "shop.fevertime.backend.api.*"
     }
 }
 
-test {
-    useJUnitPlatform()
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
 }
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
+}
+
+build {
+    dependsOn copyDocument
+}
+
+// QueryDSL
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+//        }
+//    }
+//}

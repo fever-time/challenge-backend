@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
+import shop.fevertime.backend.exception.ApiRequestException;
+import shop.fevertime.backend.util.FeedValidator;
 
 import javax.persistence.*;
 
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Feed extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "feed_id")
@@ -23,14 +26,14 @@ public class Feed extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Feed(FeedRequestDto requestDto, User user) {
-        // validation 해야함
-        this.contents = requestDto.getContents();
+    public Feed(String contents, User user) {
+        FeedValidator.validateFeedCreate(contents, user);
+        this.contents = contents;
         this.user = user;
     }
 
-    public void update(FeedRequestDto requestDto) {
-        this.contents = requestDto.getContents();
+    public void update(String contents) {
+        FeedValidator.validatorFeedUpdate(contents);
+        this.contents = contents;
     }
-
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
+
     List<Challenge> findAllByTitleContaining(String title);
 
     List<Challenge> findAllByCategoryNameEquals(String category);
@@ -15,5 +16,4 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     List<Challenge> findAllByUser(User user);
 
     Optional<Challenge> findByIdAndUser(Long challengeId, User user);
-
 }

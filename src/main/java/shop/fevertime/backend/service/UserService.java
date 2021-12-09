@@ -8,6 +8,7 @@ import shop.fevertime.backend.dto.request.UserRequestDto;
 
 import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.UserChallengeResponseDto;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.repository.FeedRepository;
@@ -50,10 +51,6 @@ public class UserService {
             userRepository.save(kakaoUser);
         }
 
-//        UserDetailsImpl userDetails = new UserDetailsImpl(kakaoUser);
-//        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-
         return kakaoId;
     }
 
@@ -73,25 +70,25 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserImg(Long userId, UserRequestDto requestDto) throws IOException {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+    public void updateUserImg(User user, UserRequestDto requestDto) throws IOException {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
         // 기존 이미지 S3에서 삭제
-        String[] ar = user.getImgLink().split("/");
+        String[] ar = findUser.getImgLink().split("/");
         s3Uploader.delete(ar[ar.length - 1], "user");
 
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "user");
-        user.updateUserimg(uploadImageUrl);
+        findUser.updateUserImg(uploadImageUrl);
     }
 
     @Transactional
-    public void updateUsername(Long userId, UserRequestDto requestDto) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new NullPointerException("해당 아이디가 존재하지 않습니다.")
+    public void updateUsername(User user, UserRequestDto requestDto) {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
 
-        user.updateUsername(requestDto.getUsername());
+        findUser.updateUsername(requestDto.getUsername());
     }
 }

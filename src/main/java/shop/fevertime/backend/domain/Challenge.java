@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
+import shop.fevertime.backend.util.CertificationValidator;
+import shop.fevertime.backend.util.ChallengeValidator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -56,6 +58,7 @@ public class Challenge extends BaseTimeEntity {
      * 챌린지 수정 메서드
      */
     public void update(String imgLink, String address) {
+        ChallengeValidator.validateUpdate(imgLink, address);
         this.imgLink = imgLink;
         this.address = address;
     }
@@ -74,6 +77,7 @@ public class Challenge extends BaseTimeEntity {
                      User user,
                      Category category
     ) {
+        ChallengeValidator.validateCreate(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
         this.title = title;
         this.description = description;
         this.imgLink = imgLink;
@@ -85,5 +89,4 @@ public class Challenge extends BaseTimeEntity {
         this.user = user;
         this.category = category;
     }
-
 }

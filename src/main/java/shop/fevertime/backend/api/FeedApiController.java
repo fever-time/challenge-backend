@@ -39,17 +39,23 @@ public class FeedApiController {
      * 피드 수정 API
      */
     @PutMapping("/feeds/{feedId}")
-    public ResultResponseDto updateFeed(@PathVariable Long feedId, @RequestBody FeedRequestDto requestDto) {
-        feedService.updateFeed(feedId, requestDto);
-        return new ResultResponseDto("success", "피드 수정되었습니다.");
+    public ResultResponseDto updateFeed(
+            @PathVariable Long feedId,
+            @RequestBody FeedRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        return feedService.updateFeed(feedId, requestDto, userDetails.getUser());
     }
 
     /**
      * 피드 삭제 API
      */
     @DeleteMapping("/feeds/{feedId}")
-    public ResultResponseDto deleteFeed(@PathVariable Long feedId) {
-        feedService.deleteFeed(feedId);
+    public ResultResponseDto deleteFeed(
+            @PathVariable Long feedId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        feedService.deleteFeed(feedId, userDetails.getUser());
         return new ResultResponseDto("success", "피드 삭제되었습니다.");
     }
 
