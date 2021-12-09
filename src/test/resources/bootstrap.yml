@@ -1,4 +1,6 @@
 aws:
+  paramstore:
+    enabled: false
   secretsmanager:
     name: backend
 cloud:
