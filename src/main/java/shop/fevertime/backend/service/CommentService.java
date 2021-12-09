@@ -37,7 +37,7 @@ public class CommentService {
     // 댓글 생성
     @Transactional
     public void createComment(Long feedId, CommentRequestDto requestDto, User user) {
-        Feed feed = feedRepository.findByIdAndUser(feedId, user).orElseThrow(
+        Feed feed = feedRepository.findById(feedId).orElseThrow(
                 () -> new ApiRequestException("존재하지 않는 피드입니다.")
         );
         Comment comment = new Comment(feed, requestDto.getContents(), user);
