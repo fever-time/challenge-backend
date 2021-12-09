@@ -22,17 +22,19 @@
 - <a href="https://github.com/suubinkim">김수빈</a>
 
 ### 📌 아키텍처
-![image](https://user-images.githubusercontent.com/78840035/144712735-a51ce6e6-5744-46c5-bfa5-3951ed4fc3d5.png)
+![image](https://user-images.githubusercontent.com/78840035/145398320-00c5b5fb-1104-4460-9f71-2b8a8c4f9cb5.png)
 
 ### 📌 3차 프로젝트 기술 스택&선택 이유 - <a href="https://github.com/fever-time/challenge-backend/wiki/1.-%EA%B8%B0%EC%88%A0-%EC%84%A0%ED%83%9D-%EC%9D%B4%EC%9C%A0!">WIKI 이동</a>
 - Java - 개발 언어
 - Spring boot - 웹 프레임워크
-- Spring Data JPA + Querydsl - JPA(Hibernate) : 자바 ORM 기술 표준
+- Spring Data JPA - JPA(Hibernate) : 자바 ORM 기술 표준
 - Spring Security - 인증&인가 프레임워크
+- Spring Rest Docs - API 자동 문서화
 - MySQL(AWS RDS) - 데이터베이스
 - Git - 형상관리
 - Github Actions - CI/CD
-- AWS S3, CloudFront, EBS - 서버 인프라
+- AWS S3, CloudFront - 프론트엔드 서버 인프라
+- AWS EBS, ECR(Docker) - 백엔드 서버 인프라
 
 ### 📌 주요 기능 - <a href="https://github.com/fever-time/challenge-backend/wiki/2.-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5">WIKI 이동</a>
 ### User
@@ -43,6 +45,10 @@
 - 오프라인 챌린지 장소 Kakao Map 키워드 검색 및 위치 설정
 - 챌린지 카테고리/제목 검색
 - 스케줄러를 활용한 챌린지 마감
+- 챌린지별 하루에 인증 한 번만 가능
+### Feed
+- 피드, 댓글 기능
+- 대댓글 (추가 예정)
 
 ### 📌 ERD
 ![FEVER-TIME](https://user-images.githubusercontent.com/64997245/144733570-f9fd211d-525c-4640-a228-b56da5ef27d4.png)
