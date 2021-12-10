@@ -13,69 +13,124 @@ include::{snippets}/challenges/list/http-request.adoc[]
 include::{snippets}/challenges/list/request-parameters.adoc[]
 include::{snippets}/challenges/list/response-fields.adoc[]
 === 챌린지 검색 API
+
 include::{snippets}/challenges/search/http-request.adoc[]
 include::{snippets}/challenges/search/request-parameters.adoc[]
 include::{snippets}/challenges/search/response-fields.adoc[]
+
 === 챌린지 상세 조회 API
+
 include::{snippets}/challenges/detail/http-request.adoc[]
 include::{snippets}/challenges/detail/path-parameters.adoc[]
 include::{snippets}/challenges/detail/response-fields.adoc[]
+
 === 챌린지 생성 API
+
 include::{snippets}/challenges/create/http-request.adoc[]
 include::{snippets}/challenges/create/request-headers.adoc[]
 include::{snippets}/challenges/create/request-parameters.adoc[]
 include::{snippets}/challenges/create/request-parts.adoc[]
 include::{snippets}/challenges/create/response-fields.adoc[]
+
 === 챌린지 수정 API
-//include::{snippets}/challenges/update/http-request.adoc[]
-//include::{snippets}/challenges/update/request-headers.adoc[]
-//include::{snippets}/challenges/update/path-parameters.adoc[]
-//include::{snippets}/challenges/update/request-parameters.adoc[]
-//include::{snippets}/challenges/update/request-parts.adoc[]
-//include::{snippets}/challenges/update/response-fields.adoc[]
+
+include::{snippets}/challenges/update/http-request.adoc[]
+include::{snippets}/challenges/update/request-headers.adoc[]
+include::{snippets}/challenges/update/path-parameters.adoc[]
+include::{snippets}/challenges/update/request-parameters.adoc[]
+include::{snippets}/challenges/update/request-parts.adoc[]
+include::{snippets}/challenges/update/response-fields.adoc[]
+
 === 챌린지 삭제 API
+
 include::{snippets}/challenges/delete/http-request.adoc[]
 include::{snippets}/challenges/delete/request-headers.adoc[]
 include::{snippets}/challenges/delete/path-parameters.adoc[]
 include::{snippets}/challenges/delete/response-fields.adoc[]
 
+== 챌린지 인증 API
+
+=== 챌린지 인증 리스트 API
+
+include::{snippets}/certification/list/http-request.adoc[]
+include::{snippets}/certification/list/path-parameters.adoc[]
+include::{snippets}/certification/list/response-fields.adoc[]
+
+=== 챌린지 인증 상세보기 API
+
+include::{snippets}/certification/detail/http-request.adoc[]
+include::{snippets}/certification/detail/path-parameters.adoc[]
+include::{snippets}/certification/detail/response-fields.adoc[]
+
+=== 챌린지 인증 생성 API
+
+include::{snippets}/certification/create/http-request.adoc[]
+include::{snippets}/certification/create/request-headers.adoc[]
+include::{snippets}/certification/create/path-parameters.adoc[]
+include::{snippets}/certification/create/request-parameters.adoc[]
+include::{snippets}/certification/create/request-parts.adoc[]
+include::{snippets}/certification/create/response-fields.adoc[]
+
+=== 챌린지 인증 삭제 API
+
+include::{snippets}/certification/delete/http-request.adoc[]
+include::{snippets}/certification/delete/request-headers.adoc[]
+include::{snippets}/certification/delete/path-parameters.adoc[]
+include::{snippets}/certification/delete/response-fields.adoc[]
+
 == 피드 API
+
 === 피드 리스트 API
+
 include::{snippets}/feeds/list/http-request.adoc[]
 include::{snippets}/feeds/list/response-fields.adoc[]
+
 === 피드 생성 API
+
 include::{snippets}/feeds/create/http-request.adoc[]
 include::{snippets}/feeds/create/request-headers.adoc[]
 include::{snippets}/feeds/create/request-fields.adoc[]
 include::{snippets}/feeds/create/response-fields.adoc[]
+
 === 피드 수정 API
+
 include::{snippets}/feeds/update/http-request.adoc[]
 include::{snippets}/feeds/update/request-headers.adoc[]
 include::{snippets}/feeds/update/path-parameters.adoc[]
 include::{snippets}/feeds/update/request-fields.adoc[]
 include::{snippets}/feeds/update/response-fields.adoc[]
+
 === 피드 삭제 API
+
 include::{snippets}/feeds/delete/http-request.adoc[]
 include::{snippets}/feeds/delete/request-headers.adoc[]
 include::{snippets}/feeds/delete/path-parameters.adoc[]
 include::{snippets}/feeds/delete/response-fields.adoc[]
 
 == 댓글 API
+
 === 댓글 리스트 API
+
 include::{snippets}/comment/list/http-request.adoc[]
 include::{snippets}/comment/list/response-fields.adoc[]
+
 === 댓글 생성 API
+
 include::{snippets}/comment/create/http-request.adoc[]
 include::{snippets}/comment/create/request-headers.adoc[]
 include::{snippets}/comment/create/request-fields.adoc[]
 include::{snippets}/comment/create/response-fields.adoc[]
+
 === 댓글 수정 API
+
 include::{snippets}/comment/update/http-request.adoc[]
 include::{snippets}/comment/update/request-headers.adoc[]
 include::{snippets}/comment/update/path-parameters.adoc[]
 include::{snippets}/comment/update/request-fields.adoc[]
 include::{snippets}/comment/update/response-fields.adoc[]
+
 === 댓글 API
+
 include::{snippets}/comment/delete/http-request.adoc[]
 include::{snippets}/comment/delete/request-headers.adoc[]
 include::{snippets}/comment/delete/path-parameters.adoc[]

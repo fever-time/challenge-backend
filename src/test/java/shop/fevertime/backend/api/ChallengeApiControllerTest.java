@@ -8,16 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import shop.fevertime.backend.domain.*;
@@ -25,7 +28,6 @@ import shop.fevertime.backend.repository.CategoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.repository.UserRepository;
 
-import java.io.FileInputStream;
 import java.time.LocalDateTime;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -36,11 +38,11 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest()
+@Transactional
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -51,6 +53,7 @@ class ChallengeApiControllerTest {
     protected MockMvc mockMvc;
     @Autowired
     ObjectMapper objectMapper;
+
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -61,21 +64,21 @@ class ChallengeApiControllerTest {
     private Long challengeId;
 
     @BeforeAll
-    public void setData() {
-        User test = new User("test", "tes@email.com", UserRole.USER, "1234", "https://img.com/img");
+    void init() {
+        User test = new User("test", "tes@email.com", UserRole.USER, "456", "https://img.com/img");
         this.userRepository.save(test);
 
         Category category = new Category("운동");
         this.categoryRepository.save(category);
 
-        Challenge challenge = new Challenge("제목", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", test, category);
+        Challenge challenge = new Challenge("title", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", test, category);
         this.challengeRepository.save(challenge);
 
         challengeId = challenge.getId();
     }
 
     @BeforeEach
-    public void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
+    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
@@ -86,7 +89,7 @@ class ChallengeApiControllerTest {
 
     @Test
     @Order(1)
-    public void 카테고리별_챌린지_조회() throws Exception {
+    void 카테고리별_챌린지_조회() throws Exception {
         mockMvc.perform(get("/challenges")
                 .param("kind", "All"))
                 .andExpect(status().isOk())
@@ -95,50 +98,50 @@ class ChallengeApiControllerTest {
                                 parameterWithName("kind").description("카테고리")
                         ),
                         responseFields(
-                                fieldWithPath("[].challengeId").type(JsonFieldType.NUMBER).description("챌린지 ID").optional(),
-                                fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목").optional(),
-                                fieldWithPath("[].description").type(JsonFieldType.STRING).description("챌린지 상세 설명").optional(),
-                                fieldWithPath("[].startDate").type(JsonFieldType.STRING).description("챌린지 시작 날짜").optional(),
-                                fieldWithPath("[].endDate").type(JsonFieldType.STRING).description("챌린지 마감 날짜").optional(),
-                                fieldWithPath("[].limitPerson").type(JsonFieldType.NUMBER).description("챌린지 제한 인원").optional(),
-                                fieldWithPath("[].locationType").type(JsonFieldType.STRING).description("챌린지 장소 타입").optional(),
-                                fieldWithPath("[].address").type(JsonFieldType.STRING).description("챌린지 주소").optional(),
-                                fieldWithPath("[].imgLink").type(JsonFieldType.STRING).description("챌린지 이미지 링크").optional(),
-                                fieldWithPath("[].category.name").type(JsonFieldType.STRING).description("챌린지 카테고리").optional(),
-                                fieldWithPath("[].participants").type(JsonFieldType.NUMBER).description("챌린지 참여자수").optional()
+                                fieldWithPath("[].challengeId").type(JsonFieldType.NUMBER).description("챌린지 ID"),
+                                fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("[].description").type(JsonFieldType.STRING).description("챌린지 상세 설명"),
+                                fieldWithPath("[].startDate").type(JsonFieldType.STRING).description("챌린지 시작 날짜"),
+                                fieldWithPath("[].endDate").type(JsonFieldType.STRING).description("챌린지 마감 날짜"),
+                                fieldWithPath("[].limitPerson").type(JsonFieldType.NUMBER).description("챌린지 제한 인원"),
+                                fieldWithPath("[].locationType").type(JsonFieldType.STRING).description("챌린지 장소 타입"),
+                                fieldWithPath("[].address").type(JsonFieldType.STRING).description("챌린지 주소"),
+                                fieldWithPath("[].imgLink").type(JsonFieldType.STRING).description("챌린지 이미지 링크"),
+                                fieldWithPath("[].category.name").type(JsonFieldType.STRING).description("챌린지 카테고리"),
+                                fieldWithPath("[].participants").type(JsonFieldType.NUMBER).description("챌린지 참여자수")
                         )
                 ));
     }
 
     @Test
     @Order(2)
-    public void 챌린지_검색() throws Exception {
+    void 챌린지_검색() throws Exception {
         mockMvc.perform(get("/challenges/search")
-                .param("search", "text"))
+                .param("search", "title"))
                 .andExpect(status().isOk())
                 .andDo(document("challenges/search",
                         requestParameters(
                                 parameterWithName("search").description("챌린지 검색 제목")
                         ),
                         responseFields(
-                                fieldWithPath("[].challengeId").type(JsonFieldType.NUMBER).description("챌린지 ID").optional(),
-                                fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목").optional(),
-                                fieldWithPath("[].description").type(JsonFieldType.STRING).description("챌린지 상세 설명").optional(),
-                                fieldWithPath("[].startDate").type(JsonFieldType.STRING).description("챌린지 시작 날짜").optional(),
-                                fieldWithPath("[].endDate").type(JsonFieldType.STRING).description("챌린지 마감 날짜").optional(),
-                                fieldWithPath("[].limitPerson").type(JsonFieldType.NUMBER).description("챌린지 제한 인원").optional(),
-                                fieldWithPath("[].locationType").type(JsonFieldType.STRING).description("챌린지 장소 타입").optional(),
-                                fieldWithPath("[].address").type(JsonFieldType.STRING).description("챌린지 주소").optional(),
-                                fieldWithPath("[].imgLink").type(JsonFieldType.STRING).description("챌린지 이미지 링크").optional(),
-                                fieldWithPath("[].category.name").type(JsonFieldType.STRING).description("챌린지 카테고리").optional(),
-                                fieldWithPath("[].participants").type(JsonFieldType.NUMBER).description("챌린지 참여자수").optional()
+                                fieldWithPath("[].challengeId").type(JsonFieldType.NUMBER).description("챌린지 ID"),
+                                fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("[].description").type(JsonFieldType.STRING).description("챌린지 상세 설명"),
+                                fieldWithPath("[].startDate").type(JsonFieldType.STRING).description("챌린지 시작 날짜"),
+                                fieldWithPath("[].endDate").type(JsonFieldType.STRING).description("챌린지 마감 날짜"),
+                                fieldWithPath("[].limitPerson").type(JsonFieldType.NUMBER).description("챌린지 제한 인원"),
+                                fieldWithPath("[].locationType").type(JsonFieldType.STRING).description("챌린지 장소 타입"),
+                                fieldWithPath("[].address").type(JsonFieldType.STRING).description("챌린지 주소"),
+                                fieldWithPath("[].imgLink").type(JsonFieldType.STRING).description("챌린지 이미지 링크"),
+                                fieldWithPath("[].category.name").type(JsonFieldType.STRING).description("챌린지 카테고리"),
+                                fieldWithPath("[].participants").type(JsonFieldType.NUMBER).description("챌린지 참여자수")
                         )
                 ));
     }
 
     @Test
     @Order(3)
-    public void 챌린지_상세_조회() throws Exception {
+    void 챌린지_상세_조회() throws Exception {
         mockMvc.perform(get("/challenges/{challengeId}", challengeId))
                 .andExpect(status().isOk())
                 .andDo(document("challenges/detail",
@@ -146,32 +149,31 @@ class ChallengeApiControllerTest {
                                 parameterWithName("challengeId").description("챌린지 ID")
                         ),
                         responseFields(
-                                fieldWithPath("challengeId").type(JsonFieldType.NUMBER).description("챌린지 ID").optional(),
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("제목").optional(),
-                                fieldWithPath("description").type(JsonFieldType.STRING).description("챌린지 상세 설명").optional(),
-                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("챌린지 시작 날짜").optional(),
-                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("챌린지 마감 날짜").optional(),
-                                fieldWithPath("limitPerson").type(JsonFieldType.NUMBER).description("챌린지 제한 인원").optional(),
-                                fieldWithPath("locationType").type(JsonFieldType.STRING).description("챌린지 장소 타입").optional(),
-                                fieldWithPath("address").type(JsonFieldType.STRING).description("챌린지 주소").optional(),
-                                fieldWithPath("imgLink").type(JsonFieldType.STRING).description("챌린지 이미지 링크").optional(),
-                                fieldWithPath("category.name").type(JsonFieldType.STRING).description("챌린지 카테고리").optional(),
-                                fieldWithPath("participants").type(JsonFieldType.NUMBER).description("챌린지 참여자수").optional()
+                                fieldWithPath("challengeId").type(JsonFieldType.NUMBER).description("챌린지 ID"),
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("description").type(JsonFieldType.STRING).description("챌린지 상세 설명"),
+                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("챌린지 시작 날짜"),
+                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("챌린지 마감 날짜"),
+                                fieldWithPath("limitPerson").type(JsonFieldType.NUMBER).description("챌린지 제한 인원"),
+                                fieldWithPath("locationType").type(JsonFieldType.STRING).description("챌린지 장소 타입"),
+                                fieldWithPath("address").type(JsonFieldType.STRING).description("챌린지 주소"),
+                                fieldWithPath("imgLink").type(JsonFieldType.STRING).description("챌린지 이미지 링크"),
+                                fieldWithPath("category.name").type(JsonFieldType.STRING).description("챌린지 카테고리"),
+                                fieldWithPath("participants").type(JsonFieldType.NUMBER).description("챌린지 참여자수")
                         )
                 ));
     }
 
     @Test
     @Order(4)
-    @WithUserDetails(value = "1234")
-    public void 챌린지_생성() throws Exception {
+    @WithUserDetails(value = "456")
+    void 챌린지_생성() throws Exception {
         MockMultipartFile image = new MockMultipartFile("image", "image.png", "image/png",
                 "<<png data>>".getBytes());
 
-        mockMvc.perform(multipart("/challenge")
+        mockMvc.perform(fileUpload("/challenge")
                 .file(image)
-//                .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Basic dXNlcjpzZWNyZXQ=")
+                .header(HttpHeaders.AUTHORIZATION, "Basic dXNlcjpzZWNyZXQ=")
                 .param("title", "title")
                 .param("description", "description")
                 .param("startDate", "2021-01-01")
@@ -183,8 +185,8 @@ class ChallengeApiControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("challenges/create",
                         requestHeaders(
-                                headerWithName("Authorization").description("유저 토큰"))
-                        ,
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("유저 토큰")
+                        ),
                         requestParameters(
                                 parameterWithName("title").description("제목"),
                                 parameterWithName("description").description("내용"),
@@ -196,66 +198,69 @@ class ChallengeApiControllerTest {
                                 parameterWithName("address").description("챌린지 오프라인 주소")
                         ),
                         requestParts(
-                                partWithName("image").description("이미지").optional()
+                                partWithName("image").description("이미지")
                         ),
                         responseFields(
-                                fieldWithPath("result").type(JsonFieldType.STRING).description("실행결과").optional(),
-                                fieldWithPath("msg").type(JsonFieldType.STRING).description("메시지").optional()
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("실행결과"),
+                                fieldWithPath("msg").type(JsonFieldType.STRING).description("메시지")
                         )
                 ));
     }
 
-//    @Test
-//    @Order(5)
-//    @WithUserDetails(value = "1234")
-//    public void 챌린지_수정() throws Exception {
-//        MockMultipartFile file = new MockMultipartFile("image",
-//                "test.png",
-//                "image/png",
-//                new FileInputStream("C:\\github\\selectshop\\src\\main\\resources\\static\\images\\icon-save.png"));
-//
-//        mockMvc.perform(multipart("/challenges/{challengeId}", challengeId)
-//                .file(file)
-//                .header("Authorization", "Basic dXNlcjpzZWNyZXQ=")
-//                .param("address", ""))
-//                .andExpect(status().isOk())
-//                .andDo(document("challenges/update",
-//                        requestHeaders(
-//                                headerWithName("Authorization").description("유저 토큰"))
-//                        ,
-//                        pathParameters(
-//                                parameterWithName("challengeId").description("챌린지 ID")
-//                        ),
-//                        requestParameters(
-//                                parameterWithName("address").description("챌린지 오프라인 주소")
-//                        ),
-//                        requestParts(
-//                                partWithName("image").description("이미지").optional()
-//                        ),
-//                        responseFields(
-//                                fieldWithPath("result").type(JsonFieldType.STRING).description("실행결과").optional(),
-//                                fieldWithPath("msg").type(JsonFieldType.STRING).description("메시지").optional()
-//                        )
-//                ));
-//    }
+    @Test
+    @Order(5)
+    @WithUserDetails(value = "456")
+    void 챌린지_수정() throws Exception {
+        MockMultipartFile image = new MockMultipartFile("image", "image.png", "image/png",
+                "<<png data>>".getBytes());
+        MockMultipartHttpServletRequestBuilder builder = RestDocumentationRequestBuilders.fileUpload("/challenges/{challengeId}", challengeId);
+        builder.with(request -> {
+            request.setMethod("PUT");
+            return request;
+        });
+
+        mockMvc.perform(builder
+                .file(image)
+                .header(HttpHeaders.AUTHORIZATION, "Basic dXNlcjpzZWNyZXQ=")
+                .param("address", ""))
+                .andExpect(status().isOk())
+                .andDo(document("challenges/update",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("유저 토큰"))
+                        ,
+                        pathParameters(
+                                parameterWithName("challengeId").description("챌린지 ID")
+                        ),
+                        requestParameters(
+                                parameterWithName("address").description("챌린지 오프라인 주소")
+                        ),
+                        requestParts(
+                                partWithName("image").description("이미지")
+                        ),
+                        responseFields(
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("실행결과"),
+                                fieldWithPath("msg").type(JsonFieldType.STRING).description("메시지")
+                        )
+                ));
+    }
 
     @Test
     @Order(6)
-    @WithUserDetails(value = "1234")
-    public void 챌린지_삭제() throws Exception {
+    @WithUserDetails(value = "456")
+    void 챌린지_삭제() throws Exception {
         mockMvc.perform(delete("/challenges/{challengeId}", challengeId)
-                .header("Authorization", "Basic dXNlcjpzZWNyZXQ="))
+                .header(HttpHeaders.AUTHORIZATION, "Basic dXNlcjpzZWNyZXQ="))
                 .andExpect(status().isOk())
                 .andDo(document("challenges/delete",
                         requestHeaders(
-                                headerWithName("Authorization").description("유저 토큰"))
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("유저 토큰"))
                         ,
                         pathParameters(
                                 parameterWithName("challengeId").description("챌린지 ID")
                         ),
                         responseFields(
-                                fieldWithPath("result").type(JsonFieldType.STRING).description("실행결과").optional(),
-                                fieldWithPath("msg").type(JsonFieldType.STRING).description("메시지").optional()
+                                fieldWithPath("result").type(JsonFieldType.STRING).description("실행결과"),
+                                fieldWithPath("msg").type(JsonFieldType.STRING).description("메시지")
                         )
                 ));
     }

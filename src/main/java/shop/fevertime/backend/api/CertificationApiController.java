@@ -32,7 +32,7 @@ public class CertificationApiController {
      * 인증 상세정보 API
      */
     @GetMapping("/challenges/{challengeId}/certis/{certiId}")
-    public CertificationResponseDto getCertificationOne(@PathVariable Long certiId) {
+    public CertificationResponseDto getCertification(@PathVariable Long certiId) {
         return certificationService.getCertification(certiId);
     }
 

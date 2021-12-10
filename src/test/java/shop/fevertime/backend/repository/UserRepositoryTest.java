@@ -90,7 +90,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("유저 전체 조회")
+    @DisplayName("카카오 아이디로 유저 조회")
     @Order(4)
     void find_user_kakao() {
         // given
@@ -101,11 +101,10 @@ class UserRepositoryTest {
         userRepository.save(user2);
 
         // when
-        Exception exception = assertThrows(UsernameNotFoundException.class,
-                () -> userRepository.findByKakaoId("1111"));
+        Optional<User> byKakaoId = userRepository.findByKakaoId("1111"); //가상 카카오 아이디로 유저 조회
 
         // then
-        assertThat(exception.getMessage()).isEqualTo("Can't find " + "1111");
+        assertFalse(byKakaoId.isPresent()); //조회한 USER가 존재 하지 않음
     }
 
     @Test
@@ -114,7 +113,7 @@ class UserRepositoryTest {
     void user_certi_list() {
         // give
         User user1 = new User("test1", "test@email.com", UserRole.USER, "123456", "https://www.img.com/img");
-        User user2 = new User("test1", "test@email.com", UserRole.USER, "123458", "https://www.img.com/img");
+        User user2 = new User("test2", "test@email.com", UserRole.USER, "123458", "https://www.img.com/img");
 
         userRepository.save(user1);
         userRepository.save(user2);
@@ -134,6 +133,8 @@ class UserRepositoryTest {
         List<User> usersCertifis = userRepository.findAllCertifiesByChallenge(challenge1);
 
         // then
-        assertThat(usersCertifis.get(0).getCertificationList().size()).isEqualTo(2);
+        assertThat(usersCertifis.size()).isEqualTo(2); //challenge1에 유저 2명이  참가
+        assertEquals("test1", usersCertifis.get(0).getUsername());
+        assertEquals("test2", usersCertifis.get(1).getUsername()); //참가한 유저이름 각각 확인
     }
 }
