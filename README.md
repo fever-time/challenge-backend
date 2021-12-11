@@ -26,6 +26,7 @@
 
 ### 📌 3차 프로젝트 기술 스택&선택 이유 - <a href="https://github.com/fever-time/challenge-backend/wiki/1.-%EA%B8%B0%EC%88%A0-%EC%84%A0%ED%83%9D-%EC%9D%B4%EC%9C%A0!">WIKI 이동</a>
 - Java - 개발 언어
+- Junit, Mockito - 자바 테스트 프레임워크
 - Spring boot - 웹 프레임워크
 - Spring Data JPA - JPA(Hibernate) : 자바 ORM 기술 표준
 - Spring Security - 인증&인가 프레임워크
