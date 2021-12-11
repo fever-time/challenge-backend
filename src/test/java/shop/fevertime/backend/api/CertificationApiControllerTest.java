@@ -81,6 +81,14 @@ class CertificationApiControllerTest {
         certiId = certification.getId();
     }
 
+    @AfterAll
+    void clear() {
+        certificationRepository.deleteAll();
+        challengeRepository.deleteAll();
+        categoryRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders

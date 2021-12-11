@@ -78,6 +78,13 @@ class CommentApiControllerTest {
         commentId = comment.getId();
     }
 
+    @AfterAll
+    void clear() {
+        commentRepository.deleteAll();
+        feedRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders

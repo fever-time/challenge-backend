@@ -77,6 +77,13 @@ class ChallengeApiControllerTest {
         challengeId = challenge.getId();
     }
 
+    @AfterAll
+    void clear() {
+        challengeRepository.deleteAll();
+        categoryRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders

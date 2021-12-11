@@ -66,6 +66,12 @@ class FeedApiControllerTest {
         feedId = feed.getId();
     }
 
+    @AfterAll
+    void clear() {
+        feedRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders
