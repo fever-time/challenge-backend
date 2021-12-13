@@ -14,7 +14,7 @@
 ### ⏲️ 개발기간
 - [1차 프로젝트 with Python/Flask] 2021-09-23 ~ 2021-09-30 (<a href="https://github.com/fever-time/challenge-with-flask/wiki/4.-1%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">1차 프로젝트 KPT - WIKI</a>)
 - [2차 프로젝트 with Python/Flask] 2021-10-05 ~ 2021-10-19 (<a href="https://github.com/fever-time/challenge-with-flask/wiki/5.-2%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">2차 프로젝트 KPT - WIKI</a>)
-- [3차 프로젝트 with Java/Spring] 2021-11-19 ~ 2021-12-09
+- [3차 프로젝트 with Java/Spring] 2021-11-19 ~ 2021-12-09 (<a href="https://github.com/fever-time/challenge-backend/wiki/7.-3%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">3차 프로젝트 KPT - WIKI</a>)
 
 ### 🧙 맴버구성
 - <a href="https://github.com/kkyu8925">강현규</a>
@@ -26,6 +26,7 @@
 
 ### 📌 3차 프로젝트 기술 스택&선택 이유 - <a href="https://github.com/fever-time/challenge-backend/wiki/1.-%EA%B8%B0%EC%88%A0-%EC%84%A0%ED%83%9D-%EC%9D%B4%EC%9C%A0!">WIKI 이동</a>
 - Java - 개발 언어
+- Junit, Mockito - 자바 테스트 프레임워크
 - Spring boot - 웹 프레임워크
 - Spring Data JPA - JPA(Hibernate) : 자바 ORM 기술 표준
 - Spring Security - 인증&인가 프레임워크
@@ -48,7 +49,6 @@
 - 챌린지별 하루에 인증 한 번만 가능
 ### Feed
 - 피드, 댓글 기능
-- 대댓글 (추가 예정)
 
 ### 📌 ERD
 ![FEVER-TIME](https://user-images.githubusercontent.com/64997245/144733570-f9fd211d-525c-4640-a228-b56da5ef27d4.png)

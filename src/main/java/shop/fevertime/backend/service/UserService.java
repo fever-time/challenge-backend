@@ -39,7 +39,7 @@ public class UserService {
         String kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
         String email = userInfo.getEmail();
-        String defaultImgLink = "https://fever-prac.s3.ap-northeast-2.amazonaws.com/user/7861f955-8acd-4fa0-810f-4c2e24cfc210favicon.svg";
+        String defaultimgUrl = "https://fever-prac.s3.ap-northeast-2.amazonaws.com/user/SpartaIconScale7.png";
 
         // DB 에 중복된 Kakao Id 가 있는지 확인
         User kakaoUser = userRepository.findByKakaoId(kakaoId)
@@ -47,7 +47,7 @@ public class UserService {
 
         // 카카오 정보로 회원가입
         if (kakaoUser == null) {
-            kakaoUser = new User(nickname, email, UserRole.USER, kakaoId, defaultImgLink);
+            kakaoUser = new User(nickname, email, UserRole.USER, kakaoId, defaultimgUrl);
             userRepository.save(kakaoUser);
         }
 
@@ -75,7 +75,7 @@ public class UserService {
                 () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
         // 기존 이미지 S3에서 삭제
-        String[] ar = findUser.getImgLink().split("/");
+        String[] ar = findUser.getImgUrl().split("/");
         s3Uploader.delete(ar[ar.length - 1], "user");
 
         // 이미지 AWS S3 업로드

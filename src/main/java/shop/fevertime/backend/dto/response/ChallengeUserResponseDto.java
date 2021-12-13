@@ -12,7 +12,7 @@ public class ChallengeUserResponseDto {
     // User
     private Long userId;
     private String username;
-    private String userImgLink;
+    private String userimgUrl;
 
     // Certification List
     private List<CertificationResponseDto> certifies;
@@ -27,7 +27,7 @@ public class ChallengeUserResponseDto {
     ) {
         this.userId = user.getId();
         this.username = user.getUsername();
-        this.userImgLink = user.getImgLink();
+        this.userimgUrl = user.getImgUrl();
         this.certifies = certifies;
         this.userHistories = userHistories;
     }

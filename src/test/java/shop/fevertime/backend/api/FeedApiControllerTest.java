@@ -66,6 +66,12 @@ class FeedApiControllerTest {
         feedId = feed.getId();
     }
 
+    @AfterAll
+    void clear() {
+        feedRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders
@@ -86,7 +92,7 @@ class FeedApiControllerTest {
                                 fieldWithPath("[].feedId").type(JsonFieldType.NUMBER).description("피드 ID"),
                                 fieldWithPath("[].contents").type(JsonFieldType.STRING).description("내용"),
                                 fieldWithPath("[].username").type(JsonFieldType.STRING).description("생성 유저 이름"),
-                                fieldWithPath("[].imgLink").type(JsonFieldType.STRING).description("생성 유저 이미지"),
+                                fieldWithPath("[].imgUrl").type(JsonFieldType.STRING).description("생성 유저 이미지"),
                                 fieldWithPath("[].lastModifiedDate").type(JsonFieldType.STRING).description("피드 생성 날짜")
                         )
                 ));

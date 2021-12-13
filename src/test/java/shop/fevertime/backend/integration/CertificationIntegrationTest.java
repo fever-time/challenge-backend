@@ -52,7 +52,7 @@ class CertificationIntegrationTest {
 
         private String title;
         private String description;
-        private String imgLink;
+        private String imgUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private int limitPerson;
@@ -67,7 +67,7 @@ class CertificationIntegrationTest {
         void setup() {
             title = "제목";
             description = "내용";
-            imgLink = "https://www.img.com/img";
+            imgUrl = "https://www.img.com/img";
             startDate = LocalDateTimeUtil.getLocalDateTime("2020-01-01");
             endDate = LocalDateTimeUtil.getLocalDateTime("2020-12-12");
             limitPerson = 10;
@@ -94,7 +94,7 @@ class CertificationIntegrationTest {
         @DisplayName("인증 생성")
         void createCerti() throws IOException {
             //given
-            Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
             challengeRepository.save(challenge);
 
             //when
@@ -115,7 +115,7 @@ class CertificationIntegrationTest {
         @DisplayName("특정 챌린지 인증 조회")
         void getCerti() throws IOException {
             //given
-            Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
             challengeRepository.save(challenge);
 
             certificationService.createCertification(challenge.getId(), requestDto1, user);
@@ -133,7 +133,7 @@ class CertificationIntegrationTest {
         @DisplayName("인증 삭제")
         void deleteCerti() throws IOException {
             //given
-            Challenge challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
             challengeRepository.save(challenge);
 
             certificationService.createCertification(challenge.getId(), requestDto1, user);

@@ -8,7 +8,7 @@ public class UserValidator {
     /**
      * 유저 생성 validation
      */
-    public static void validateCreateUser(String username, String email, UserRole role, String kakaoId, String imgLink) {
+    public static void validateCreateUser(String username, String email, UserRole role, String kakaoId, String imgUrl) {
         if (username == null || username.trim().length() == 0) {
             throw new ApiRequestException("입력된 유저 이름이 없습니다.");
         }
@@ -29,7 +29,7 @@ public class UserValidator {
             throw new ApiRequestException("카카오 아이디 값이 없습니다.");
         }
 
-        if (!URLValidator.urlValidator(imgLink)) {
+        if (!URLValidator.urlValidator(imgUrl)) {
             throw new ApiRequestException("이미지 링크를 확인해주세요.");
         }
     }
@@ -50,8 +50,8 @@ public class UserValidator {
     /**
      * 유저 이미지 변경 validation
      */
-    public static void validateUpdateImg(String imgLink) {
-        if (!URLValidator.urlValidator(imgLink)) {
+    public static void validateUpdateImg(String imgUrl) {
+        if (!URLValidator.urlValidator(imgUrl)) {
             throw new ApiRequestException("이미지 링크를 확인해주세요.");
         }
     }

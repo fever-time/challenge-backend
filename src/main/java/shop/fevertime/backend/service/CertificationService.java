@@ -65,7 +65,7 @@ public class CertificationService {
         Certification certi = certificationRepository.findByIdAndUser(certiId, user).orElseThrow(
                 () -> new ApiRequestException("해당 인증이 존재하지 않습니다.")
         );
-        String[] ar = certi.getImgLink().split("/");
+        String[] ar = certi.getImgUrl().split("/");
         s3Uploader.delete(ar[ar.length - 1], "certification");
         // 챌린지 인증 삭제
         certificationRepository.delete(certi);

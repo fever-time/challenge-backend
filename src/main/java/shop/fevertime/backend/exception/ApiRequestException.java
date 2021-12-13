@@ -1,6 +1,5 @@
 package shop.fevertime.backend.exception;
 
-
 public class ApiRequestException extends IllegalArgumentException {
     public ApiRequestException(String message) {
         super(message);

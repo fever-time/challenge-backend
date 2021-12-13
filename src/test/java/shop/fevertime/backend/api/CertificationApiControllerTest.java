@@ -81,6 +81,14 @@ class CertificationApiControllerTest {
         certiId = certification.getId();
     }
 
+    @AfterAll
+    void clear() {
+        certificationRepository.deleteAll();
+        challengeRepository.deleteAll();
+        categoryRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders
@@ -103,7 +111,7 @@ class CertificationApiControllerTest {
                         responseFields(
                                 fieldWithPath("[].certificationId").type(JsonFieldType.NUMBER).description("챌린지 인증 ID"),
                                 fieldWithPath("[].userId").type(JsonFieldType.STRING).description("유저 ID"),
-                                fieldWithPath("[].imgLink").type(JsonFieldType.STRING).description("챌린지 인증 링크"),
+                                fieldWithPath("[].imgUrl").type(JsonFieldType.STRING).description("챌린지 인증 링크"),
                                 fieldWithPath("[].contents").type(JsonFieldType.STRING).description("챌린지 인증 내용"),
                                 fieldWithPath("[].createdDate").type(JsonFieldType.STRING).description("챌린지 생성 날짜")
                         )
@@ -123,7 +131,7 @@ class CertificationApiControllerTest {
                         responseFields(
                                 fieldWithPath("certificationId").type(JsonFieldType.NUMBER).description("챌린지 인증 ID"),
                                 fieldWithPath("userId").type(JsonFieldType.STRING).description("유저 ID"),
-                                fieldWithPath("imgLink").type(JsonFieldType.STRING).description("챌린지 인증 링크"),
+                                fieldWithPath("imgUrl").type(JsonFieldType.STRING).description("챌린지 인증 링크"),
                                 fieldWithPath("contents").type(JsonFieldType.STRING).description("챌린지 인증 내용"),
                                 fieldWithPath("createdDate").type(JsonFieldType.STRING).description("챌린지 생성 날짜")
                         )

@@ -27,7 +27,7 @@ public class Challenge extends BaseTimeEntity {
     private String description;
 
     @Column(nullable = false)
-    private String imgLink;
+    private String imgUrl;
 
     @Column(nullable = false)
     private LocalDateTime startDate;
@@ -57,9 +57,9 @@ public class Challenge extends BaseTimeEntity {
     /**
      * 챌린지 수정 메서드
      */
-    public void update(String imgLink, String address) {
-        ChallengeValidator.validateUpdate(imgLink, address);
-        this.imgLink = imgLink;
+    public void update(String imgUrl, String address) {
+        ChallengeValidator.validateUpdate(imgUrl, address);
+        this.imgUrl = imgUrl;
         this.address = address;
     }
 
@@ -68,7 +68,7 @@ public class Challenge extends BaseTimeEntity {
      */
     public Challenge(String title,
                      String description,
-                     String imgLink,
+                     String imgUrl,
                      LocalDateTime startDate,
                      LocalDateTime endDate,
                      int limitPerson,
@@ -77,10 +77,10 @@ public class Challenge extends BaseTimeEntity {
                      User user,
                      Category category
     ) {
-        ChallengeValidator.validateCreate(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user, category);
+        ChallengeValidator.validateCreate(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
         this.title = title;
         this.description = description;
-        this.imgLink = imgLink;
+        this.imgUrl = imgUrl;
         this.startDate = startDate;
         this.endDate = endDate;
         this.limitPerson = limitPerson;

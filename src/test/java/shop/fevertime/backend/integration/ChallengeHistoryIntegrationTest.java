@@ -50,7 +50,7 @@ public class ChallengeHistoryIntegrationTest {
         void setup() {
             String title = "제목";
             String description = "내용";
-            String imgLink = "https://www.img.com/img";
+            String imgUrl = "https://www.img.com/img";
             LocalDateTime startDate = LocalDateTimeUtil.getLocalDateTime("2020-01-01");
             LocalDateTime endDate = LocalDateTimeUtil.getLocalDateTime("2020-12-12");
             int limitPerson = 10;
@@ -65,12 +65,12 @@ public class ChallengeHistoryIntegrationTest {
             Category category = new Category("운동");
             categoryRepository.save(category);
 
-            challenge = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user1, category);
+            challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user1, category);
             challengeRepository.save(challenge);
 
-            Certification certification1 = new Certification(imgLink, "가인증1", user1, challenge);
-            Certification certification2 = new Certification(imgLink, "가인증2", user1, challenge);
-            Certification certification3 = new Certification(imgLink, "나인증1", user2, challenge);
+            Certification certification1 = new Certification(imgUrl, "가인증1", user1, challenge);
+            Certification certification2 = new Certification(imgUrl, "가인증2", user1, challenge);
+            Certification certification3 = new Certification(imgUrl, "나인증1", user2, challenge);
             certificationRepository.save(certification1);
             certificationRepository.save(certification2);
             certificationRepository.save(certification3);

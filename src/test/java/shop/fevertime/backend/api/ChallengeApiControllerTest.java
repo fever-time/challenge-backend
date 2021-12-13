@@ -77,6 +77,13 @@ class ChallengeApiControllerTest {
         challengeId = challenge.getId();
     }
 
+    @AfterAll
+    void clear() {
+        challengeRepository.deleteAll();
+        categoryRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
         this.mockMvc = MockMvcBuilders
@@ -106,7 +113,7 @@ class ChallengeApiControllerTest {
                                 fieldWithPath("[].limitPerson").type(JsonFieldType.NUMBER).description("챌린지 제한 인원"),
                                 fieldWithPath("[].locationType").type(JsonFieldType.STRING).description("챌린지 장소 타입"),
                                 fieldWithPath("[].address").type(JsonFieldType.STRING).description("챌린지 주소"),
-                                fieldWithPath("[].imgLink").type(JsonFieldType.STRING).description("챌린지 이미지 링크"),
+                                fieldWithPath("[].imgUrl").type(JsonFieldType.STRING).description("챌린지 이미지 링크"),
                                 fieldWithPath("[].category.name").type(JsonFieldType.STRING).description("챌린지 카테고리"),
                                 fieldWithPath("[].participants").type(JsonFieldType.NUMBER).description("챌린지 참여자수")
                         )
@@ -132,7 +139,7 @@ class ChallengeApiControllerTest {
                                 fieldWithPath("[].limitPerson").type(JsonFieldType.NUMBER).description("챌린지 제한 인원"),
                                 fieldWithPath("[].locationType").type(JsonFieldType.STRING).description("챌린지 장소 타입"),
                                 fieldWithPath("[].address").type(JsonFieldType.STRING).description("챌린지 주소"),
-                                fieldWithPath("[].imgLink").type(JsonFieldType.STRING).description("챌린지 이미지 링크"),
+                                fieldWithPath("[].imgUrl").type(JsonFieldType.STRING).description("챌린지 이미지 링크"),
                                 fieldWithPath("[].category.name").type(JsonFieldType.STRING).description("챌린지 카테고리"),
                                 fieldWithPath("[].participants").type(JsonFieldType.NUMBER).description("챌린지 참여자수")
                         )
@@ -157,7 +164,7 @@ class ChallengeApiControllerTest {
                                 fieldWithPath("limitPerson").type(JsonFieldType.NUMBER).description("챌린지 제한 인원"),
                                 fieldWithPath("locationType").type(JsonFieldType.STRING).description("챌린지 장소 타입"),
                                 fieldWithPath("address").type(JsonFieldType.STRING).description("챌린지 주소"),
-                                fieldWithPath("imgLink").type(JsonFieldType.STRING).description("챌린지 이미지 링크"),
+                                fieldWithPath("imgUrl").type(JsonFieldType.STRING).description("챌린지 이미지 링크"),
                                 fieldWithPath("category.name").type(JsonFieldType.STRING).description("챌린지 카테고리"),
                                 fieldWithPath("participants").type(JsonFieldType.NUMBER).description("챌린지 참여자수")
                         )

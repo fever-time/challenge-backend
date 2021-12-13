@@ -9,7 +9,7 @@ public class CertificationValidator {
     /**
      * 인증 생성 validation
      */
-    public static void validateCreate(User user, String imgLink, String contents, Challenge challenge) {
+    public static void validateCreate(User user, String imgUrl, String contents, Challenge challenge) {
         if (user == null) {
             throw new ApiRequestException("유저 정보가 유효하지 않습니다.");
         }
@@ -18,11 +18,11 @@ public class CertificationValidator {
             throw new ApiRequestException("인증 내용이 없습니다.");
         }
 
-        if (imgLink == null || imgLink.trim().length() == 0) {
+        if (imgUrl == null || imgUrl.trim().length() == 0) {
             throw new ApiRequestException("첨부된 파일이 없습니다.");
         }
 
-        if (!URLValidator.urlValidator(imgLink)) {
+        if (!URLValidator.urlValidator(imgUrl)) {
             throw new ApiRequestException("이미지 링크를 확인해주세요.");
         }
 
