@@ -125,7 +125,7 @@ public class ChallengeIntegrationTest {
             assertNotNull(challenge1.getId());
             assertEquals(title, challenge1.getTitle());
             assertEquals(description, challenge1.getDescription());
-            assertNotNull(challenge1.getImgLink());
+            assertNotNull(challenge1.getImgUrl());
             assertEquals(LocalDateTimeUtil.getLocalDateTime(startDate), challenge1.getStartDate());
             assertEquals(LocalDateTimeUtil.getLocalDateTime(endDate), challenge1.getEndDate());
             assertEquals(limitPerson, challenge1.getLimitPerson());
@@ -166,7 +166,7 @@ public class ChallengeIntegrationTest {
             Challenge challenge = (allByUser.get(0));
             assertNotNull(challenge.getId());
             assertEquals(challenge.getAddress(), newAddress);
-            assertNotNull(challenge.getImgLink());
+            assertNotNull(challenge.getImgUrl());
         }
 
         @Test

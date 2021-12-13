@@ -6,10 +6,10 @@ import shop.fevertime.backend.domain.User;
 @Getter
 public class UserResponseDto {
     private final String username;
-    private final String imgLink;
+    private final String imgUrl;
 
     public UserResponseDto(User user) {
         this.username = user.getUsername();
-        this.imgLink = user.getImgLink();
+        this.imgUrl = user.getImgUrl();
     }
 }

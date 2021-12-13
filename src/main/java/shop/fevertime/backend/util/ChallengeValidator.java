@@ -17,7 +17,7 @@ public class ChallengeValidator {
      */
     public static void validateCreate(String title,
                                       String description,
-                                      String imgLink,
+                                      String imgUrl,
                                       LocalDateTime startDate,
                                       LocalDateTime endDate,
                                       int limitPerson,
@@ -60,7 +60,7 @@ public class ChallengeValidator {
             throw new ApiRequestException("카테고리를 지정해주세요.");
         }
 
-        if (!URLValidator.urlValidator(imgLink)) {
+        if (!URLValidator.urlValidator(imgUrl)) {
             throw new ApiRequestException("이미지 링크를 확인해주세요.");
         }
     }
@@ -68,10 +68,10 @@ public class ChallengeValidator {
     /**
      * 챌린지 변경 validation
      */
-    public static void validateUpdate(String imgLink, String address) {
+    public static void validateUpdate(String imgUrl, String address) {
         //address 상의 후
 
-        if (imgLink == null) {
+        if (imgUrl == null) {
             throw new ApiRequestException("첨부된 파일이 없습니다.");
         }
     }

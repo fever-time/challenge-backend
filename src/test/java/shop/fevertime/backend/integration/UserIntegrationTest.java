@@ -46,7 +46,7 @@ public class UserIntegrationTest {
 
         private String title;
         private String description;
-        private String imgLink;
+        private String imgUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private int limitPerson;
@@ -60,7 +60,7 @@ public class UserIntegrationTest {
         void setup() {
             title = "제목";
             description = "내용";
-            imgLink = "https://www.img.com/img";
+            imgUrl = "https://www.img.com/img";
             startDate = LocalDateTimeUtil.getLocalDateTime("2020-01-01");
             endDate = LocalDateTimeUtil.getLocalDateTime("2020-12-12");
             limitPerson = 10;
@@ -81,9 +81,9 @@ public class UserIntegrationTest {
         @DisplayName("유저가 생성한 챌린지 리스트")
         void getChallenges() throws IOException {
             //given
-            Challenge challenge1 = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user1, category);
-            Challenge challenge2 = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user1, category);
-            Challenge challenge3 = new Challenge(title, description, imgLink, startDate, endDate, limitPerson, locationType, address, user2, category);
+            Challenge challenge1 = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user1, category);
+            Challenge challenge2 = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user1, category);
+            Challenge challenge3 = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user2, category);
             challengeRepository.save(challenge1);
             challengeRepository.save(challenge2);
             challengeRepository.save(challenge3);
@@ -132,7 +132,7 @@ public class UserIntegrationTest {
             //then
             Optional<User> byId = userRepository.findById(user1.getId());
             //이미지 변경 확인 수정 필요
-//            assertThat(byId.get().getImgLink()).isEqualTo(newImg.);
+//            assertThat(byId.get().getImgUrl()).isEqualTo(newImg.);
         }
 
         @Test

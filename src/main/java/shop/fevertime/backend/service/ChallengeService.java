@@ -104,7 +104,7 @@ public class ChallengeService {
         );
 
         // 기존 이미지 S3에서 삭제
-        String[] ar = challenge.getImgLink().split("/");
+        String[] ar = challenge.getImgUrl().split("/");
         s3Uploader.delete(ar[ar.length - 1], "challenge");
 
         // 이미지 AWS S3 업로드
@@ -120,13 +120,13 @@ public class ChallengeService {
         Challenge challenge = challengeRepository.findByIdAndUser(challengeId, user).orElseThrow(
                 () -> new ApiRequestException("해당 챌린지가 존재하지 않습니다.")
         );
-        String[] ar = challenge.getImgLink().split("/");
+        String[] ar = challenge.getImgUrl().split("/");
         s3Uploader.delete(ar[ar.length - 1], "challenge");
 
         // 삭제하는 챌린지에 해당하는 인증 이미지 s3 삭제
         List<Certification> certifications = certificationRepository.findAllByChallenge(challenge);
         for (Certification certification : certifications) {
-            String[] arr = certification.getImgLink().split("/");
+            String[] arr = certification.getImgUrl().split("/");
             s3Uploader.delete(arr[arr.length - 1], "certification");
         }
 

@@ -19,7 +19,7 @@ class UserTest {
         private String email;
         private UserRole role;
         private String kakaoId;
-        private String imgLink;
+        private String imgUrl;
 
         @BeforeEach
         void setup() {
@@ -27,7 +27,7 @@ class UserTest {
             email = "tes@email.com";
             role = UserRole.USER;
             kakaoId = "12456";
-            imgLink = "http://img.com/img";
+            imgUrl = "http://img.com/img";
         }
 
         @Test
@@ -36,14 +36,14 @@ class UserTest {
             // given
 
             // when
-            User user = new User(username, email, role, kakaoId, imgLink);
+            User user = new User(username, email, role, kakaoId, imgUrl);
             // then
             assertThat(user.getId()).isNull();
             assertThat(user.getUsername()).isEqualTo(username);
             assertThat(user.getEmail()).isEqualTo(email);
             assertThat(user.getRole()).isEqualTo(role);
             assertThat(user.getKakaoId()).isEqualTo(kakaoId);
-            assertThat(user.getImgLink()).isEqualTo(imgLink);
+            assertThat(user.getImgUrl()).isEqualTo(imgUrl);
         }
 
         @Nested
@@ -61,7 +61,7 @@ class UserTest {
                     username = null;
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("입력된 유저 이름이 없습니다.");
                 }
@@ -73,7 +73,7 @@ class UserTest {
                     username = "";
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("입력된 유저 이름이 없습니다.");
                 }
@@ -85,7 +85,7 @@ class UserTest {
                     username = "일이삼사오육칠팔구";
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("유저 이름은 1~8자 사이로 입력하세요.");
                 }
@@ -102,7 +102,7 @@ class UserTest {
                     email = null;
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이메일이 없습니다.");
                 }
@@ -119,7 +119,7 @@ class UserTest {
                     role = null;
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("유저 권한이 없습니다.");
                 }
@@ -136,7 +136,7 @@ class UserTest {
                     kakaoId = null;
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("카카오 아이디 값이 없습니다.");
                 }
@@ -148,7 +148,7 @@ class UserTest {
                     kakaoId = "";
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("카카오 아이디 값이 없습니다.");
                 }
@@ -156,16 +156,16 @@ class UserTest {
 
             @Nested
             @DisplayName("유저 이미지 링크")
-            class ImgLink {
+            class imgUrl {
 
                 @Test
                 @DisplayName("null")
                 void fail_null() {
                     // given
-                    imgLink = null;
+                    imgUrl = null;
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
@@ -174,10 +174,10 @@ class UserTest {
                 @DisplayName("공백")
                 void fail_empty() {
                     // given
-                    imgLink = "";
+                    imgUrl = "";
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
@@ -186,10 +186,10 @@ class UserTest {
                 @DisplayName("URL 형식")
                 void fail_url_form() {
                     // given
-                    imgLink = "test_email";
+                    imgUrl = "test_email";
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new User(username, email, role, kakaoId, imgLink));
+                            () -> new User(username, email, role, kakaoId, imgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
@@ -205,10 +205,10 @@ class UserTest {
         private String email;
         private UserRole role;
         private String kakaoId;
-        private String imgLink;
+        private String imgUrl;
 
         private String updateUsername;
-        private String updateImgLink;
+        private String updateimgUrl;
 
         @BeforeEach
         void setup() {
@@ -216,27 +216,27 @@ class UserTest {
             email = "tes@email.com";
             role = UserRole.USER;
             kakaoId = "12456";
-            imgLink = "http://img.com/img";
+            imgUrl = "http://img.com/img";
 
             updateUsername = "update";
-            updateImgLink = "https://img.com/update";
+            updateimgUrl = "https://img.com/update";
         }
 
         @Test
         @DisplayName("정상 케이스")
         void update_Normal() {
             // given
-            User user = new User(username, email, role, kakaoId, imgLink);
+            User user = new User(username, email, role, kakaoId, imgUrl);
             // when
             user.updateUsername(updateUsername);
-            user.updateUserImg(updateImgLink);
+            user.updateUserImg(updateimgUrl);
             // then
             assertThat(user.getId()).isNull();
             assertThat(user.getUsername()).isEqualTo(updateUsername);
             assertThat(user.getEmail()).isEqualTo(email);
             assertThat(user.getRole()).isEqualTo(role);
             assertThat(user.getKakaoId()).isEqualTo(kakaoId);
-            assertThat(user.getImgLink()).isEqualTo(updateImgLink);
+            assertThat(user.getImgUrl()).isEqualTo(updateimgUrl);
         }
 
         @Nested
@@ -252,7 +252,7 @@ class UserTest {
                 void fail_null() {
                     // given
                     updateUsername = null;
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    User user = new User(username, email, role, kakaoId, imgUrl);
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> user.updateUsername(updateUsername));
@@ -265,7 +265,7 @@ class UserTest {
                 void fail_empty() {
                     // given
                     updateUsername = "";
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    User user = new User(username, email, role, kakaoId, imgUrl);
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> user.updateUsername(updateUsername));
@@ -278,7 +278,7 @@ class UserTest {
                 void fail_length_nine() {
                     // given
                     updateUsername = "일이삼사오육칠팔구";
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    User user = new User(username, email, role, kakaoId, imgUrl);
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
                             () -> user.updateUsername(updateUsername));
@@ -289,17 +289,17 @@ class UserTest {
 
             @Nested
             @DisplayName("유저 이미지 링크")
-            class ImgLink {
+            class imgUrl {
 
                 @Test
                 @DisplayName("null")
                 void fail_null() {
                     // given
-                    updateImgLink = null;
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    updateimgUrl = null;
+                    User user = new User(username, email, role, kakaoId, imgUrl);
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> user.updateUserImg(updateImgLink));
+                            () -> user.updateUserImg(updateimgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
@@ -308,11 +308,11 @@ class UserTest {
                 @DisplayName("공백")
                 void fail_empty() {
                     // given
-                    updateImgLink = "";
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    updateimgUrl = "";
+                    User user = new User(username, email, role, kakaoId, imgUrl);
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> user.updateUserImg(updateImgLink));
+                            () -> user.updateUserImg(updateimgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }
@@ -321,11 +321,11 @@ class UserTest {
                 @DisplayName("URL 형식")
                 void fail_url_form() {
                     // given
-                    updateImgLink = "test_email";
-                    User user = new User(username, email, role, kakaoId, imgLink);
+                    updateimgUrl = "test_email";
+                    User user = new User(username, email, role, kakaoId, imgUrl);
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> user.updateUserImg(updateImgLink));
+                            () -> user.updateUserImg(updateimgUrl));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
                 }

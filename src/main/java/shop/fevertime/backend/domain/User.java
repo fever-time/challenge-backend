@@ -33,7 +33,7 @@ public class User extends BaseTimeEntity {
     private String kakaoId;
 
     @Column(nullable = false)
-    private String imgLink;
+    private String imgUrl;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Certification> certificationList = new ArrayList<>();
@@ -41,21 +41,21 @@ public class User extends BaseTimeEntity {
     /**
      * 카카오 로그인 유저 생성자
      */
-    public User(String username, String email, UserRole role, String kakaoId, String imgLink) {
-        UserValidator.validateCreateUser(username, email, role, kakaoId, imgLink);
+    public User(String username, String email, UserRole role, String kakaoId, String imgUrl) {
+        UserValidator.validateCreateUser(username, email, role, kakaoId, imgUrl);
         this.username = username;
         this.email = email;
         this.role = role;
         this.kakaoId = kakaoId;
-        this.imgLink = imgLink;
+        this.imgUrl = imgUrl;
     }
 
     /**
      * 유저 정보 수정 메서드
      */
-    public void updateUserImg(String imgLink) {
-        UserValidator.validateUpdateImg(imgLink);
-        this.imgLink = imgLink;
+    public void updateUserImg(String imgUrl) {
+        UserValidator.validateUpdateImg(imgUrl);
+        this.imgUrl = imgUrl;
     }
 
     public void updateUsername(String username) {
