@@ -14,7 +14,7 @@
 ### ⏲️ 개발기간
 - [1차 프로젝트 with Python/Flask] 2021-09-23 ~ 2021-09-30 (<a href="https://github.com/fever-time/challenge-with-flask/wiki/4.-1%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">1차 프로젝트 KPT - WIKI</a>)
 - [2차 프로젝트 with Python/Flask] 2021-10-05 ~ 2021-10-19 (<a href="https://github.com/fever-time/challenge-with-flask/wiki/5.-2%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">2차 프로젝트 KPT - WIKI</a>)
-- [3차 프로젝트 with Java/Spring] 2021-11-19 ~ 2021-12-09
+- [3차 프로젝트 with Java/Spring] 2021-11-19 ~ 2021-12-09 (<a href="https://github.com/fever-time/challenge-backend/wiki/7.-3%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0">2차 프로젝트 KPT - WIKI</a>)
 
 ### 🧙 맴버구성
 - <a href="https://github.com/kkyu8925">강현규</a>
