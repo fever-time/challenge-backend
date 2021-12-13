@@ -39,7 +39,7 @@ public class UserService {
         String kakaoId = userInfo.getId();
         String nickname = userInfo.getNickname();
         String email = userInfo.getEmail();
-        String defaultimgUrl = "https://fever-prac.s3.ap-northeast-2.amazonaws.com/user/css%EC%BA%90%EB%A6%AD%ED%84%B0_%EC%97%B4%ED%98%88_280x280.png";
+        String defaultimgUrl = "https://fever-prac.s3.ap-northeast-2.amazonaws.com/user/SpartaIconScale7.png";
 
         // DB 에 중복된 Kakao Id 가 있는지 확인
         User kakaoUser = userRepository.findByKakaoId(kakaoId)
