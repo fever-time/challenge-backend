@@ -28,6 +28,15 @@ public class ChallengeApiController {
     }
 
     /**
+     * 챌린지 정렬 필터 API
+     */
+    @GetMapping("/challenges/filter")
+    public List<ChallengeResponseDto> getChallengesByFilter(@RequestParam("sortBy") String sortBy) {
+        return challengeService.getChallengesByFilter(sortBy);
+    }
+
+
+    /**
      * 챌린지 검색 API
      */
     @GetMapping("/challenges/search")

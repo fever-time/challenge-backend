@@ -1,11 +1,13 @@
 package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
+import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CategoryRepository;
@@ -18,6 +20,7 @@ import shop.fevertime.backend.util.S3Uploader;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +44,23 @@ public class ChallengeService {
         getChallengesWithParticipants(challengeResponseDtoList, getChallenges);
         return challengeResponseDtoList;
     }
+
+
+    public List<ChallengeResponseDto> getChallengesByFilter(String sortBy) throws ApiRequestException {
+        if (Objects.equals(sortBy, "inProgress")) {
+            return challengeRepository.findAllByChallengeProgress(ChallengeProgress.INPROGRESS)
+                    .stream()
+                    .map(ChallengeResponseDto::new)
+                    .collect(Collectors.toList());
+        }else if (Objects.equals(sortBy, "createdAt")) {
+            return challengeRepository.findAll(Sort.by(Sort.Direction.DESC,"createdDate"))
+                    .stream()
+                    .map(ChallengeResponseDto::new)
+                    .collect(Collectors.toList());
+        }
+        throw new ApiRequestException("잘못된 필터 조건입니다.");
+    }
+
 
     public ChallengeResponseDto getChallenge(Long challengeId) {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
@@ -91,7 +111,8 @@ public class ChallengeService {
                 requestDto.getLocationType(),
                 requestDto.getAddress(),
                 user,
-                category
+                category,
+                requestDto.getChallengeProgress()
         );
         challengeRepository.save(challenge);
     }

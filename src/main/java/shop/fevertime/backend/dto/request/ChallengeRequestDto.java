@@ -3,6 +3,7 @@ package shop.fevertime.backend.dto.request;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
+import shop.fevertime.backend.domain.ChallengeProgress;
 import shop.fevertime.backend.domain.LocationType;
 
 @Setter
@@ -17,4 +18,5 @@ public class ChallengeRequestDto {
     private String address;
     private String category;
     private MultipartFile image;
+    private ChallengeProgress challengeProgress;
 }
