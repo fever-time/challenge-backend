@@ -26,6 +26,19 @@ public class ChallengeResponseDto {
     private CategoryResponseDto category;
     private long participants;
 
+    public ChallengeResponseDto(Challenge challenge) {
+        this.challengeId = challenge.getId();
+        this.title = challenge.getTitle();
+        this.description = challenge.getDescription();
+        this.imgUrl = challenge.getImgUrl();
+        this.startDate = challenge.getStartDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.endDate = challenge.getEndDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.limitPerson = challenge.getLimitPerson();
+        this.locationType = challenge.getLocationType();
+        this.address = challenge.getAddress();
+        this.category = new CategoryResponseDto(challenge.getCategory());
+    }
+
     public ChallengeResponseDto(Challenge challenge, long participants) {
         this.challengeId = challenge.getId();
         this.title = challenge.getTitle();

@@ -53,6 +53,9 @@ public class Challenge extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private ChallengeProgress challengeProgress;
 
     /**
      * 챌린지 수정 메서드
@@ -75,7 +78,8 @@ public class Challenge extends BaseTimeEntity {
                      LocationType locationType,
                      String address,
                      User user,
-                     Category category
+                     Category category,
+                     ChallengeProgress challengeProgress
     ) {
         ChallengeValidator.validateCreate(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
         this.title = title;
@@ -88,5 +92,6 @@ public class Challenge extends BaseTimeEntity {
         this.address = address;
         this.user = user;
         this.category = category;
+        this.challengeProgress = challengeProgress;
     }
 }
