@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.response.*;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
@@ -29,7 +30,7 @@ public class ChallengeHistoryService {
     public ChallengeUserResponseDto getChallengeHistoryUser(Long challengeId, User user) {
         // 챌린지 찾기
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NoSuchElementException("해당 챌린지를 찾을 수 없습니다.")
+                () -> new ApiRequestException("해당 챌린지를 찾을 수 없습니다.")
         );
         // 유저가 챌린지 인증한 리스트 찾기
         List<CertificationResponseDto> certifies = certificationRepository.findAllByChallengeAndUser(challenge, user).stream()
@@ -47,7 +48,7 @@ public class ChallengeHistoryService {
     public List<UserCertifiesResponseDto> getChallengeHistoryUsers(Long challengeId) {
         // 챌린지 찾기
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NoSuchElementException("해당 챌린지를 찾을 수 없습니다.")
+                () -> new ApiRequestException("해당 챌린지를 찾을 수 없습니다.")
         );
         return userRepository.findAllCertifiesByChallenge(challenge).stream()
                 .map(user -> new UserCertifiesResponseDto(user, user.getCertificationList()))
@@ -57,7 +58,7 @@ public class ChallengeHistoryService {
     @Transactional
     public void joinChallenge(Long challengeId, User user) {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NoSuchElementException("해당 챌린지를 찾을 수 없습니다.")
+                () -> new ApiRequestException("해당 챌린지를 찾을 수 없습니다.")
         );
         LocalDateTime now = LocalDateTime.now();
         ChallengeHistory challengeHistory = new ChallengeHistory(
@@ -73,14 +74,14 @@ public class ChallengeHistoryService {
     @Transactional
     public void cancelChallenge(Long challengeId, User user) {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NoSuchElementException("해당 챌린지를 찾을 수 없습니다.")
+                () -> new ApiRequestException("해당 챌린지를 찾을 수 없습니다.")
         );
 
         ChallengeHistory challengeHistory = challengeHistoryRepository.findChallengeHistoryByChallengeStatusEquals(
                 ChallengeStatus.JOIN,
                 user,
                 challenge).orElseThrow(
-                () -> new NoSuchElementException("해당 챌린지를 참여중인 기록이 없습니다.")
+                () -> new ApiRequestException("해당 챌린지를 참여중인 기록이 없습니다.")
         );
 
         certificationRepository.findAllByChallengeAndUser(challenge, user)
