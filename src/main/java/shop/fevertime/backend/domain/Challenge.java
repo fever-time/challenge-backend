@@ -61,11 +61,8 @@ public class Challenge extends BaseTimeEntity {
     /**
      * 챌린지 상태(진행중, 종료) 변화 메서드
      */
-    public void updateChallengeProcess(ChallengeProgress challengeProgress) {
-        this.challengeProgress = challengeProgress;
-    }
-    public void updateTitle(String title) {
-        this.title = title;
+    public void stopChallnegeProgress() {
+        this.challengeProgress = ChallengeProgress.STOP;
     }
 
     /**

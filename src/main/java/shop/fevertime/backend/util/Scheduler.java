@@ -23,7 +23,7 @@ public class Scheduler {
     public void updateChallengeProcess() throws ApiRequestException {
         for (Challenge challenge : challengeRepository.findAllByChallengeProgress(ChallengeProgress.INPROGRESS)) {
             if (LocalDate.now().isAfter(challenge.getEndDate().toLocalDate())) {
-                challenge.updateChallengeProcess(ChallengeProgress.STOP);
+                challenge.stopChallnegeProgress();
             }
         }
     }
