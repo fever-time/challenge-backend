@@ -7,7 +7,6 @@ import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
-import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CategoryRepository;
@@ -20,7 +19,6 @@ import shop.fevertime.backend.util.S3Uploader;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,19 +44,16 @@ public class ChallengeService {
     }
 
 
-    public List<ChallengeResponseDto> getChallengesByFilter(String sortBy) throws ApiRequestException {
+    public List<ChallengeResponseDto> getChallengesByFilter(String sortBy) {
+        List<ChallengeResponseDto> challengeResponseDtoList = new ArrayList<>();
+        List<Challenge> getChallenges;
         if (Objects.equals(sortBy, "inProgress")) {
-            return challengeRepository.findAllByChallengeProgress(ChallengeProgress.INPROGRESS)
-                    .stream()
-                    .map(ChallengeResponseDto::new)
-                    .collect(Collectors.toList());
-        }else if (Objects.equals(sortBy, "createdAt")) {
-            return challengeRepository.findAll(Sort.by(Sort.Direction.DESC,"createdDate"))
-                    .stream()
-                    .map(ChallengeResponseDto::new)
-                    .collect(Collectors.toList());
+            getChallenges = challengeRepository.findAllByChallengeProgress(ChallengeProgress.INPROGRESS);
+        } else {
+            getChallenges = challengeRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
         }
-        throw new ApiRequestException("잘못된 필터 조건입니다.");
+        getChallengesWithParticipants(challengeResponseDtoList, getChallenges);
+        return challengeResponseDtoList;
     }
 
 
