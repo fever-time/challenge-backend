@@ -20,6 +20,7 @@ import shop.fevertime.backend.util.S3Uploader;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,9 +75,11 @@ public class UserService {
         User findUser = userRepository.findById(user.getId()).orElseThrow(
                 () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
-        // 기존 이미지 S3에서 삭제
-        String[] ar = findUser.getImgUrl().split("/");
-        s3Uploader.delete(ar[ar.length - 1], "user");
+        // 기존 이미지 S3에서 삭제 (기본 이미지 아닐 경우만 )
+        if(!Objects.equals(findUser.getImgUrl(), "https://fever-prac.s3.ap-northeast-2.amazonaws.com/user/SpartaIconScale7.png")){
+            String[] ar = findUser.getImgUrl().split("/");
+            s3Uploader.delete(ar[ar.length - 1], "user");
+        }
 
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "user");
