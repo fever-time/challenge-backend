@@ -1,6 +1,7 @@
 package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.*;
@@ -42,6 +43,20 @@ public class ChallengeService {
         getChallengesWithParticipants(challengeResponseDtoList, getChallenges);
         return challengeResponseDtoList;
     }
+
+
+    public List<ChallengeResponseDto> getChallengesByFilter(String sortBy) {
+        List<ChallengeResponseDto> challengeResponseDtoList = new ArrayList<>();
+        List<Challenge> getChallenges;
+        if (Objects.equals(sortBy, "inProgress")) {
+            getChallenges = challengeRepository.findAllByChallengeProgress(ChallengeProgress.INPROGRESS);
+        } else {
+            getChallenges = challengeRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
+        }
+        getChallengesWithParticipants(challengeResponseDtoList, getChallenges);
+        return challengeResponseDtoList;
+    }
+
 
     public ChallengeResponseDto getChallenge(Long challengeId) {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
@@ -92,7 +107,8 @@ public class ChallengeService {
                 requestDto.getLocationType(),
                 requestDto.getAddress(),
                 user,
-                category
+                category,
+                requestDto.getChallengeProgress()
         );
         challengeRepository.save(challenge);
     }
