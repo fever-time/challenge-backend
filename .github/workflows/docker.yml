@@ -41,7 +41,7 @@ jobs:
         run: chmod +x gradlew
 
       # 6. 그래들 빌드
-      - name: Build with Gradle
+      - name: Build with Gradle -x test
         run: ./gradlew clean build
 
       # 7. ECR 로그인
