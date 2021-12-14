@@ -3,6 +3,7 @@ package shop.fevertime.backend.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import shop.fevertime.backend.api.ChallengeApiController;
 import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.ChallengeHistory;
 import shop.fevertime.backend.domain.ChallengeStatus;
@@ -29,7 +30,7 @@ public interface ChallengeHistoryRepository extends JpaRepository<ChallengeHisto
 
     List<ChallengeHistory> findAllByUserAndChallengeStatus(User user, ChallengeStatus challengeStatus);
 
-    List<ChallengeHistory> findAllByChallengeIdAndChallengeStatusAndUserNot(Long challengeId, ChallengeStatus challengeStatus, User user);
+    List<ChallengeHistory> findAllByChallengeAndChallengeStatusAndUserNot(Challenge challenge, ChallengeStatus challengeStatus, User user);
 
-    void deleteAllByChallengeId(Long challengeId);
+    void deleteAllByChallenge(Challenge challenge);
 }

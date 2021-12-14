@@ -29,6 +29,7 @@ public class ChallengeService {
     private final CertificationRepository certificationRepository;
     private final ChallengeHistoryRepository challengeHistoryRepository;
     private final S3Uploader s3Uploader;
+    private final ChallengeHistoryService challengeHistoryService;
 
     public List<ChallengeResponseDto> getChallenges(String category) {
         List<ChallengeResponseDto> challengeResponseDtoList = new ArrayList<>();
@@ -110,6 +111,9 @@ public class ChallengeService {
                 requestDto.getChallengeProgress()
         );
         challengeRepository.save(challenge);
+        //챌린지 생성한 유저는 자동으로 챌린지 참가 상태로 저장
+        challengeHistoryService.joinChallenge(challenge.getId(), user);
+
     }
 
     @Transactional
@@ -132,18 +136,20 @@ public class ChallengeService {
 
     @Transactional
     public void deleteChallenge(Long challengeId, User user) {
+
+        Challenge challenge = challengeRepository.findByIdAndUser(challengeId, user).orElseThrow(
+                () -> new ApiRequestException("해당 챌린지가 존재하지 않습니다.")
+        );
+
         //챌린지에 참가한 유저 검토
-        List<ChallengeHistory> all = challengeHistoryRepository.findAllByChallengeIdAndChallengeStatusAndUserNot(challengeId, ChallengeStatus.JOIN, user);
+        List<ChallengeHistory> all = challengeHistoryRepository.findAllByChallengeAndChallengeStatusAndUserNot(challenge, ChallengeStatus.JOIN, user);
 
         //생성 유저 제외하여 참가자가 없으면 삭제
         if (all.size() == 0) {
             //히스토리 삭제
-            challengeHistoryRepository.deleteAllByChallengeId(challengeId);
+            challengeHistoryRepository.deleteAllByChallenge(challenge);
 
             // 챌린지 이미지 s3에서 삭제
-            Challenge challenge = challengeRepository.findByIdAndUser(challengeId, user).orElseThrow(
-                    () -> new ApiRequestException("해당 챌린지가 존재하지 않습니다.")
-            );
             String[] ar = challenge.getImgUrl().split("/");
             s3Uploader.delete(ar[ar.length - 1], "challenge");
 
