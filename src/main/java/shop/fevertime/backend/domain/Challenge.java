@@ -57,6 +57,17 @@ public class Challenge extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private ChallengeProgress challengeProgress;
 
+
+    /**
+     * 챌린지 상태(진행중, 종료) 변화 메서드
+     */
+    public void updateChallengeProcess(ChallengeProgress challengeProgress) {
+        this.challengeProgress = challengeProgress;
+    }
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
     /**
      * 챌린지 수정 메서드
      */

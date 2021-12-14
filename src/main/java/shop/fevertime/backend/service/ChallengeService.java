@@ -2,7 +2,6 @@ package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
@@ -50,9 +49,12 @@ public class ChallengeService {
         List<Challenge> getChallenges;
         if (Objects.equals(sortBy, "inProgress")) {
             getChallenges = challengeRepository.findAllByChallengeProgress(ChallengeProgress.INPROGRESS);
-        } else {
+        } else if (Objects.equals(sortBy, "createdAt")) {
             getChallenges = challengeRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
+        } else {
+            throw new ApiRequestException("잘못된 필터 요청입니다.");
         }
+
         getChallengesWithParticipants(challengeResponseDtoList, getChallenges);
         return challengeResponseDtoList;
     }
@@ -157,18 +159,5 @@ public class ChallengeService {
             return new ResultResponseDto("success", "챌린지 생성자가 맞습니다.");
         }
         return new ResultResponseDto("fail", "챌린지 생성자가 아닙니다.");
-    }
-
-    /**
-     * 챌린지 진행중, 종료 상태 변경 스케쥴러
-     */
-    @Scheduled(cron ="0 0 0 1/1 * ? * ")
-    public void healthCheckChallenge() {
-        List<Challenge> challenges = challengeRepository.findAll();
-        for (Challenge challenge : challenges) {
-            if (challenge.getStartDate().isAfter(challenge.getEndDate())) {
-                // challenge_process를 STOP으로 변경
-            }
-        }
     }
 }
