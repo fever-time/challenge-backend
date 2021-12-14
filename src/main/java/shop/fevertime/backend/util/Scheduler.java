@@ -25,7 +25,6 @@ public class Scheduler {
             if (LocalDate.now().isAfter(challenge.getEndDate().toLocalDate())) {
                 challenge.updateChallengeProcess(ChallengeProgress.STOP);
             }
-            throw new ApiRequestException("asdf");
         }
     }
 }
