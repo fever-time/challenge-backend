@@ -1,6 +1,7 @@
 package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
@@ -41,6 +42,23 @@ public class ChallengeService {
         getChallengesWithParticipants(challengeResponseDtoList, getChallenges);
         return challengeResponseDtoList;
     }
+
+
+    public List<ChallengeResponseDto> getChallengesByFilter(String sortBy) {
+        List<ChallengeResponseDto> challengeResponseDtoList = new ArrayList<>();
+        List<Challenge> getChallenges;
+        if (Objects.equals(sortBy, "inProgress")) {
+            getChallenges = challengeRepository.findAllByChallengeProgress(ChallengeProgress.INPROGRESS);
+        } else if (Objects.equals(sortBy, "createdAt")) {
+            getChallenges = challengeRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
+        } else {
+            throw new ApiRequestException("잘못된 필터 요청입니다.");
+        }
+
+        getChallengesWithParticipants(challengeResponseDtoList, getChallenges);
+        return challengeResponseDtoList;
+    }
+
 
     public ChallengeResponseDto getChallenge(Long challengeId) {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
@@ -91,7 +109,8 @@ public class ChallengeService {
                 requestDto.getLocationType(),
                 requestDto.getAddress(),
                 user,
-                category
+                category,
+                requestDto.getChallengeProgress()
         );
         challengeRepository.save(challenge);
     }
