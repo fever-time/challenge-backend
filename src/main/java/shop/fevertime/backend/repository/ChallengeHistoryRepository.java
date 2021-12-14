@@ -28,4 +28,8 @@ public interface ChallengeHistoryRepository extends JpaRepository<ChallengeHisto
     long countDistinctUserByChallengeAndChallengeStatus(Challenge challenge, ChallengeStatus challengeStatus);
 
     List<ChallengeHistory> findAllByUserAndChallengeStatus(User user, ChallengeStatus challengeStatus);
+
+    List<ChallengeHistory> findAllByChallengeIdAndChallengeStatusAndUserNot(Long challengeId, ChallengeStatus challengeStatus, User user);
+
+    void deleteAllByChallengeId(Long challengeId);
 }
