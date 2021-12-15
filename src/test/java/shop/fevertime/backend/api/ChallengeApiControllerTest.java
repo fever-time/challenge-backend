@@ -71,7 +71,7 @@ class ChallengeApiControllerTest {
         Category category = new Category("운동");
         this.categoryRepository.save(category);
 
-        Challenge challenge = new Challenge("title", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", test, category);
+        Challenge challenge = new Challenge("title", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", test, category, ChallengeProgress.INPROGRESS);
         this.challengeRepository.save(challenge);
 
         challengeId = challenge.getId();
@@ -170,7 +170,7 @@ class ChallengeApiControllerTest {
                         )
                 ));
     }
-
+/**
     @Test
     @Order(4)
     @WithUserDetails(value = "456")
@@ -188,7 +188,8 @@ class ChallengeApiControllerTest {
                 .param("limitPerson", "10")
                 .param("locationType", "ONLINE")
                 .param("category", "운동")
-                .param("address", ""))
+                .param("address", "")
+                .param("challengeProgress", "STOP"))
                 .andExpect(status().isOk())
                 .andDo(document("challenges/create",
                         requestHeaders(
@@ -213,7 +214,7 @@ class ChallengeApiControllerTest {
                         )
                 ));
     }
-
+*/
     @Test
     @Order(5)
     @WithUserDetails(value = "456")

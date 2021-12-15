@@ -81,9 +81,9 @@ public class UserIntegrationTest {
         @DisplayName("유저가 생성한 챌린지 리스트")
         void getChallenges() throws IOException {
             //given
-            Challenge challenge1 = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user1, category);
-            Challenge challenge2 = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user1, category);
-            Challenge challenge3 = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user2, category);
+            Challenge challenge1 = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user1, category, ChallengeProgress.INPROGRESS);
+            Challenge challenge2 = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user1, category, ChallengeProgress.INPROGRESS);
+            Challenge challenge3 = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user2, category, ChallengeProgress.INPROGRESS);
             challengeRepository.save(challenge1);
             challengeRepository.save(challenge2);
             challengeRepository.save(challenge3);

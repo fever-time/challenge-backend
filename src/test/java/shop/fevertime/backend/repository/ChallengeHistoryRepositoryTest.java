@@ -46,8 +46,8 @@ class ChallengeHistoryRepositoryTest {
         category = new Category("운동");
         categoryRepository.save(category);
 
-        challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        challenge2 = new Challenge("제목2", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
+        challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        challenge2 = new Challenge("제목2", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
         challengeRepository.save(challenge1);
         challengeRepository.save(challenge2);
     }

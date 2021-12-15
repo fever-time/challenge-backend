@@ -94,7 +94,7 @@ class CertificationIntegrationTest {
         @DisplayName("인증 생성")
         void createCerti() throws IOException {
             //given
-            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
+            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS);
             challengeRepository.save(challenge);
 
             //when
@@ -115,7 +115,7 @@ class CertificationIntegrationTest {
         @DisplayName("특정 챌린지 인증 조회")
         void getCerti() throws IOException {
             //given
-            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
+            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS);
             challengeRepository.save(challenge);
 
             certificationService.createCertification(challenge.getId(), requestDto1, user);
@@ -133,7 +133,7 @@ class CertificationIntegrationTest {
         @DisplayName("인증 삭제")
         void deleteCerti() throws IOException {
             //given
-            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
+            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS);
             challengeRepository.save(challenge);
 
             certificationService.createCertification(challenge.getId(), requestDto1, user);

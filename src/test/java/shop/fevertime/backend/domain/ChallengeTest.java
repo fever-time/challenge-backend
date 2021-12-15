@@ -50,7 +50,7 @@ class ChallengeTest {
             // given
 
             // when
-            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
+            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS);
 
             // then
             assertThat(challenge.getId()).isNull();
@@ -73,7 +73,7 @@ class ChallengeTest {
             locationType = LocationType.ONLINE;
             address = "";
             // when
-            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category);
+            Challenge challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS);
 
             // then
             assertThat(challenge.getId()).isNull();
@@ -105,7 +105,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("챌린지 이름이 없습니다.");
@@ -119,7 +119,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("챌린지 이름이 없습니다.");
@@ -138,7 +138,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("챌린지 상세 설명이 없습니다.");
@@ -153,7 +153,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("챌린지 상세 설명이 없습니다.");
@@ -172,7 +172,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
@@ -186,7 +186,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("이미지 링크를 확인해주세요.");
@@ -205,7 +205,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("날짜 형식이 알맞지 않습니다.");
@@ -224,7 +224,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("날짜 형식이 알맞지 않습니다.");
@@ -243,7 +243,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("제한 인원은 1명~33명 사이로 입력하세요");
@@ -257,7 +257,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("제한 인원은 1명~33명 사이로 입력하세요");
@@ -276,7 +276,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("챌린지 타입을 입력하세요.");
@@ -295,7 +295,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("오프라인인 경우 주소를 입력하세요.");
@@ -310,7 +310,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("온라인 챌린지는 주소를 설정할 수 없습니다.");
@@ -330,7 +330,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("유저 Id 가 유효하지 않습니다.");
@@ -349,7 +349,7 @@ class ChallengeTest {
 
                     // when
                     Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category));
+                            () -> new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user, category, ChallengeProgress.INPROGRESS));
 
                     // then
                     assertThat(exception.getMessage()).isEqualTo("카테고리를 지정해주세요.");

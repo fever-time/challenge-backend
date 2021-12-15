@@ -72,7 +72,7 @@ class CertificationApiControllerTest {
         Category category = new Category("공부");
         this.categoryRepository.save(category);
 
-        Challenge challenge = new Challenge("제목", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", test, category);
+        Challenge challenge = new Challenge("제목", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", test, category, ChallengeProgress.INPROGRESS);
         this.challengeRepository.save(challenge);
         challengeId = challenge.getId();
 
