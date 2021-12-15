@@ -11,6 +11,7 @@ import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -49,9 +50,19 @@ public class ChallengeHistoryService {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
                 () -> new NoSuchElementException("해당 챌린지를 찾을 수 없습니다.")
         );
-        return userRepository.findAllCertifiesByChallenge(challenge).stream()
-                .map(user -> new UserCertifiesResponseDto(user, user.getCertificationList()))
+        //히스토리에서 해당 챌린지에 조인한 데이터 가져옴 -> 해당 유저 리스트 가져옴
+        List<ChallengeHistory> status = challengeHistoryRepository.findAllByChallengeAndChallengeStatus(challenge, ChallengeStatus.JOIN);
+        List<User> userList = new ArrayList<>();
+        for (ChallengeHistory history : status) {
+            userList.add(history.getUser());
+        }
+        return userList.stream().
+                map(user -> new UserCertifiesResponseDto(user, user.getCertificationList()))
                 .collect(Collectors.toList());
+
+//        return userRepository.findAllCertifiesByChallenge(challenge).stream()
+//                .map(user -> new UserCertifiesResponseDto(user, user.getCertificationList()))
+//                .collect(Collectors.toList());
     }
 
     @Transactional
