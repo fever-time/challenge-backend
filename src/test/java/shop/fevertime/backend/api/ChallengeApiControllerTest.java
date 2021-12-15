@@ -170,7 +170,7 @@ class ChallengeApiControllerTest {
                         )
                 ));
     }
-/**
+
     @Test
     @Order(4)
     @WithUserDetails(value = "456")
@@ -188,8 +188,7 @@ class ChallengeApiControllerTest {
                 .param("limitPerson", "10")
                 .param("locationType", "ONLINE")
                 .param("category", "운동")
-                .param("address", "")
-                .param("challengeProgress", "STOP"))
+                .param("address", ""))
                 .andExpect(status().isOk())
                 .andDo(document("challenges/create",
                         requestHeaders(
@@ -214,7 +213,7 @@ class ChallengeApiControllerTest {
                         )
                 ));
     }
-*/
+
     @Test
     @Order(5)
     @WithUserDetails(value = "456")
