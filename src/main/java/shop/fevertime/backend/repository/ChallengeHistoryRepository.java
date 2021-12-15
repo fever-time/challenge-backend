@@ -35,4 +35,6 @@ public interface ChallengeHistoryRepository extends JpaRepository<ChallengeHisto
     List<ChallengeHistory> findAllByChallengeAndChallengeStatusAndUserNot(Challenge challenge, ChallengeStatus challengeStatus, User user);
 
     void deleteAllByChallenge(Challenge challenge);
+
+    List<ChallengeHistory> findAllByChallengeAndUserAndChallengeStatus(Challenge challenge, User user, ChallengeStatus challengeStatus);
 }

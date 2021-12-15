@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.response.*;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
@@ -70,6 +71,10 @@ public class ChallengeHistoryService {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
                 () -> new NoSuchElementException("해당 챌린지를 찾을 수 없습니다.")
         );
+        //해당 챌린지와 유저로 히스토리 찾아와서 fail 갯수 가져오기
+        List<ChallengeHistory> user1 = challengeHistoryRepository.findAllByChallengeAndUserAndChallengeStatus(challenge, user, ChallengeStatus.FAIL);
+        if (user1.size() >= 3) throw new ApiRequestException("챌린지에 참여할 수 없습니다.");
+
         LocalDateTime now = LocalDateTime.now();
         ChallengeHistory challengeHistory = new ChallengeHistory(
                 user,
