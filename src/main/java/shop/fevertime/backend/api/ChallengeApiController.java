@@ -59,9 +59,10 @@ public class ChallengeApiController {
     @PostMapping("/challenge")
     public ResultResponseDto createChallenge(
             @ModelAttribute ChallengeRequestDto requestDto,
+            @RequestParam(required = false) MultipartFile image,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) throws IOException {
-        challengeService.createChallenge(requestDto, userDetails.getUser());
+        challengeService.createChallenge(requestDto, userDetails.getUser(), image);
         return new ResultResponseDto("success", "챌린지 생성되었습니다.");
     }
 
@@ -72,7 +73,7 @@ public class ChallengeApiController {
     public ResultResponseDto updateChallenge(
             @PathVariable Long challengeId,
             @ModelAttribute ChallengeUpdateRequestDto requestDto,
-            @RequestParam(value = "image") MultipartFile image,
+            @RequestParam(required = false) MultipartFile image,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) throws IOException {
         challengeService.updateChallenge(challengeId, requestDto, userDetails.getUser(), image);

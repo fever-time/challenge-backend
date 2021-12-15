@@ -90,9 +90,16 @@ public class ChallengeService {
     }
 
     @Transactional
-    public void createChallenge(ChallengeRequestDto requestDto, User user) throws IOException {
-        // 이미지 AWS S3 업로드
-        String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
+    public void createChallenge(ChallengeRequestDto requestDto, User user, MultipartFile image) throws IOException {
+        String uploadImageUrl;
+        // 이미지 첨부 안 했을 때 기본이미지
+        if (image == null) {
+            uploadImageUrl = "https://fever-prac.s3.ap-northeast-2.amazonaws.com/challenge/challenge.jfif";
+        } else {
+            // 이미지 AWS S3 업로드
+            uploadImageUrl = s3Uploader.upload(image, "challenge");
+        }
+
         // 카테고리 찾기
         Category category = categoryRepository.findByName(requestDto.getCategory()).orElseThrow(
                 () -> new ApiRequestException("카테고리 정보 찾기 실패")
@@ -124,15 +131,17 @@ public class ChallengeService {
                 () -> new ApiRequestException("해당 챌린지가 존재하지 않습니다.")
         );
 
-        //이미지가 null일때 기존 이미지 url 삽입 후 업데이트
+        //이미지가 null일때 장소만 업데이트
         if (image == null) {
             challenge.updateAddress(requestDto.getAddress());
             return;
         }
 
-        // 기존 이미지 S3에서 삭제
-        String[] ar = challenge.getImgUrl().split("/");
-        s3Uploader.delete(ar[ar.length - 1], "challenge");
+        // 기존 이미지 S3에서 삭제 (기본 이미지 아닐 경우만 )
+        if (!Objects.equals(challenge.getImgUrl(), "https://fever-prac.s3.ap-northeast-2.amazonaws.com/challenge/challenge.jfif")) {
+            String[] ar = challenge.getImgUrl().split("/");
+            s3Uploader.delete(ar[ar.length - 1], "challenge");
+        }
 
         // 이미지 AWS S3 업로드
         String uploadImageUrl = s3Uploader.upload(image, "challenge");

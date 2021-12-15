@@ -69,7 +69,7 @@ public class UserApiController {
      */
     @PutMapping("/user")
     public ResultResponseDto updateUser(@ModelAttribute UserRequestDto requestDto,
-                                        @RequestParam(value = "image") MultipartFile image,
+                                        @RequestParam(required = false) MultipartFile image,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         userService.updateUser(userDetails.getUser(), requestDto, image);
         return new ResultResponseDto("success", "유저 정보가 수정되었습니다.");
