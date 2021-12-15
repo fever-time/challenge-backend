@@ -48,8 +48,8 @@ class ChallengeRepositoryTest {
     @Order(1)
     public void save() {
         // given
-        Challenge challenge = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        Challenge challenge2 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
+        Challenge challenge = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        Challenge challenge2 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
 
         // when
         challengeRepository.save(challenge);
@@ -66,8 +66,8 @@ class ChallengeRepositoryTest {
     @Order(2)
     public void delete() {
         // given
-        Challenge challenge = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        Challenge challenge2 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
+        Challenge challenge = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        Challenge challenge2 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
 
         // when
         challengeRepository.save(challenge);
@@ -87,9 +87,9 @@ class ChallengeRepositoryTest {
     @Order(3)
     public void findAll() {
         // given
-        Challenge challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        Challenge challenge2 = new Challenge("제목2", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        Challenge challenge3 = new Challenge("제목3", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
+        Challenge challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        Challenge challenge2 = new Challenge("제목2", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        Challenge challenge3 = new Challenge("제목3", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
 
         challengeRepository.save(challenge1);
         challengeRepository.save(challenge2);
@@ -107,9 +107,9 @@ class ChallengeRepositoryTest {
     @Order(4)
     void search_challenge() {
         // given
-        Challenge challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        Challenge challenge2 = new Challenge("제목2", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        Challenge challenge3 = new Challenge("제목3", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
+        Challenge challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        Challenge challenge2 = new Challenge("제목2", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        Challenge challenge3 = new Challenge("제목3", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
 
         // when
         challengeRepository.save(challenge1);
@@ -131,10 +131,10 @@ class ChallengeRepositoryTest {
         categoryRepository.save(category1);
 
 
-        Challenge challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        Challenge challenge2 = new Challenge("제목2", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        Challenge challenge3 = new Challenge("제목3", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category1);
-        Challenge challenge4 = new Challenge("제목3", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category1);
+        Challenge challenge1 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        Challenge challenge2 = new Challenge("제목2", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        Challenge challenge3 = new Challenge("제목3", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category1, ChallengeProgress.INPROGRESS);
+        Challenge challenge4 = new Challenge("제목3", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category1, ChallengeProgress.INPROGRESS);
 
         challengeRepository.save(challenge1);
         challengeRepository.save(challenge2);
@@ -153,8 +153,8 @@ class ChallengeRepositoryTest {
     @Order(6)
     void findAll_by_user() {
         // given
-        Challenge challenge = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
-        Challenge challenge2 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
+        Challenge challenge = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
+        Challenge challenge2 = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
         challengeRepository.save(challenge);
         challengeRepository.save(challenge2);
 
@@ -170,7 +170,7 @@ class ChallengeRepositoryTest {
     @Order(7)
     void challenge_detail() {
         // given
-        Challenge challenge = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category);
+        Challenge challenge = new Challenge("제목1", "설명", "https://www.img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.OFFLINE, "서울", user1, category, ChallengeProgress.INPROGRESS);
         challengeRepository.save(challenge);
 
         // when
@@ -180,8 +180,6 @@ class ChallengeRepositoryTest {
 
         // then
         assertThat(challengeDetail.getTitle()).isEqualTo("제목1");
-
-
 
 
     }
