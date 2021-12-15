@@ -18,5 +18,4 @@ public class ChallengeRequestDto {
     private String address;
     private String category;
     private MultipartFile image;
-    private ChallengeProgress challengeProgress;
 }

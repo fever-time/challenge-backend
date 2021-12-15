@@ -110,7 +110,7 @@ public class ChallengeService {
                 requestDto.getAddress(),
                 user,
                 category,
-                requestDto.getChallengeProgress()
+                ChallengeProgress.INPROGRESS
         );
         challengeRepository.save(challenge);
     }
