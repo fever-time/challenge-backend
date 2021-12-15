@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import shop.fevertime.backend.dto.request.UserRequestDto;
 import shop.fevertime.backend.dto.response.*;
 import shop.fevertime.backend.dto.request.SocialLoginRequestDto;
@@ -66,18 +67,12 @@ public class UserApiController {
     /**
      * 유저 정보 변경 API
      */
-    @PutMapping("/user/img")
+    @PutMapping("/user")
     public ResultResponseDto updateUser(@ModelAttribute UserRequestDto requestDto,
+                                        @RequestParam(value = "image") MultipartFile image,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-        userService.updateUserImg(userDetails.getUser(), requestDto);
-        return new ResultResponseDto("success", "유저 이미지가 수정되었습니다.");
-    }
-
-    @PutMapping("/user/name")
-    public ResultResponseDto updateUsername(@ModelAttribute UserRequestDto requestDto,
-                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        userService.updateUsername(userDetails.getUser(), requestDto);
-        return new ResultResponseDto("success", "유저 닉네임이 수정되었습니다.");
+        userService.updateUser(userDetails.getUser(), requestDto, image);
+        return new ResultResponseDto("success", "유저 정보가 수정되었습니다.");
     }
 
     /**

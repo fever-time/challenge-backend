@@ -2,6 +2,7 @@ package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.domain.UserRole;
 import shop.fevertime.backend.dto.request.UserRequestDto;
@@ -71,27 +72,25 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserImg(User user, UserRequestDto requestDto) throws IOException {
+    public void updateUser(User user, UserRequestDto requestDto, MultipartFile image) throws IOException {
         User findUser = userRepository.findById(user.getId()).orElseThrow(
                 () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
+        //이미지가 null일때 유저이름만 업데이트
+        if (image == null) {
+            findUser.updateUsername(requestDto.getUsername());
+            return;
+        }
         // 기존 이미지 S3에서 삭제 (기본 이미지 아닐 경우만 )
-        if(!Objects.equals(findUser.getImgUrl(), "https://fever-prac.s3.ap-northeast-2.amazonaws.com/user/SpartaIconScale7.png")){
+        if (!Objects.equals(findUser.getImgUrl(), "https://fever-prac.s3.ap-northeast-2.amazonaws.com/user/SpartaIconScale7.png")) {
             String[] ar = findUser.getImgUrl().split("/");
             s3Uploader.delete(ar[ar.length - 1], "user");
         }
 
         // 이미지 AWS S3 업로드
-        String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "user");
-        findUser.updateUserImg(uploadImageUrl);
-    }
+        String uploadImageUrl = s3Uploader.upload(image, "user");
 
-    @Transactional
-    public void updateUsername(User user, UserRequestDto requestDto) {
-        User findUser = userRepository.findById(user.getId()).orElseThrow(
-                () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
-        );
+        findUser.updateUser(uploadImageUrl, requestDto.getUsername());
 
-        findUser.updateUsername(requestDto.getUsername());
     }
 }

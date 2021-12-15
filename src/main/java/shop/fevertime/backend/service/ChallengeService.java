@@ -3,6 +3,7 @@ package shop.fevertime.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
@@ -117,18 +118,24 @@ public class ChallengeService {
     }
 
     @Transactional
-    public void updateChallenge(Long challengeId, ChallengeUpdateRequestDto requestDto, User user) throws IOException {
+    public void updateChallenge(Long challengeId, ChallengeUpdateRequestDto requestDto, User user, MultipartFile image) throws IOException {
         // 챌린지 이미지 s3에서 기존 이미지 삭제
         Challenge challenge = challengeRepository.findByIdAndUser(challengeId, user).orElseThrow(
                 () -> new ApiRequestException("해당 챌린지가 존재하지 않습니다.")
         );
+
+        //이미지가 null일때 기존 이미지 url 삽입 후 업데이트
+        if (image == null) {
+            challenge.updateAddress(requestDto.getAddress());
+            return;
+        }
 
         // 기존 이미지 S3에서 삭제
         String[] ar = challenge.getImgUrl().split("/");
         s3Uploader.delete(ar[ar.length - 1], "challenge");
 
         // 이미지 AWS S3 업로드
-        String uploadImageUrl = s3Uploader.upload(requestDto.getImage(), "challenge");
+        String uploadImageUrl = s3Uploader.upload(image, "challenge");
 
         // 해당 챌린지의 필드 값을 변경 -> 변경 감지
         challenge.update(uploadImageUrl, requestDto.getAddress());

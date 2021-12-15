@@ -8,5 +8,4 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class ChallengeUpdateRequestDto {
     private String address;
-    private MultipartFile image;
 }
