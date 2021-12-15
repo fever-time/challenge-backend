@@ -8,11 +8,9 @@ import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.CertificationRequestDto;
 import shop.fevertime.backend.dto.response.CertificationResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
-import shop.fevertime.backend.dto.response.UserCertifiesResponseDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
-import shop.fevertime.backend.repository.UserRepository;
 import shop.fevertime.backend.util.S3Uploader;
 
 import javax.transaction.Transactional;
@@ -28,15 +26,11 @@ public class CertificationService {
     private final CertificationRepository certificationRepository;
     private final S3Uploader s3Uploader;
     private final ChallengeRepository challengeRepository;
-    private final UserRepository userRepository;
 
-    public List<UserCertifiesResponseDto> getCertifications(Long challengeId) {
-        // 챌린지 찾기
-        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
-                () -> new NoSuchElementException("해당 챌린지를 찾을 수 없습니다.")
-                );
-                return userRepository.findAllCertifiesByChallenge(challenge).stream()
-                .map(user -> new UserCertifiesResponseDto(user, user.getCertificationList()))
+    public List<CertificationResponseDto> getCertifications(Long challengeId) {
+        return certificationRepository.findAllByChallengeId(challengeId)
+                .stream()
+                .map(CertificationResponseDto::new)
                 .collect(Collectors.toList());
     }
 

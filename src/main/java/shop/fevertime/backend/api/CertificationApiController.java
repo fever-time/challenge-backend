@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import shop.fevertime.backend.dto.request.CertificationRequestDto;
 import shop.fevertime.backend.dto.response.CertificationResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
-import shop.fevertime.backend.dto.response.UserCertifiesResponseDto;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.service.CertificationService;
 
@@ -23,7 +22,7 @@ public class CertificationApiController {
      * 해당 챌린지의 인증 리스트 API
      */
     @GetMapping("/challenges/{challengeId}/certis")
-    public List<UserCertifiesResponseDto> getCertifications(
+    public List<CertificationResponseDto> getCertifications(
             @PathVariable Long challengeId
     ) {
         return certificationService.getCertifications(challengeId);
