@@ -83,8 +83,8 @@ public class UserApiController {
     /**
      * 유저가 참여중인 챌린지 리스트 API
      */
-    @GetMapping("/user/challenges/join")
-    public List<UserChallengeResponseDto> getChallengesByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @GetMapping("/user/challenges")
+    public List<UserChallengeInfoDto> getChallengesByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return challengeHistoryService.getChallengesByUser(userDetails.getUser());
     }
 }

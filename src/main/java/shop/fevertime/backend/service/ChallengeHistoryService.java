@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -97,9 +98,15 @@ public class ChallengeHistoryService {
         challengeHistory.cancel();
     }
 
-    public List<UserChallengeResponseDto> getChallengesByUser(User user) {
-        return challengeHistoryRepository.findAllByUserAndChallengeStatus(user, ChallengeStatus.JOIN).stream()
-                .map(challengeHistory -> new UserChallengeResponseDto(challengeHistory.getChallenge()))
+    // 작업중
+    public List<UserChallengeInfoDto> getChallengesByUser(User user) {
+
+        return challengeHistoryRepository.findAllByUser(user).stream()
+                .map(challengeHistory -> new UserChallengeInfoDto(challengeHistory.getChallenge(), challengeHistory,
+                        certificationRepository.findAllByChallengeAndUser(challengeHistory.getChallenge(), user),
+                        challengeHistoryRepository.findAllByChallengeAndUserAndChallengeStatus(challengeHistory.getChallenge(), user, ChallengeStatus.FAIL)
+
+                ))
                 .collect(Collectors.toList());
     }
 }
