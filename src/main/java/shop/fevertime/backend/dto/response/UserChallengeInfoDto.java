@@ -19,7 +19,7 @@ public class UserChallengeInfoDto {
     private Long challengeId; // 챌린지 식별자
     private String title; // 챌린지 타이틀
     private String imgUrl; // 챌린지 이미지
-    private Category category; // 챌린지 카테고리
+    private CategoryResponseDto category; // 챌린지 카테고리
     private LocationType locationType; // 챌린지 로컬타입
     private String challengeStartDate; // 챌린지 시작 날짜
     private String challengeEndDate; // 챌린지 종료 날짜
@@ -34,10 +34,10 @@ public class UserChallengeInfoDto {
 
 
     public UserChallengeInfoDto(Challenge challenge, ChallengeHistory challengeHistory, List<Certification> certification, List<ChallengeHistory> challengeRetry) {
-
+        this.challengeId = challenge.getId();
         this.title = challenge.getTitle();
         this.imgUrl = challenge.getImgUrl();
-        this.category = challenge.getCategory();
+        this.category = new CategoryResponseDto(challenge.getCategory());
         this.locationType = challenge.getLocationType();
         this.challengeStartDate = challenge.getStartDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.challengeEndDate = challenge.getEndDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

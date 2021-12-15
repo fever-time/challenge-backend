@@ -102,11 +102,11 @@ public class ChallengeHistoryService {
     public List<UserChallengeInfoDto> getChallengesByUser(User user) {
 
         return challengeHistoryRepository.findAllByUser(user).stream()
-                .map(challengeHistory -> new UserChallengeInfoDto(challengeHistory.getChallenge(), challengeHistory,
+                .map(challengeHistory -> new UserChallengeInfoDto(
+                        challengeHistory.getChallenge(), challengeHistory,
                         certificationRepository.findAllByChallengeAndUser(challengeHistory.getChallenge(), user),
                         challengeHistoryRepository.findAllByChallengeAndUserAndChallengeStatus(challengeHistory.getChallenge(), user, ChallengeStatus.FAIL)
 
-                ))
-                .collect(Collectors.toList());
+                )).collect(Collectors.toList());
     }
 }
