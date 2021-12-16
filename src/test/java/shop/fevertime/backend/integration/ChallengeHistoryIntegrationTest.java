@@ -65,7 +65,7 @@ public class ChallengeHistoryIntegrationTest {
             Category category = new Category("운동");
             categoryRepository.save(category);
 
-            challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user1, category);
+            challenge = new Challenge(title, description, imgUrl, startDate, endDate, limitPerson, locationType, address, user1, category, ChallengeProgress.INPROGRESS);
             challengeRepository.save(challenge);
 
             Certification certification1 = new Certification(imgUrl, "가인증1", user1, challenge);

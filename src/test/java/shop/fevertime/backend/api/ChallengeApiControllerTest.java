@@ -71,7 +71,7 @@ class ChallengeApiControllerTest {
         Category category = new Category("운동");
         this.categoryRepository.save(category);
 
-        Challenge challenge = new Challenge("title", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", test, category);
+        Challenge challenge = new Challenge("title", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", test, category, ChallengeProgress.INPROGRESS);
         this.challengeRepository.save(challenge);
 
         challengeId = challenge.getId();

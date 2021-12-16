@@ -51,9 +51,12 @@ public class ChallengeService {
         List<Challenge> getChallenges;
         if (Objects.equals(sortBy, "inProgress")) {
             getChallenges = challengeRepository.findAllByChallengeProgress(ChallengeProgress.INPROGRESS);
-        } else {
+        } else if (Objects.equals(sortBy, "createdAt")) {
             getChallenges = challengeRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
+        } else {
+            throw new ApiRequestException("잘못된 필터 요청입니다.");
         }
+
         getChallengesWithParticipants(challengeResponseDtoList, getChallenges);
         return challengeResponseDtoList;
     }
@@ -116,7 +119,7 @@ public class ChallengeService {
                 requestDto.getAddress(),
                 user,
                 category,
-                requestDto.getChallengeProgress()
+                ChallengeProgress.INPROGRESS
         );
         challengeRepository.save(challenge);
         //챌린지 생성한 유저는 자동으로 챌린지 참가 상태로 저장

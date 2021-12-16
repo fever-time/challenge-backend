@@ -27,7 +27,7 @@ class ChallengeHistoryTest {
         void setup() {
             user = new User("test", "test@email.com", UserRole.USER, "123456", "https://img.com/img");
             Category category = new Category("운동");
-            challenge = new Challenge("제목", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", user, category);
+            challenge = new Challenge("제목", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", user, category, ChallengeProgress.INPROGRESS);
             createdDate = LocalDateTime.now();
             missionDate = LocalDateTime.now().plusDays(7);
             challengeStatus = ChallengeStatus.JOIN;
@@ -154,7 +154,7 @@ class ChallengeHistoryTest {
         void setup() {
             user = new User("test", "test@email.com", UserRole.USER, "123456", "https://img.com/img");
             Category category = new Category("운동");
-            challenge = new Challenge("제목", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", user, category);
+            challenge = new Challenge("제목", "설명", "https://img.com/img", LocalDateTime.now(), LocalDateTime.now(), 10, LocationType.ONLINE, "", user, category, ChallengeProgress.INPROGRESS);
             createdDate = LocalDateTime.now();
             missionDate = LocalDateTime.now().plusDays(7);
             challengeStatus = ChallengeStatus.JOIN;
