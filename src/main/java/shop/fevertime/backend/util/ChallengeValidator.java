@@ -68,8 +68,11 @@ public class ChallengeValidator {
     /**
      * 챌린지 변경 validation
      */
-    public static void validateUpdate(String imgUrl, String address) {
+    public static void validateUpdateAddress(String address) {
         //address 상의 후
+
+    }
+    public static void validateUpdate(String imgUrl, String address) {
 
         if (imgUrl == null) {
             throw new ApiRequestException("첨부된 파일이 없습니다.");

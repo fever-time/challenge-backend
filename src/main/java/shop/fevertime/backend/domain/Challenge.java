@@ -68,6 +68,10 @@ public class Challenge extends BaseTimeEntity {
     /**
      * 챌린지 수정 메서드
      */
+    public void updateAddress(String address) {
+        ChallengeValidator.validateUpdateAddress(address);
+        this.address = address;
+    }
     public void update(String imgUrl, String address) {
         ChallengeValidator.validateUpdate(imgUrl, address);
         this.imgUrl = imgUrl;

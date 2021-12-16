@@ -12,6 +12,7 @@ import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -50,9 +51,19 @@ public class ChallengeHistoryService {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
                 () -> new ApiRequestException("해당 챌린지를 찾을 수 없습니다.")
         );
-        return userRepository.findAllCertifiesByChallenge(challenge).stream()
-                .map(user -> new UserCertifiesResponseDto(user, user.getCertificationList()))
+        //히스토리에서 해당 챌린지에 조인한 데이터 가져옴 -> 해당 유저 리스트 가져옴
+        List<ChallengeHistory> status = challengeHistoryRepository.findAllByChallengeAndChallengeStatus(challenge, ChallengeStatus.JOIN);
+        List<User> userList = new ArrayList<>();
+        for (ChallengeHistory history : status) {
+            userList.add(history.getUser());
+        }
+        return userList.stream().
+                map(user -> new UserCertifiesResponseDto(user, user.getCertificationList()))
                 .collect(Collectors.toList());
+
+//        return userRepository.findAllCertifiesByChallenge(challenge).stream()
+//                .map(user -> new UserCertifiesResponseDto(user, user.getCertificationList()))
+//                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -60,9 +71,15 @@ public class ChallengeHistoryService {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
                 () -> new ApiRequestException("해당 챌린지를 찾을 수 없습니다.")
         );
+      
         if (challenge.getChallengeProgress() == ChallengeProgress.STOP) {
             throw new ApiRequestException("종료된 챌린지에 참여할 수 없습니다.");
         }
+
+        //해당 챌린지와 유저로 히스토리 찾아와서 fail 갯수 가져오기
+        List<ChallengeHistory> user1 = challengeHistoryRepository.findAllByChallengeAndUserAndChallengeStatus(challenge, user, ChallengeStatus.FAIL);
+        if (user1.size() >= 3) throw new ApiRequestException("챌린지에 참여할 수 없습니다.");
+
         LocalDateTime now = LocalDateTime.now();
         ChallengeHistory challengeHistory = new ChallengeHistory(
                 user,

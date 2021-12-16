@@ -53,13 +53,14 @@ public class User extends BaseTimeEntity {
     /**
      * 유저 정보 수정 메서드
      */
-    public void updateUserImg(String imgUrl) {
-        UserValidator.validateUpdateImg(imgUrl);
-        this.imgUrl = imgUrl;
+    public void updateUsername(String username) {
+        UserValidator.validateUpdateusername(username);
+        this.username = username;
     }
 
-    public void updateUsername(String username) {
-        UserValidator.validateUpdateName(username);
+    public void updateUser(String imgUrl, String username) {
+        UserValidator.validateUpdate(imgUrl, username);
+        this.imgUrl = imgUrl;
         this.username = username;
     }
 }
