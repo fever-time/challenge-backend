@@ -105,7 +105,7 @@ public class ChallengeHistoryService {
                 .map(challengeHistory -> new UserChallengeInfoDto(
                         challengeHistory.getChallenge(), challengeHistory,
                         certificationRepository.findAllByChallengeAndUser(challengeHistory.getChallenge(), user),
-                        challengeHistoryRepository.findAllByChallengeAndUserAndChallengeStatus(challengeHistory.getChallenge(), user, ChallengeStatus.FAIL)
+                        challengeHistoryRepository.countChallengeHistoriesByChallengeAndUserAndChallengeStatus(challengeHistory.getChallenge(), user, ChallengeStatus.FAIL)
 
                 )).collect(Collectors.toList());
     }

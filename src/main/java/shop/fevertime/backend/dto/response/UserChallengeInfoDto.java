@@ -33,7 +33,7 @@ public class UserChallengeInfoDto {
     //    private String description;
 
 
-    public UserChallengeInfoDto(Challenge challenge, ChallengeHistory challengeHistory, List<Certification> certification, List<ChallengeHistory> challengeRetry) {
+    public UserChallengeInfoDto(Challenge challenge, ChallengeHistory challengeHistory, List<Certification> certification, int challengeRetry) {
         this.challengeId = challenge.getId();
         this.title = challenge.getTitle();
         this.imgUrl = challenge.getImgUrl();
@@ -43,7 +43,7 @@ public class UserChallengeInfoDto {
         this.challengeEndDate = challenge.getEndDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.challengeStatus = challengeHistory.getChallengeStatus().toString();
         this.certiCount = certification.size();
-        this.retryCount = challengeRetry.size();
+        this.retryCount = challengeRetry;
         this.userStartDate = challengeHistory.getCreatedDate().toString();
         this.userMissonDate = challengeHistory.getMissionDate().toString();
         // 챌린지 미션 진행여부
