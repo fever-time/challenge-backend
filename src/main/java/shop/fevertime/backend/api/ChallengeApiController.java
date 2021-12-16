@@ -3,6 +3,7 @@ package shop.fevertime.backend.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
 import shop.fevertime.backend.dto.response.ChallengeResponseDto;
@@ -58,9 +59,10 @@ public class ChallengeApiController {
     @PostMapping("/challenge")
     public ResultResponseDto createChallenge(
             @ModelAttribute ChallengeRequestDto requestDto,
+            @RequestParam(required = false) MultipartFile image,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) throws IOException {
-        challengeService.createChallenge(requestDto, userDetails.getUser());
+        challengeService.createChallenge(requestDto, userDetails.getUser(), image);
         return new ResultResponseDto("success", "챌린지 생성되었습니다.");
     }
 
@@ -71,9 +73,10 @@ public class ChallengeApiController {
     public ResultResponseDto updateChallenge(
             @PathVariable Long challengeId,
             @ModelAttribute ChallengeUpdateRequestDto requestDto,
+            @RequestParam(required = false) MultipartFile image,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) throws IOException {
-        challengeService.updateChallenge(challengeId, requestDto, userDetails.getUser());
+        challengeService.updateChallenge(challengeId, requestDto, userDetails.getUser(), image);
         return new ResultResponseDto("success", "챌린지 수정되었습니다.");
     }
 
