@@ -39,10 +39,10 @@ public class Comment extends BaseTimeEntity {
     private List<Comment> child = new ArrayList<>();
 
     // 연관관계 메서드
-    public void addChildComment(Comment child) {
-        this.child.add(child);
-        child.setParent(this);
-    }
+//    public void addChildComment(Comment child) {
+//        this.child.add(child);
+//        child.setParent(this);
+//    }
 
     private void setParent(Comment parent) {
         this.parent = parent;

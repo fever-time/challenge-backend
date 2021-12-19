@@ -91,7 +91,7 @@ class CommentRepositoryTest {
         commentRepository.save(comment4);
 
         // when
-        List<Comment> allByFeed = commentRepository.findAllByFeed(feed1);
+        List<Comment> allByFeed = commentRepository.findAllByFeedAndParentIsNull(feed1);
 
         // then
         assertThat(allByFeed.size()).isEqualTo(2);
@@ -112,7 +112,7 @@ class CommentRepositoryTest {
         commentRepository.save(comment4);
 
         // when
-        Comment ByIdAndUser = commentRepository.findByIdAndUser(comment1.getId(),user1).orElse(null);
+        Comment ByIdAndUser = commentRepository.findByIdAndUser(comment1.getId(), user1).orElse(null);
 
         // then
         assertThat(ByIdAndUser).isEqualTo(comment1);

@@ -21,8 +21,17 @@ public class CommentApiController {
      * 댓글 조회 API
      */
     @GetMapping("/feeds/{feedId}/comments")
-    public List<CommentResponseDto> readComments(@PathVariable Long feedId) {
+    public List<CommentResponseDto> getComments(@PathVariable Long feedId) {
         return commentService.getComments(feedId);
+    }
+
+    /**
+     * 대댓글 조회 API
+     */
+    @GetMapping("/feeds/{feedId}/comments/{commentId}")
+    public List<CommentResponseDto> getChildComments(@PathVariable Long feedId,
+                                                     @PathVariable Long commentId) {
+        return commentService.getChildComments(feedId, commentId);
     }
 
     /**
