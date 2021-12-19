@@ -3,6 +3,7 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.util.CommentValidator;
 
 import javax.persistence.*;
@@ -55,13 +56,12 @@ public class Comment extends BaseTimeEntity {
         this.user = user;
     }
 
-    // 대댓글 생성자
-    public Comment(Feed feed, String contents, User user, Comment parent) {
+    // 대댓글 생성 함수
+    public static Comment createChildComment(Feed feed, String contents, User user, Comment parent) throws ApiRequestException {
         CommentValidator.validateChildCommentCreate(contents, user, feed, parent);
-        this.contents = contents;
-        this.feed = feed;
-        this.user = user;
-        this.parent = parent;
+        Comment comment = new Comment(feed, contents, user);
+        comment.setParent(parent);
+        return comment;
     }
 
     // 댓글 수정

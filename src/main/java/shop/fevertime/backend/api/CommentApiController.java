@@ -37,6 +37,18 @@ public class CommentApiController {
     }
 
     /**
+     * 대댓글 생성 API
+     */
+    @PostMapping("/feeds/{feedId}/comment/{commentId}")
+    public ResultResponseDto createChildComment(@PathVariable Long feedId,
+                                                @PathVariable Long commentId,
+                                                @RequestBody CommentRequestDto requestDto,
+                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        commentService.createChildComment(feedId, commentId, requestDto, userDetails.getUser());
+        return new ResultResponseDto("success", "대댓글 생성되었습니다.");
+    }
+
+    /**
      * 댓글 수정 API
      */
     @PutMapping("/feeds/{feedId}/comments/{commentId}")

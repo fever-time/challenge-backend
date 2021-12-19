@@ -44,6 +44,19 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
+    // 대댓글 생성
+    @Transactional
+    public void createChildComment(Long feedId, Long commentId, CommentRequestDto requestDto, User user) {
+        Feed feed = feedRepository.findById(feedId).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 피드입니다.")
+        );
+        Comment parent = commentRepository.findById(commentId).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 댓글입니다.")
+        );
+        Comment child = Comment.createChildComment(feed, requestDto.getContents(), user, parent);
+        commentRepository.save(child);
+    }
+
     // 댓글 수정
     @Transactional
     public void updateComment(Long feedId, Long commentId, CommentRequestDto requestDto, User user) {

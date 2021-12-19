@@ -35,7 +35,7 @@ public class CommentValidator {
         }
 
         if(parent == null) {
-            throw  new ApiRequestException("뎃글 정보가 유효아지 않습니다.");
+            throw  new ApiRequestException("댓글 정보가 유효하지 않습니다.");
         }
     }
 

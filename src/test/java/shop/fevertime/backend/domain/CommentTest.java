@@ -48,7 +48,7 @@ class CommentTest {
                 // given
                 Comment parent = new Comment(feed, contents, user);
                 // when
-                Comment child = new Comment(feed, contents, user, parent);
+                Comment child = Comment.createChildComment(feed, contents, user, parent);
                 // then
                 assertThat(child.getId()).isNull();
                 assertThat(child.getContents()).isEqualTo(contents);
@@ -131,9 +131,9 @@ class CommentTest {
                     // given
                     Comment parent = null;
                     // when
-                    Exception exception = assertThrows(ApiRequestException.class, () -> new Comment(feed, contents, user, parent));
+                    Exception exception = assertThrows(ApiRequestException.class, () -> Comment.createChildComment(feed, contents, user, parent));
                     // then
-                    assertThat(exception.getMessage()).isEqualTo("뎃글 정보가 유효아지 않습니다.");
+                    assertThat(exception.getMessage()).isEqualTo("댓글 정보가 유효하지 않습니다.");
                 }
             }
         }
