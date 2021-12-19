@@ -55,6 +55,15 @@ public class Comment extends BaseTimeEntity {
         this.user = user;
     }
 
+    // 대댓글 생성자
+    public Comment(Feed feed, String contents, User user, Comment parent) {
+        CommentValidator.validateChildCommentCreate(contents, user, feed, parent);
+        this.contents = contents;
+        this.feed = feed;
+        this.user = user;
+        this.parent = parent;
+    }
+
     // 댓글 수정
     public void update(String contents) {
         CommentValidator.validatorCommentUpdate(contents);
