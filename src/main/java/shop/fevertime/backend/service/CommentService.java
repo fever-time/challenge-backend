@@ -28,7 +28,21 @@ public class CommentService {
         Feed feed = feedRepository.findById(feedId).orElseThrow(
                 () -> new ApiRequestException("피드가 존재하지 않습니다.")
         );
-        return commentRepository.findAllByFeed(feed)
+        return commentRepository.findAllByFeedAndParentIsNull(feed)
+                .stream()
+                .map(CommentResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    // 대댓글 조회
+    public List<CommentResponseDto> getChildComments(Long feedId, Long commentId) {
+        Feed feed = feedRepository.findById(feedId).orElseThrow(
+                () -> new ApiRequestException("피드가 존재하지 않습니다.")
+        );
+        Comment parent = commentRepository.findById(commentId).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 댓글입니다.")
+        );
+        return parent.getChild()
                 .stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());
@@ -42,6 +56,19 @@ public class CommentService {
         );
         Comment comment = new Comment(feed, requestDto.getContents(), user);
         commentRepository.save(comment);
+    }
+
+    // 대댓글 생성
+    @Transactional
+    public void createChildComment(Long feedId, Long commentId, CommentRequestDto requestDto, User user) {
+        Feed feed = feedRepository.findById(feedId).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 피드입니다.")
+        );
+        Comment parent = commentRepository.findById(commentId).orElseThrow(
+                () -> new ApiRequestException("존재하지 않는 댓글입니다.")
+        );
+        Comment child = Comment.createChildComment(feed, requestDto.getContents(), user, parent);
+        commentRepository.save(child);
     }
 
     // 댓글 수정
@@ -78,4 +105,5 @@ public class CommentService {
         }
         return new ResultResponseDto("fail", "댓글 생성자가 아닙니다.");
     }
+
 }

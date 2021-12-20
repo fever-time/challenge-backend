@@ -1,9 +1,6 @@
 package shop.fevertime.backend.domain;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import shop.fevertime.backend.exception.ApiRequestException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,18 +23,39 @@ class CommentTest {
             feed = new Feed("피드1", user);
         }
 
-        @Test
+        @Nested
         @DisplayName("정상 케이스")
-        void create_Normal() {
-            // given
+        class Success {
 
-            // when
-            Comment comment = new Comment(feed, contents, user);
-            // then
-            assertThat(comment.getId()).isNull();
-            assertThat(comment.getContents()).isEqualTo(contents);
-            assertThat(comment.getFeed()).isEqualTo(feed);
-            assertThat(comment.getUser()).isEqualTo(user);
+            @Test
+            @DisplayName("댓글 생성")
+            void createComment() {
+                // given
+
+                // when
+                Comment comment = new Comment(feed, contents, user);
+                // then
+                assertThat(comment.getId()).isNull();
+                assertThat(comment.getContents()).isEqualTo(contents);
+                assertThat(comment.getFeed()).isEqualTo(feed);
+                assertThat(comment.getUser()).isEqualTo(user);
+                assertThat(comment.getParent()).isNull();
+            }
+
+            @Test
+            @DisplayName("대댓글 생성")
+            void createChildComment() {
+                // given
+                Comment parent = new Comment(feed, contents, user);
+                // when
+                Comment child = Comment.createChildComment(feed, contents, user, parent);
+                // then
+                assertThat(child.getId()).isNull();
+                assertThat(child.getContents()).isEqualTo(contents);
+                assertThat(child.getFeed()).isEqualTo(feed);
+                assertThat(child.getUser()).isEqualTo(user);
+                assertThat(child.getParent()).isEqualTo(parent);
+            }
         }
 
         @Nested
@@ -54,8 +72,7 @@ class CommentTest {
                     // given
                     contents = null;
                     // when
-                    Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Comment(feed, contents, user));
+                    Exception exception = assertThrows(ApiRequestException.class, () -> new Comment(feed, contents, user));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("공백으로 댓글을 생성할 수 없습니다.");
                 }
@@ -66,8 +83,7 @@ class CommentTest {
                     // given
                     contents = "";
                     // when
-                    Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Comment(feed, contents, user));
+                    Exception exception = assertThrows(ApiRequestException.class, () -> new Comment(feed, contents, user));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("공백으로 댓글을 생성할 수 없습니다.");
                 }
@@ -83,8 +99,7 @@ class CommentTest {
                     // given
                     feed = null;
                     // when
-                    Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Comment(feed, contents, user));
+                    Exception exception = assertThrows(ApiRequestException.class, () -> new Comment(feed, contents, user));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("피드 정보가 유효하지 않습니다.");
                 }
@@ -100,10 +115,25 @@ class CommentTest {
                     // given
                     user = null;
                     // when
-                    Exception exception = assertThrows(ApiRequestException.class,
-                            () -> new Comment(feed, contents, user));
+                    Exception exception = assertThrows(ApiRequestException.class, () -> new Comment(feed, contents, user));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("유저 정보가 유효하지 않습니다.");
+                }
+            }
+
+            @Nested
+            @DisplayName("대댓글")
+            class child {
+
+                @Test
+                @DisplayName("null")
+                void fail_null() {
+                    // given
+                    Comment parent = null;
+                    // when
+                    Exception exception = assertThrows(ApiRequestException.class, () -> Comment.createChildComment(feed, contents, user, parent));
+                    // then
+                    assertThat(exception.getMessage()).isEqualTo("댓글 정보가 유효하지 않습니다.");
                 }
             }
         }
@@ -155,8 +185,7 @@ class CommentTest {
                     updateContentsString = null;
                     Comment comment = new Comment(feed, contents, user);
                     // when
-                    Exception exception = assertThrows(ApiRequestException.class,
-                            () -> comment.update(updateContentsString));
+                    Exception exception = assertThrows(ApiRequestException.class, () -> comment.update(updateContentsString));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("공백으로 댓글을 수정할 수 없습니다.");
                 }
@@ -168,8 +197,7 @@ class CommentTest {
                     updateContentsString = "";
                     Comment comment = new Comment(feed, contents, user);
                     // when
-                    Exception exception = assertThrows(ApiRequestException.class,
-                            () -> comment.update(updateContentsString));
+                    Exception exception = assertThrows(ApiRequestException.class, () -> comment.update(updateContentsString));
                     // then
                     assertThat(exception.getMessage()).isEqualTo("공백으로 댓글을 수정할 수 없습니다.");
                 }

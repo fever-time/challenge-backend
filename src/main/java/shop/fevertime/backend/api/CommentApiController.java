@@ -21,8 +21,17 @@ public class CommentApiController {
      * 댓글 조회 API
      */
     @GetMapping("/feeds/{feedId}/comments")
-    public List<CommentResponseDto> readComments(@PathVariable Long feedId) {
+    public List<CommentResponseDto> getComments(@PathVariable Long feedId) {
         return commentService.getComments(feedId);
+    }
+
+    /**
+     * 대댓글 조회 API
+     */
+    @GetMapping("/feeds/{feedId}/comments/{commentId}")
+    public List<CommentResponseDto> getChildComments(@PathVariable Long feedId,
+                                                     @PathVariable Long commentId) {
+        return commentService.getChildComments(feedId, commentId);
     }
 
     /**
@@ -34,6 +43,18 @@ public class CommentApiController {
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         commentService.createComment(feedId, requestDto, userDetails.getUser());
         return new ResultResponseDto("success", "댓글 생성되었습니다.");
+    }
+
+    /**
+     * 대댓글 생성 API
+     */
+    @PostMapping("/feeds/{feedId}/comment/{commentId}")
+    public ResultResponseDto createChildComment(@PathVariable Long feedId,
+                                                @PathVariable Long commentId,
+                                                @RequestBody CommentRequestDto requestDto,
+                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        commentService.createChildComment(feedId, commentId, requestDto, userDetails.getUser());
+        return new ResultResponseDto("success", "대댓글 생성되었습니다.");
     }
 
     /**

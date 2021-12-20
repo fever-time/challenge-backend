@@ -3,11 +3,12 @@ package shop.fevertime.backend.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shop.fevertime.backend.dto.request.CommentRequestDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.util.CommentValidator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,12 +31,37 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> child = new ArrayList<>();
+
+    // 연관관계 메서드
+//    public void addChildComment(Comment child) {
+//        this.child.add(child);
+//        child.setParent(this);
+//    }
+
+    private void setParent(Comment parent) {
+        this.parent = parent;
+    }
+
     // 댓글 생성자
     public Comment(Feed feed, String contents, User user) {
         CommentValidator.validateCommentCreate(contents, user, feed);
         this.contents = contents;
         this.feed = feed;
         this.user = user;
+    }
+
+    // 대댓글 생성 함수
+    public static Comment createChildComment(Feed feed, String contents, User user, Comment parent) throws ApiRequestException {
+        CommentValidator.validateChildCommentCreate(contents, user, feed, parent);
+        Comment comment = new Comment(feed, contents, user);
+        comment.setParent(parent);
+        return comment;
     }
 
     // 댓글 수정

@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.response.ChallengeUserResponseDto;
 import shop.fevertime.backend.dto.response.UserCertifiesResponseDto;
+import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.*;
 import shop.fevertime.backend.service.ChallengeHistoryService;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
@@ -13,7 +14,6 @@ import shop.fevertime.backend.util.LocalDateTimeUtil;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -138,7 +138,7 @@ public class ChallengeHistoryIntegrationTest {
             //when
             challengeHistoryService.cancelChallenge(challenge.getId(),user1);//유저1 챌린지 참여 취소
             //참여 안한 유저가 참여 취소
-            Exception exception = assertThrows(NoSuchElementException.class,
+            Exception exception = assertThrows(ApiRequestException.class,
                     () -> challengeHistoryService.cancelChallenge(challenge.getId(),user3));
 
             //then

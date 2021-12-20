@@ -12,7 +12,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     void deleteAllByFeed(Feed feed);
 
-    List<Comment> findAllByFeed(Feed feed);
+    List<Comment> findAllByFeedAndParentIsNull(Feed feed);
 
     Optional<Comment> findByIdAndUser(Long commentId, User user);
 }

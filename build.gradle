@@ -81,9 +81,9 @@ jar {
 test {
     useJUnitPlatform()
     outputs.dir snippetsDir
-    filter {
-        includeTestsMatching "shop.fevertime.backend.api.*"
-    }
+//    filter {
+//        includeTestsMatching "shop.fevertime.backend.api.*"
+//    }
 }
 
 asciidoctor {
