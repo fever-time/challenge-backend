@@ -17,6 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+
 @RequiredArgsConstructor
 public class ChallengeHistoryService {
 
