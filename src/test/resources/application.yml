@@ -18,6 +18,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
     generate-ddl: true
+    open-in-view: false
 
 logging:
   level:
