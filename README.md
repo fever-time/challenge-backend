@@ -36,6 +36,7 @@
 - Github Actions - CI/CD
 - AWS S3, CloudFront - 프론트엔드 서버 인프라
 - AWS EBS, ECR(Docker) - 백엔드 서버 인프라
+- nGrinder - 부하 테스트
 
 ### 📌 주요 기능 - <a href="https://github.com/fever-time/challenge-backend/wiki/2.-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5">WIKI 이동</a>
 ### User
@@ -53,6 +54,8 @@
 
 ### 📌 ERD
 ![FEVER-TIME](https://user-images.githubusercontent.com/64997245/144733570-f9fd211d-525c-4640-a228-b56da5ef27d4.png)
+
+### 📌 부하 테스트 - <a href="https://github.com/fever-time/challenge-backend/wiki/8.-%EB%B6%80%ED%95%98%ED%85%8C%EC%8A%A4%ED%8A%B8">WIKI 이동</a>
 
 ### 📌 문제를 이렇게 해결했어요! - <a href="https://github.com/fever-time/challenge-backend/wiki/3.-%EB%AC%B8%EC%A0%9C%EB%A5%BC-%EC%9D%B4%EB%A0%87%EA%B2%8C-%ED%95%B4%EA%B2%B0%ED%96%88%EC%96%B4%EC%9A%94!">WIKI 이동</a>
 
