@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserService {
 
@@ -76,7 +77,7 @@ public class UserService {
                 () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
         );
         // 기존 이미지 S3에서 삭제 (기본 이미지 아닐 경우만 )
-        if(!Objects.equals(findUser.getImgUrl(), "https://fever-prac.s3.ap-northeast-2.amazonaws.com/user/SpartaIconScale7.png")){
+        if (!Objects.equals(findUser.getImgUrl(), "https://fever-prac.s3.ap-northeast-2.amazonaws.com/user/SpartaIconScale7.png")) {
             String[] ar = findUser.getImgUrl().split("/");
             s3Uploader.delete(ar[ar.length - 1], "user");
         }

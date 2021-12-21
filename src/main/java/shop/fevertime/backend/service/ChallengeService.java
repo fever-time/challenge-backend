@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ChallengeService {
 
