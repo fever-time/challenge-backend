@@ -13,6 +13,7 @@ spring:
     hibernate:
       ddl-auto: none
     generate-ddl: true
+    open-in-view: false
 
 logging:
   level:
