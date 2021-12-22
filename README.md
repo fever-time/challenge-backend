@@ -36,7 +36,7 @@
 - Github Actions - CI/CD
 - AWS S3, CloudFront - 프론트엔드 서버 인프라
 - AWS EB, ECR(Docker) - 백엔드 서버 인프라
-- AWS Route53, AWS Certificate Manger - 공통 서버 인프라
+- AWS Route53, Certificate Manger - 공통 서버 인프라
 - nGrinder - 부하 테스트
 
 ### 📌 주요 기능 - <a href="https://github.com/fever-time/challenge-backend/wiki/2.-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5">WIKI 이동</a>
