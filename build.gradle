@@ -1,9 +1,3 @@
-//buildscript {
-//    ext {
-//        queryDslVersion = "4.4.0"
-//    }
-//}
-
 plugins {
     id 'org.springframework.boot' version '2.5.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -21,6 +15,8 @@ configurations {
     }
 }
 
+ext['log4j2.version'] = '2.15.0'
+
 ext {
     snippetsDir = file('build/generated-snippets')
 }
@@ -37,21 +33,17 @@ repositories {
 }
 
 dependencies {
+    // 상태관리 알람(slack)
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+
     // spring rest docs
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'com.google.code.gson:gson:2.8.8'
-    implementation 'org.modelmapper:modelmapper:2.4.4'
-
-    // QueryDSL
-//    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-//    annotationProcessor(
-//            "javax.persistence:javax.persistence-api",
-//            "javax.annotation:javax.annotation-api",
-//            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'org.modelmapper:modelmapper:2.4.5'
 
     // aws secrets
-    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.4'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
 
     // aws s3
@@ -81,9 +73,6 @@ jar {
 test {
     useJUnitPlatform()
     outputs.dir snippetsDir
-//    filter {
-//        includeTestsMatching "shop.fevertime.backend.api.*"
-//    }
 }
 
 asciidoctor {
@@ -104,12 +93,3 @@ task copyDocument(type: Copy) {
 build {
     dependsOn copyDocument
 }
-
-// QueryDSL
-//sourceSets {
-//    main {
-//        java {
-//            srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
-//        }
-//    }
-//}

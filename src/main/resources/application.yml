@@ -18,6 +18,9 @@ spring:
     open-in-view: false
 
 logging:
+  slack:
+    webhook-uri: ${AWS_SM_SLACK_WEBHOOK_URL}
+  config: classpath:logback-slack.xml
   level:
     org:
       hibernate:
@@ -36,6 +39,7 @@ jwt:
 cloud:
   aws:
     credentials:
+      use-default-aws-credentials-chain: true
       accessKey: ${AWS_S3_ACCESS_KEY}
       secretKey: ${AWS_S3_SECRET_KEY}
     s3:

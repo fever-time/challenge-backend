@@ -13,4 +13,13 @@ public class AdminApiController {
         return "ok";
     }
 
+    /**
+     * 에러 발생시 알람 테스트
+     */
+    @GetMapping("/error-test")
+    public String getArticles(){
+        int i = 1/0;
+        return "response";
+    }
+
 }
