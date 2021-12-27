@@ -3,6 +3,7 @@ package shop.fevertime.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.fevertime.backend.domain.Feed;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.dto.request.FeedRequestDto;
@@ -12,12 +13,11 @@ import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.CommentRepository;
 import shop.fevertime.backend.repository.FeedRepository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class FeedService {
 

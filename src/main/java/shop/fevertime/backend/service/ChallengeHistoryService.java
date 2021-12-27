@@ -13,11 +13,10 @@ import shop.fevertime.backend.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ChallengeHistoryService {
 
@@ -27,7 +26,6 @@ public class ChallengeHistoryService {
     private final UserRepository userRepository;
     private final CertificationService certificationService;
 
-    @Transactional
     public ChallengeUserResponseDto getChallengeHistoryUser(Long challengeId, User user) {
         // 챌린지 찾기
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
@@ -45,7 +43,6 @@ public class ChallengeHistoryService {
         return new ChallengeUserResponseDto(user, certifies, userHistories);
     }
 
-    @Transactional
     public List<UserCertifiesResponseDto> getChallengeHistoryUsers(Long challengeId) {
         // 챌린지 찾기
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
