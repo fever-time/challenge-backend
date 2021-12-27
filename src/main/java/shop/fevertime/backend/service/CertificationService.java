@@ -2,6 +2,7 @@ package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.fevertime.backend.domain.Certification;
 import shop.fevertime.backend.domain.Challenge;
 import shop.fevertime.backend.domain.User;
@@ -13,20 +14,20 @@ import shop.fevertime.backend.repository.CertificationRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.util.S3Uploader;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CertificationService {
 
     private final CertificationRepository certificationRepository;
     private final S3Uploader s3Uploader;
     private final ChallengeRepository challengeRepository;
+
 
     public List<CertificationResponseDto> getCertifications(Long challengeId) {
         return certificationRepository.findAllByChallengeId(challengeId)
@@ -61,6 +62,7 @@ public class CertificationService {
         certificationRepository.save(certification);
     }
 
+    @Transactional
     public void deleteCertification(Long certiId, User user) {
         //이미지 s3에서 삭제
         Certification certi = certificationRepository.findByIdAndUser(certiId, user).orElseThrow(

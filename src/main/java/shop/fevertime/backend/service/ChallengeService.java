@@ -3,6 +3,7 @@ package shop.fevertime.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.fevertime.backend.domain.*;
 import shop.fevertime.backend.dto.request.ChallengeRequestDto;
 import shop.fevertime.backend.dto.request.ChallengeUpdateRequestDto;
@@ -16,12 +17,11 @@ import shop.fevertime.backend.repository.ChallengeRepository;
 import shop.fevertime.backend.util.LocalDateTimeUtil;
 import shop.fevertime.backend.util.S3Uploader;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ChallengeService {
 
@@ -59,7 +59,6 @@ public class ChallengeService {
         getChallengesWithParticipants(challengeResponseDtoList, getChallenges);
         return challengeResponseDtoList;
     }
-
 
     public ChallengeResponseDto getChallenge(Long challengeId) {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(

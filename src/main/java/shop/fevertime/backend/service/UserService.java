@@ -2,6 +2,7 @@ package shop.fevertime.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import shop.fevertime.backend.domain.User;
 import shop.fevertime.backend.domain.UserRole;
 import shop.fevertime.backend.dto.request.UserRequestDto;
@@ -17,14 +18,13 @@ import shop.fevertime.backend.security.kakao.KakaoOAuth2;
 import shop.fevertime.backend.security.kakao.KakaoUserInfo;
 import shop.fevertime.backend.util.S3Uploader;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
 
@@ -32,9 +32,9 @@ public class UserService {
     private final KakaoOAuth2 kakaoOAuth2;
     private final S3Uploader s3Uploader;
     private final ChallengeRepository challengeRepository;
-    private final ChallengeHistoryRepository challengeHistoryRepository;
     private final FeedRepository feedRepository;
 
+    @Transactional
     public String kakaoLogin(String token) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(token);
@@ -56,14 +56,12 @@ public class UserService {
         return kakaoId;
     }
 
-    @Transactional
     public List<UserChallengeResponseDto> getChallenges(User user) {
         return challengeRepository.findAllByUser(user).stream()
                 .map(UserChallengeResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    @Transactional
     public List<FeedResponseDto> getFeeds(Long id) {
         return feedRepository.findAllByUserId(id)
                 .stream()
