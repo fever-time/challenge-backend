@@ -44,6 +44,14 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
 
+      # 6.5 Scheduler 한국 시간대 설정
+      - name: Generate deployment package
+        run: |
+          mkdir -p deploy
+          cp Dockerrun.aws.json deploy/Dockerrun.aws.json
+          cp -r .ebextensions deploy/.ebextensions
+          cd deploy && zip -r deploy.zip .
+
       # 7. ECR 로그인
       - name: Login to Amazon ECR
         id: login-ecr
