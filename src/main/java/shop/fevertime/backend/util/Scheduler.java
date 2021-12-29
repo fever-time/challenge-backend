@@ -18,7 +18,7 @@ public class Scheduler {
 
     private final ChallengeRepository challengeRepository;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     @Transactional
     public void updateChallengeProcess() throws ApiRequestException {
         for (Challenge challenge : challengeRepository.findAllByChallengeProgress(ChallengeProgress.INPROGRESS)) {
