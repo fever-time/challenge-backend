@@ -38,11 +38,10 @@ public class CommentApiController {
      * 댓글 생성 API
      */
     @PostMapping("/feeds/{feedId}/comment")
-    public ResultResponseDto createComment(@PathVariable Long feedId,
+    public CommentResponseDto createComment(@PathVariable Long feedId,
                                            @RequestBody CommentRequestDto requestDto,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.createComment(feedId, requestDto, userDetails.getUser());
-        return new ResultResponseDto("success", "댓글 생성되었습니다.");
+        return commentService.createComment(feedId, requestDto, userDetails.getUser());
     }
 
     /**
