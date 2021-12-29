@@ -15,7 +15,7 @@ public class AlarmApiController {
 
     @MessageMapping("/post")
     public void addUser(@RequestBody MessageDto dto) {
-        messagingTemplate.convertAndSend("/topic/feed", dto);
+        messagingTemplate.convertAndSend("/topic/feed/"+ dto.getUserId(), dto);
     }
 
 }

@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class MessageDto {
         private String msg;
+        private String userId;
 }
