@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/search/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/login/kakao").permitAll()
+                .antMatchers("/websocket/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
