@@ -51,12 +51,13 @@ public class CommentService {
 
     // 댓글 생성
     @Transactional
-    public void createComment(Long feedId, CommentRequestDto requestDto, User user) {
+    public CommentResponseDto createComment(Long feedId, CommentRequestDto requestDto, User user) {
         Feed feed = feedRepository.findById(feedId).orElseThrow(
                 () -> new ApiRequestException("존재하지 않는 피드입니다.")
         );
         Comment comment = new Comment(feed, requestDto.getContents(), user);
         commentRepository.save(comment);
+        return new CommentResponseDto(comment);
     }
 
     // 대댓글 생성
