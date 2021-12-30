@@ -10,7 +10,6 @@ import shop.fevertime.backend.repository.ChallengeRepository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 
 @RequiredArgsConstructor
 @Component
