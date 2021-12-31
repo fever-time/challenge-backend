@@ -129,7 +129,7 @@ include::{snippets}/comment/update/path-parameters.adoc[]
 include::{snippets}/comment/update/request-fields.adoc[]
 include::{snippets}/comment/update/response-fields.adoc[]
 
-=== 댓글 API
+=== 댓글 삭제 API
 
 include::{snippets}/comment/delete/http-request.adoc[]
 include::{snippets}/comment/delete/request-headers.adoc[]
