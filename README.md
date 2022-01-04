@@ -38,6 +38,7 @@
 - AWS EB, ECR(Docker) - 백엔드 서버 인프라
 - AWS Route53, Certificate Manger - 공통 서버 인프라
 - nGrinder - 부하 테스트
+- AWS Lambda + Slack Webhook - 모니터링 시스템
 
 ### 📌 주요 기능 - <a href="https://github.com/fever-time/challenge-backend/wiki/2.-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5">WIKI 이동</a>
 ### User
