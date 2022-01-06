@@ -1,6 +1,7 @@
 package shop.fevertime.backend.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import shop.fevertime.backend.dto.request.CommentRequestDto;
@@ -8,6 +9,7 @@ import shop.fevertime.backend.dto.response.CommentResponseDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.service.CommentService;
+import shop.fevertime.backend.service.NotificationService;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class CommentApiController {
 
     private final CommentService commentService;
+    private final NotificationService notificationService;
 
     /**
      * 댓글 조회 API
@@ -39,8 +42,10 @@ public class CommentApiController {
      */
     @PostMapping("/feeds/{feedId}/comment")
     public CommentResponseDto createComment(@PathVariable Long feedId,
-                                           @RequestBody CommentRequestDto requestDto,
-                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                            @RequestBody CommentRequestDto requestDto,
+                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // 알림 이벤트 발행 메서드 호출
+        notificationService.send(feedId);
         return commentService.createComment(feedId, requestDto, userDetails.getUser());
     }
 
