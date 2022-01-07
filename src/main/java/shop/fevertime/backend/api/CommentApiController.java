@@ -45,7 +45,7 @@ public class CommentApiController {
                                             @RequestBody CommentRequestDto requestDto,
                                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 알림 이벤트 발행 메서드 호출
-        notificationService.send(feedId);
+        notificationService.send(feedId, requestDto.getContents(), userDetails.getUser());
         return commentService.createComment(feedId, requestDto, userDetails.getUser());
     }
 
