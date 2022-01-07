@@ -139,18 +139,29 @@ public class ChallengeService {
         Challenge challenge = challengeRepository.findByIdAndUser(challengeId, user).orElseThrow(
                 () -> new ApiRequestException("해당 챌린지가 존재하지 않습니다.")
         );
-        String[] ar = challenge.getImgUrl().split("/");
-        s3Uploader.delete(ar[ar.length - 1], "challenge");
+        //챌린지에 참가한 유저 검토
+        List<ChallengeHistory> all = challengeHistoryRepository.findAllByChallengeAndChallengeStatusAndUserNot(challenge, ChallengeStatus.JOIN, user);
 
-        // 삭제하는 챌린지에 해당하는 인증 이미지 s3 삭제
-        List<Certification> certifications = certificationRepository.findAllByChallenge(challenge);
-        for (Certification certification : certifications) {
-            String[] arr = certification.getImgUrl().split("/");
-            s3Uploader.delete(arr[arr.length - 1], "certification");
+        //생성 유저 제외하여 참가자가 없으면 삭제
+        if (all.size() == 0) {
+            //히스토리 삭제
+            challengeHistoryRepository.deleteAllByChallenge(challenge);
+
+            // 챌린지 이미지 s3에서 삭제
+            String[] ar = challenge.getImgUrl().split("/");
+            s3Uploader.delete(ar[ar.length - 1], "challenge");
+
+            // 삭제하는 챌린지에 해당하는 인증 이미지 s3 삭제
+            List<Certification> certifications = certificationRepository.findAllByChallenge(challenge);
+            for (Certification certification : certifications) {
+                String[] arr = certification.getImgUrl().split("/");
+                s3Uploader.delete(arr[arr.length - 1], "certification");
+            }
+            certificationRepository.deleteAllByChallenge(challenge);
+            challengeRepository.delete(challenge);
+        } else {
+            throw new ApiRequestException("챌린지를 삭제할 수 없습니다.");
         }
-
-        certificationRepository.deleteAllByChallenge(challenge);
-        challengeRepository.delete(challenge);
     }
 
     public ResultResponseDto checkChallengeCreator(Long challengeId, User user) {
