@@ -14,11 +14,13 @@ public class ChatRoomResponseDto {
     private Long roomId;
     private String name;
     private String createdDate;
+    private String creator;
 
     public ChatRoomResponseDto(ChatRoom chatRoom) {
         this.roomId = chatRoom.getId();
         this.name= chatRoom.getName();
-        this.createdDate = chatRoom.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
+        this.createdDate = chatRoom.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        this.creator = chatRoom.getUser().getKakaoId();
     }
 
 }

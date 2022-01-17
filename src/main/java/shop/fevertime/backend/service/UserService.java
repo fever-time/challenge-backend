@@ -9,6 +9,7 @@ import shop.fevertime.backend.dto.request.UserRequestDto;
 
 import shop.fevertime.backend.dto.response.FeedResponseDto;
 import shop.fevertime.backend.dto.response.UserChallengeResponseDto;
+import shop.fevertime.backend.dto.response.UserResponseDto;
 import shop.fevertime.backend.exception.ApiRequestException;
 import shop.fevertime.backend.repository.ChallengeHistoryRepository;
 import shop.fevertime.backend.repository.ChallengeRepository;
@@ -93,4 +94,14 @@ public class UserService {
 
         findUser.updateUsername(requestDto.getUsername());
     }
+
+    //카카오 아이디로 유저 정보 가져오기
+    @Transactional
+    public UserResponseDto getChatUser(String kakaoId) {
+        User findUser = userRepository.findByKakaoId(kakaoId).orElseThrow(
+                () -> new ApiRequestException("해당 아이디가 존재하지 않습니다.")
+        );
+        return new UserResponseDto(findUser);
+    }
+
 }

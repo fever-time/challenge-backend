@@ -87,4 +87,12 @@ public class UserApiController {
     public List<UserChallengeResponseDto> getChallengesByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return challengeHistoryService.getChallengesByUser(userDetails.getUser());
     }
+
+    /**
+     * 유저 카카오 아이디로 정보 조회 API
+     */
+    @GetMapping("/user/{kakaoId}")
+    public UserResponseDto getChatUser(@PathVariable String kakaoId) {
+        return userService.getChatUser(kakaoId);
+    }
 }
