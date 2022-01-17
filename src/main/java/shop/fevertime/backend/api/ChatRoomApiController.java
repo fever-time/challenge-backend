@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import shop.fevertime.backend.dto.response.ChatRoomResponseDto;
 import shop.fevertime.backend.dto.request.ChatRoomRequestDto;
 import shop.fevertime.backend.dto.response.ResultResponseDto;
-import shop.fevertime.backend.repository.ChatRoomRepository;
 import shop.fevertime.backend.security.UserDetailsImpl;
 import shop.fevertime.backend.service.ChatRoomService;
 
@@ -22,7 +21,6 @@ public class ChatRoomApiController {
     /**
      * 채팅방 목록 조회 API
      */
-    //반환값 dto로 변경해야함
     @GetMapping("/rooms")
     public List<ChatRoomResponseDto> getRooms() {
         return chatRoomService.getAllRooms();
