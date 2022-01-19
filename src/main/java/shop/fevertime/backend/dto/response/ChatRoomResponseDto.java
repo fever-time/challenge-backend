@@ -15,12 +15,14 @@ public class ChatRoomResponseDto {
     private String name;
     private String createdDate;
     private String creator;
+    private int userCount;
 
     public ChatRoomResponseDto(ChatRoom chatRoom) {
         this.roomId = chatRoom.getId();
         this.name= chatRoom.getName();
         this.createdDate = chatRoom.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.creator = chatRoom.getUser().getKakaoId();
+        this.userCount = chatRoom.getUserCount();
     }
 
 }

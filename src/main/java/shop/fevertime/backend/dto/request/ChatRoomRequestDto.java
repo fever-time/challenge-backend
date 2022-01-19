@@ -9,8 +9,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ChatRoomRequestDto {
     private String name;
-
-    public ChatRoomRequestDto(String name) {
-        this.name = name;
-    }
+    private int userCount;
 }

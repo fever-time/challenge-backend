@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class ChatRoom extends BaseTimeEntity{
+public class ChatRoom extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,9 +23,21 @@ public class ChatRoom extends BaseTimeEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    public ChatRoom(String name, User user) {
+    @Column(nullable = false)
+    private int userCount;
+
+    public ChatRoom(String name, User user, int userCount) {
         this.name = name;
         this.user = user;
+        this.userCount = userCount;
+    }
+
+    public void addUserCount() {
+        this.userCount++;
+    }
+
+    public void minusUserCount() {
+        this.userCount--;
     }
 
 }
